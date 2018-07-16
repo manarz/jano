@@ -1,0 +1,38 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+          <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+    <ion-title>Vincular Dispositivo</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list padding>
+        <ion-list-header *ngIf="dispositivosVisibles">
+          Dispositivos disponibles
+        </ion-list-header>
+        <ion-item *ngFor='let dispositivo of dispositivosVisibles'>
+          <span (click)="selectDevice(dispositivo.address)">
+            {{dispositivo.name}}
+          </span>
+        </ion-item>
+        <ion-spinner name="crescent" *ngIf="gettingDevices"></ion-spinner>
+      </ion-list>
+      <ion-fab left bottom>
+          <button ion-fab color="danger" (click)="disconnect()"><ion-icon name="close-circle"></ion-icon></button>
+      </ion-fab>
+       <ion-fab right bottom>
+          <button ion-fab color="danger" (click)="startScanning()"><ion-icon name="bluetooth"></ion-icon></button>
+      </ion-fab>
+      
+    </ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+      <p>{{ statusMessage }}</p>
+    </ion-toolbar>
+  </ion-footer>

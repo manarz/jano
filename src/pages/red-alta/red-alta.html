@@ -1,0 +1,29 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+
+        <ion-title>Nueva Red</ion-title>  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+        <form [formGroup]="myForm" (ngSubmit)="guardarRed()">
+          <ion-list>
+            <ion-item>
+              <ion-icon name="wifi" item-start></ion-icon>
+              <ion-label stacked>Nombre de la red:</ion-label>
+              <ion-input formControlName="ssid" type="text" placeholder="Nombre de la red"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="lock" item-start></ion-icon>
+              <ion-label stacked>Password:</ion-label>
+              <ion-input formControlName="pass" type="text" placeholder="Password de la red"></ion-input>
+            </ion-item>
+          </ion-list>
+          <div padding>
+              <button ion-button block type="submit" [disabled]="!myForm.valid">Guardar</button>
+            </div>
+        </form>        
+</ion-content>

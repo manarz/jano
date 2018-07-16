@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label floating>Email</ion-label>
+    <ion-input type="text" [(ngModel)]="user.email"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Password</ion-label>
+    <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+  </ion-item>
+
+<ion-list>
+    <button ion-button block (click)="login(user)">Login</button>
+
+    <button ion-button icon-left block clear (click)="signInWithGoogle()">
+      <ion-icon name="logo-google"></ion-icon>
+      Log in con Google
+    </button>
+
+    <button ion-button icon-left block clear (click)="registrar()">
+      <ion-icon name="person-add"></ion-icon>
+      Registrarme
+    </button>
+</ion-list>
+</ion-content>

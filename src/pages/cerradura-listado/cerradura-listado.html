@@ -1,0 +1,72 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+
+        <ion-title>Mi Llavero</ion-title> 
+        <ion-buttons right>
+          <button ion-button icon-only (click)="logout()">
+            <ion-icon name='exit'></ion-icon>
+          </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item-sliding *ngFor="let cerradura of listadoCerraduras">
+          <ion-item>
+                <ion-avatar item-start>
+                  <img src="{{ cerradura.esPropia ? 'assets/imgs/keys-icon.png' : 'assets/imgs/key-icon.png'}}">
+                </ion-avatar>
+                <h2>{{ cerradura.descripcion }}</h2>     
+                <p>({{cerradura.esPropia ? 'Propia' : 'Compartida'}})</p>
+
+                <ion-fab middle right edge>
+                    <button ion-fab color="primary"><ion-icon name="{{ cerradura.estaAbierta ? 'unlock' : 'lock' }}"></ion-icon></button>
+                    <ion-fab-list side="left">
+                      <button (click)="toogleAperturaWifi(cerradura)" ion-fab><ion-icon name="wifi"></ion-icon></button>
+                      <button (click)="toogleAperturaSms(cerradura)" ion-fab><ion-icon name="mail"></ion-icon></button>
+                      <button (click)="toogleAperturaBluetooth(cerradura)" ion-fab><ion-icon name="bluetooth"></ion-icon></button>
+                      <!--button *ngIf="cerradura.esPropia" ion-fab><ion-icon name="share"></ion-icon></button-->
+                    </ion-fab-list>
+                </ion-fab>
+          </ion-item>
+
+          <ion-item-options side="right">
+            <button ion-button color="secondary"  (click)="toogleAperturaWifi(cerradura)" >
+              <ion-icon name="wifi"></ion-icon>
+              {{ cerradura.estaAbierta ? 'Cerrar':'Abrir' }}
+            </button>
+            <button ion-button color="secondary">
+            <ion-icon name="mail"></ion-icon>
+              {{ cerradura.estaAbierta ? 'Cerrar':'Abrir' }}
+            </button>
+            <button ion-button color="secondary">
+              <ion-icon name="bluetooth"></ion-icon>
+              {{ cerradura.estaAbierta ? 'Cerrar':'Abrir' }}
+            </button>
+            <button *ngIf="cerradura.esPropia" ion-button color="secondary">
+                <ion-icon name="share"></ion-icon>
+                Compartir
+             </button>
+
+        
+          </ion-item-options>
+          <ion-item-options *ngIf="cerradura.esPropia" side="left">
+            <button ion-button color="secondary">
+              <ion-icon name="settings"></ion-icon>
+              Configurar
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+
+        
+          </ion-list>
+          <ion-fab right bottom>
+              <button ion-fab color="danger" (click)="nuevaCerradura()"><ion-icon name="add"></ion-icon></button>
+          </ion-fab>
+    
+</ion-content>
