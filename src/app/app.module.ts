@@ -30,6 +30,7 @@ import { HttpCommandsProvider } from '../providers/http-commands/http-commands';
 import { SmsProvider } from '../providers/sms/sms';
 import { LoginPage } from '../pages/login/login';
 import { RegistrarsePage } from '../pages/registrarse/registrarse';
+import { UsuariosProvider } from '../providers/usuarios/usuarios';
 
 
 
@@ -85,7 +86,8 @@ import { RegistrarsePage } from '../pages/registrarse/registrarse';
     RedesProvider,
     CerradurasProvider,
     HttpCommandsProvider,
-    SmsProvider
+    SmsProvider,
+    UsuariosProvider
   ]
 })
 export class AppModule {}

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth'; 
 
 import { HTTP } from '@ionic-native/http';
 import { HttpCommandsProvider } from '../../providers/http-commands/http-commands';
@@ -7,6 +6,7 @@ import { HttpCommandsProvider } from '../../providers/http-commands/http-command
 import { NavController, NavParams, AlertController, Item, ItemSliding  } from 'ionic-angular';
 import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
 import { SmsProvider } from '../../providers/sms/sms';
+import { UsuariosProvider } from '../../providers/usuarios/usuarios';
 
 import { CerraduraAltaPage } from '../cerradura-alta/cerradura-alta';
 import { LoginPage } from '../login/login';
@@ -26,7 +26,7 @@ export class CerraduraListadoPage {
     public cerradurasProv: CerradurasProvider,
     public httpCommandsProv: HttpCommandsProvider,
     public smsCommandsProv: SmsProvider,
-    private afAuth:AngularFireAuth
+    public usuariosProv: UsuariosProvider
   ) {
     this.listadoCerraduras = this.cerradurasProv.getCerraduras();
   }
@@ -61,9 +61,7 @@ export class CerraduraListadoPage {
   }
   public async logout(){
     try{
-      const result = await this.afAuth.auth.signOut();
-      console.log("Logout exitoso" );
-      console.log(result);
+      this.usuariosProv.logout();
       this.goToLogin();
     } catch(e){
       console.log("Login fallido");
