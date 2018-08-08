@@ -17,19 +17,22 @@ import { PruebaBleListarDispositivosPage } from '../pages/prueba-ble-listar-disp
 import { PruebaBleDetalleConexionPage } from '../pages/prueba-ble-detalle-conexion/prueba-ble-detalle-conexion';
 import { PruebaEnvioSmsPage } from '../pages/prueba-envio-sms/prueba-envio-sms';
 import { CerraduraListadoPage } from '../pages/cerradura-listado/cerradura-listado';
+import { LlaveListadoPage } from '../pages/llave-listado/llave-listado';
+
 import { RedListadoPage } from '../pages/red-listado/red-listado';
 import { VincularBluetoothPage } from '../pages/vincular-bluetooth/vincular-bluetooth';
 import { RedAltaPage } from '../pages/red-alta/red-alta';
 import { CerraduraAltaPage } from '../pages/cerradura-alta/cerradura-alta';
 import { GralConfiguracionPage } from '../pages/gral-configuracion/gral-configuracion';
 
+import { LoginPage } from '../pages/login/login';
+import { LogoutPage } from '../pages/logout/logout';
+import { RegistrarsePage } from '../pages/registrarse/registrarse';
 
 import { RedesProvider } from '../providers/redes/redes';
 import { CerradurasProvider } from '../providers/cerraduras/cerraduras';
 import { HttpCommandsProvider } from '../providers/http-commands/http-commands';
 import { SmsProvider } from '../providers/sms/sms';
-import { LoginPage } from '../pages/login/login';
-import { RegistrarsePage } from '../pages/registrarse/registrarse';
 import { UsuariosProvider } from '../providers/usuarios/usuarios';
 
 
@@ -40,11 +43,13 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
 
     LoginPage,
     RegistrarsePage,
+    LogoutPage,
 
     PruebaBleListarDispositivosPage,
     PruebaBleDetalleConexionPage,
     PruebaEnvioSmsPage,
     CerraduraListadoPage,
+    LlaveListadoPage,
     RedListadoPage,
     VincularBluetoothPage,
     RedAltaPage,
@@ -64,11 +69,13 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
 
     LoginPage,
     RegistrarsePage,
+    LogoutPage,
 
     PruebaBleListarDispositivosPage,
     PruebaBleDetalleConexionPage,
     PruebaEnvioSmsPage,
     CerraduraListadoPage,
+    LlaveListadoPage,
     RedListadoPage,
     VincularBluetoothPage,
     RedAltaPage,
@@ -82,7 +89,7 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
     BluetoothSerial,
     SMS,
     HTTP,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     RedesProvider,
     CerradurasProvider,
     HttpCommandsProvider,
