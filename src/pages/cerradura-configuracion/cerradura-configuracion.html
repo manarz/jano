@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+
+      <ion-title>Nueva Cerradura</ion-title>  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div padding>
+
+  <ion-list>
+          <ion-item>
+            <ion-icon name="key" item-start></ion-icon>
+            <ion-label stacked>Nombre de la cerradura:</ion-label>
+            <ion-input name="descripcion" type="text" value="Puerta frontal de mi casa"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="phone-portrait" item-start></ion-icon>
+            <ion-label stacked>Número telefónico de la cerradura:</ion-label>
+            <ion-input name="celular" type="text" value="1144445555"></ion-input>
+          </ion-item>
+        </ion-list>
+          <button ion-button outline block>Guardar cambios</button>
+  </div>
+
+        <div padding>
+          <button ion-button block (click)="irAdministrarWifi()">Wifi hogareño</button>
+          <button ion-button block (click)="irANumerosDeConfianza()">Números de confianza</button>
+        </div>
+</ion-content>
+

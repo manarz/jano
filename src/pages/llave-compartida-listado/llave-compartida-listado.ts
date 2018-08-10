@@ -9,16 +9,14 @@ import { SmsProvider } from '../../providers/sms/sms';
 import { UsuariosProvider } from '../../providers/usuarios/usuarios';
 
 import { CerraduraAltaPage } from '../cerradura-alta/cerradura-alta';
-import { CerraduraConfiguracionPage } from '../cerradura-configuracion/cerradura-configuracion';
-import { LlaveCompartidaListadoPage } from '../llave-compartida-listado/llave-compartida-listado';
-
+import { LlaveConfiguracionPage } from '../llave-configuracion/llave-configuracion';
 import { LoginPage } from '../login/login';
 
 @Component({
-  selector: 'page-cerradura-listado',
-  templateUrl: 'cerradura-listado.html',
+  selector: 'page-llave-compartida-listado',
+  templateUrl: 'llave-compartida-listado.html',
 })
-export class CerraduraListadoPage {
+export class LlaveCompartidaListadoPage {
   public listadoCerraduras: any[];
 
   constructor(
@@ -74,12 +72,8 @@ export class CerraduraListadoPage {
   public goToLogin(){
     this.navCtrl.setRoot(LoginPage);
   }
-  public irAConfiguracionCerradura(){
-    console.log("Redirigiendo a configuracion de cerradura");
-    this.navCtrl.push(CerraduraConfiguracionPage);
-  }
-  public irAListadoDeCompartidas(){
-    console.log("Redirigiendo a listado de cerraduras compartidas");
-    this.navCtrl.push(LlaveCompartidaListadoPage);
+  public irAConfiguracionLlave(){
+    console.log('Redirigiendo a configuracion de llaves');
+    this.navCtrl.push(LlaveConfiguracionPage);
   }
 }

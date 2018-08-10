@@ -19,10 +19,11 @@ export class CerraduraAltaPage {
 
   private createMyForm(){
     return this.formBuilder.group({
-      esPropia:    [true],
-      descripcion: ['', Validators.required],
-      celular:     ['', Validators.required],
-      estaAbierta: [true]
+      esPropia:         [true],
+      descripcion:      ['', Validators.required],
+      celular:          ['', Validators.required],
+      codigoActivacion: ['', Validators.required],
+      estaAbierta:      [true]
     });
   }
   

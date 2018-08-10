@@ -28,15 +28,14 @@ export class MyApp {
     this.pages=[{titulo: "Mi llavero",           component: LlaveListadoPage,      icon:"key" },
                 {titulo: "Mis cerraduras",       component: CerraduraListadoPage,  icon:"lock"},
                 {titulo: "Salir",                component: LogoutPage,            icon:"exit"},
-
+/*
                 {titulo: "Vincular Bluetooth",   component: VincularBluetoothPage, icon:"bluetooth"},
-                {titulo: "Mis Redes",            component: RedListadoPage,        icon:"wifi"},
-
-                {titulo: "Notificaciones sms",   component: PruebaEnvioSmsPage,    icon:"mail"},
+                {titulo: "Test sms",   component: PruebaEnvioSmsPage,    icon:"mail"},
                 {titulo: "Bluetooth BLE",        component: PruebaBleListarDispositivosPage, icon:"information-circle"},
+                {titulo: "Mis Redes",            component: RedListadoPage,        icon:"wifi"},
                 {titulo: "Detalle BLE",          component: PruebaBleDetalleConexionPage,    icon:"code-working"},
                 {titulo: "Configuracion",        component: GralConfiguracionPage, icon:"construct"}
-
+*/ 
     ];
     platform.ready().then(() => {
       statusBar.styleDefault();

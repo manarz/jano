@@ -27,4 +27,7 @@ export class RedListadoPage {
   nuevaRed(){
     this.navCtrl.push(RedAltaPage);
   }
+  eliminarRed(){
+    console.log('Eliminar red');
+  }
 }

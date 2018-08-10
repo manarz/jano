@@ -1,0 +1,38 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+
+      <ion-title>Llaves de la cerradura Puerta frontal</ion-title> 
+      <ion-buttons right>
+        <button ion-button icon-only (click)="logout()">
+          <ion-icon name='exit'></ion-icon>
+        </button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-item>
+        <ion-avatar item-start>
+          <img src="assets/imgs/keys-icon.png">
+        </ion-avatar>
+        <h2>Mi llave de Puerta Frontal</h2>     
+        <p>(Propia)</p>
+        <button ion-button icon-only outline item-end padding (click)="irAConfiguracionLlave()"><ion-icon name='settings'></ion-icon>Configurar</button>
+    </ion-item>
+
+  <ion-list *ngFor="let cerradura of listadoCerraduras">
+        <ion-item *ngIf="!cerradura.esPropia">
+              <ion-avatar item-start>
+                <img src="assets/imgs/key-icon.png">
+              </ion-avatar>
+              <h2>{{ cerradura.descripcion }}</h2>     
+              <p>({{cerradura.esPropia ? 'Propia' : 'Compartida'}})</p>
+              <button ion-button icon-only outline item-end padding (click)="irAConfiguracionLlave()"><ion-icon name='settings'></ion-icon>Configurar</button>
+
+        </ion-item>
+  </ion-list>
+</ion-content>

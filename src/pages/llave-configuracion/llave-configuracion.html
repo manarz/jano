@@ -1,0 +1,74 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+  
+        <ion-title>Configuracion de la llave de Puerta frontal</ion-title> 
+        <ion-buttons right>
+          <button ion-button icon-only (click)="logout()">
+            <ion-icon name='exit'></ion-icon>
+          </button>
+        </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  
+<ion-content padding>
+    <div padding>
+        <ion-item>
+            <ion-icon name="key" item-start></ion-icon>
+            <ion-label stacked>Nombre asociado a la llave:</ion-label>
+            <ion-input name="descripcion" type="text" value="Javier Andrada"></ion-input>
+          </ion-item>
+
+        <ion-list>
+                <ion-item>
+                    <ion-label stacked>Acceso Remoto</ion-label>
+                    <ion-toggle checked="true"></ion-toggle>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label stacked>Acceso Offline</ion-label>
+                    <ion-toggle checked="false"></ion-toggle>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label stacked>Acceso de tiempo limitado</ion-label>
+                    <ion-toggle checked="false"></ion-toggle>
+                </ion-item>
+              <ion-item-group>
+                <ion-item-divider color="light">Vigencia</ion-item-divider>
+                <ion-item>
+                    <ion-label stacked>Comienza:</ion-label>
+                    <ion-datetime displayFormat="yy-MM-d" pickerFormat="yy-MM-d"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label stacked>Finaliza:</ion-label>
+                    <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
+                </ion-item>
+                  <ion-item-divider color="light">Horarios limitados:</ion-item-divider>
+                  <ion-item>
+                      <ion-label stacked>Desde:</ion-label>
+                      <ion-datetime disabled displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
+                  </ion-item>
+                  <ion-item>
+                      <ion-label stacked>Hasta:</ion-label>
+                      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
+                  </ion-item>
+                  <ion-item-divider color="light">Horarios limitados:</ion-item-divider>
+                  <button ion-button outline color="secondary">Dom</button>
+                  <button ion-button outline color="dark">Lun</button>
+                  <button ion-button outline color="dark">Mar</button>
+                  <button ion-button outline color="secondary">Mie</button>
+                  <button ion-button outline color="dark">Jue</button>
+                  <button ion-button outline color="dark">Vie</button>
+                  <button ion-button outline color="secondary">Sab</button>
+                  </ion-item-group>
+                    
+                  
+              </ion-list>
+                <button ion-button outline block>Guardar cambios</button>
+        </div>
+      
+</ion-content>

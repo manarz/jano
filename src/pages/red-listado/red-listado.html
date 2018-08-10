@@ -11,17 +11,18 @@
 
 
 <ion-content padding>
-<h1>Aqui se listan las redes wifi que utilizaran las cerraduras</h1>
-<p>Una vez registrada aqui se puede enviar a la cerradura via sms, bluetooth o internet en caso que el dispositivo ya tenga una conexion. </p>
+<h1>Aqui se listan las redes wifi que utilizara la cerradura</h1>
+<p>Puede indicar varias redes, en ese caso se utilizará la red que tenga mejor conectividad.</p>
 <ion-list>
     <div *ngFor="let red of listadoRedes">
             <ion-item>
                 <h2>{{ red.ssid }}</h2> 
                 <p>(pass: {{ red.pass }})</p>
+                <button ion-button icon-only outline item-end (click)="eliminarRed()"><ion-icon name="close"> ELIMINAR</ion-icon></button>
             </ion-item>
     </div>
 </ion-list>
 <ion-fab right bottom>
         <button ion-fab color="secondary" (click)="nuevaRed()"><ion-icon name="add"></ion-icon></button>
-    </ion-fab>
+</ion-fab>
 </ion-content>

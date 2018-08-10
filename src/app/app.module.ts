@@ -18,6 +18,9 @@ import { PruebaBleDetalleConexionPage } from '../pages/prueba-ble-detalle-conexi
 import { PruebaEnvioSmsPage } from '../pages/prueba-envio-sms/prueba-envio-sms';
 import { CerraduraListadoPage } from '../pages/cerradura-listado/cerradura-listado';
 import { LlaveListadoPage } from '../pages/llave-listado/llave-listado';
+import { LlaveCompartidaListadoPage } from '../pages/llave-compartida-listado/llave-compartida-listado';
+import { LlaveConfiguracionPage } from '../pages/llave-configuracion/llave-configuracion';
+import { CerraduraConfiguracionPage } from '../pages/cerradura-configuracion/cerradura-configuracion';
 
 import { RedListadoPage } from '../pages/red-listado/red-listado';
 import { VincularBluetoothPage } from '../pages/vincular-bluetooth/vincular-bluetooth';
@@ -50,10 +53,13 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
     PruebaEnvioSmsPage,
     CerraduraListadoPage,
     LlaveListadoPage,
+    LlaveCompartidaListadoPage,
+    LlaveConfiguracionPage,
     RedListadoPage,
     VincularBluetoothPage,
     RedAltaPage,
     CerraduraAltaPage,
+    CerraduraConfiguracionPage,
     GralConfiguracionPage
   ],
   imports: [
@@ -76,10 +82,13 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
     PruebaEnvioSmsPage,
     CerraduraListadoPage,
     LlaveListadoPage,
+    LlaveCompartidaListadoPage,
+    LlaveConfiguracionPage,
     RedListadoPage,
     VincularBluetoothPage,
     RedAltaPage,
     CerraduraAltaPage,
+    CerraduraConfiguracionPage,
     GralConfiguracionPage
   ],
   providers: [
