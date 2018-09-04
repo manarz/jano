@@ -10,6 +10,7 @@ import { HTTP } from '@ionic-native/http';
 
 import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth'; 
 import { FIREBASE_CONFIG } from './app.firebase.config';
 
@@ -37,6 +38,8 @@ import { CerradurasProvider } from '../providers/cerraduras/cerraduras';
 import { HttpCommandsProvider } from '../providers/http-commands/http-commands';
 import { SmsProvider } from '../providers/sms/sms';
 import { UsuariosProvider } from '../providers/usuarios/usuarios';
+import { PruebaHomePage } from '../pages/prueba-home/prueba-home';
+import { JanoProvider } from '../providers/jano/jano';
 
 
 
@@ -51,6 +54,7 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
     PruebaBleListarDispositivosPage,
     PruebaBleDetalleConexionPage,
     PruebaEnvioSmsPage,
+    PruebaHomePage,
     CerraduraListadoPage,
     LlaveListadoPage,
     LlaveCompartidaListadoPage,
@@ -65,6 +69,7 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
+    AngularFirestoreModule.enablePersistence(),    
     AngularFireAuthModule,
     IonicModule.forRoot(MyApp)
   ],
@@ -80,6 +85,7 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
     PruebaBleListarDispositivosPage,
     PruebaBleDetalleConexionPage,
     PruebaEnvioSmsPage,
+    PruebaHomePage,
     CerraduraListadoPage,
     LlaveListadoPage,
     LlaveCompartidaListadoPage,
@@ -103,7 +109,8 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
     CerradurasProvider,
     HttpCommandsProvider,
     SmsProvider,
-    UsuariosProvider
+    UsuariosProvider,
+    JanoProvider
   ]
 })
 export class AppModule {}

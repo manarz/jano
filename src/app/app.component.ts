@@ -13,6 +13,7 @@ import { VincularBluetoothPage } from '../pages/vincular-bluetooth/vincular-blue
 import { GralConfiguracionPage } from '../pages/gral-configuracion/gral-configuracion';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
+import { PruebaHomePage } from '../pages/prueba-home/prueba-home';
 
 @Component({
   templateUrl: 'app.html'
