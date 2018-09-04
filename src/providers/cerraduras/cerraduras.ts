@@ -17,17 +17,14 @@ export class CerradurasProvider {
     this.cerradura.destinatariosNotificacionSms = { '1145454545': true, '1133552255': true };
     this.cerradura.redes = { 'home': { pass: 'homepass' }, 'fibertel': { pass: 'fiberpass'} };
     this.cerradura.codigoActivacion = 'TJGuSY13thdL1'; // Hash combinación entre cerradura.dueño y cerradura.id
-
     this.listadoCerraduras=[];
     console.log("listado de cerraduras vacio:", this.listadoCerraduras);
-    this.db.collection("ejemplos").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
+    this.db.collection("ejemplos").get().then(querySnapshot =>querySnapshot.forEach(doc=>{
           console.log("agregando el doc id: "+doc.id);
-          //this.listadoCerraduras.push({ id:doc.id, data:doc.data });
-          //console.log("listado de cerraduras lleno:", this.listadoCerraduras);
-        });
-    });
-    //console.log("listado de cerraduras lleno:", this.listadoCerraduras);
+          this.listadoCerraduras.push({ id:doc.id, data:doc.data });
+        })
+    );
+    console.log("listado de cerraduras lleno:", this.listadoCerraduras);
   
     this.db.collection("ejemplos").add(this.cerradura).then(function(docRef) {
         console.log("Alta de registro con ID: ", docRef.id);
