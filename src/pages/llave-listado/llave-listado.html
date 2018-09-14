@@ -25,7 +25,7 @@
               <p>({{cerradura.esPropia ? 'Propia' : 'Compartida'}})</p>
 
               <ion-fab middle right edge>
-                  <button ion-fab color="primary"><ion-icon name="{{ cerradura.estaAbierta ? 'unlock' : 'lock' }}"></ion-icon></button>
+                  <button ion-fab color="{{ cerradura.estaAbierta ? 'cerraduraAbierta':'cerraduraCerrada'}}"><ion-icon name="{{ cerradura.estaAbierta ? 'unlock' : 'lock' }}"></ion-icon></button>
                   <ion-fab-list side="left">
                     <button (click)="toogleAperturaWifi(cerradura)" ion-fab><ion-icon name="wifi"></ion-icon></button>
                     <button (click)="toogleAperturaSms(cerradura)" ion-fab><ion-icon name="mail"></ion-icon></button>

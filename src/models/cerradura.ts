@@ -1,5 +1,6 @@
 export interface Cerradura {
     id : string,
+    descripcion : string,
     dueño : string,
     estado : string,
     codigoActivacion : string,
