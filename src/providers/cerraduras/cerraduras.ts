@@ -2,28 +2,36 @@ import { Injectable } from '@angular/core';
 import { JanoProvider } from '../jano/jano';
 import { Cerradura } from '../../models/cerradura';
 import { AngularFirestoreCollection } from 'angularfire2/firestore';
+import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class CerradurasProvider {
-  public listadoCerraduras: any[];
+  //public listadoCerraduras: any[];
+
+  private listadoCerradurasBehaviorSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  public listadoCerraduras$ : Observable<any[]> = this.listadoCerradurasBehaviorSubject.asObservable();
+
   public cerraduraCollection: AngularFirestoreCollection;
   private db;
   private cerradura: Cerradura;
   constructor(janoProv: JanoProvider) {
     this.db = janoProv.getJanoFirestoreDb();
-
-    this.listadoCerraduras = [];
-    console.log("listado de cerraduras vacio:", this.listadoCerraduras);
+    
     this.cerraduraCollection = this.db.collection("cerradurasv1")
       .where("dueño", "==", "TJGuSY13thdL1CFaiXjOyEfzk7k1")
       .onSnapshot(
         querySnapshot => {
+          console.log("Snapshot recibido");
+          let listadoCerraduras=[];
           querySnapshot.forEach(
-            doc => this.listadoCerraduras.push({
+            doc => listadoCerraduras.push({
               id: doc.id,
               data: doc.data()
             })
           )
+          console.log("listado de cerraduras obtenido:", listadoCerraduras);
+          this.listadoCerradurasBehaviorSubject.next(listadoCerraduras);
         }
       );
       
@@ -142,7 +150,7 @@ export class CerradurasProvider {
   }
 
   public getCerraduras() {
-    return this.listadoCerraduras;
+    return null;
   }
   public addCerradura(cerradura: any) {
     this.listadoCerraduras.push(cerradura);
