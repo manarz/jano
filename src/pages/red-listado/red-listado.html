@@ -16,7 +16,7 @@
 <ion-list>
     <div *ngFor="let red of listadoRedes">
             <ion-item>
-                <h2>{{ red.ssid }}</h2> 
+                <h2>{{ red.key }}</h2> 
                 <p>(pass: {{ red.pass }})</p>
                 <button ion-button icon-only outline item-end (click)="eliminarRed()"><ion-icon name="close"> ELIMINAR</ion-icon></button>
             </ion-item>

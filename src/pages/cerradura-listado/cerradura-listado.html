@@ -15,14 +15,14 @@
 </ion-header>
 
 <ion-content >
-    <ion-list *ngFor="let cerradura of listadoCerraduras" inset>
-          <ion-item>
+    <ion-list inset>
+          <ion-item *ngFor="let cerradura of listadoCerraduras">
                 <ion-avatar item-start>
                   <img src="assets/imgs/keys-icon.png">
                 </ion-avatar>
-                <h2>{{  cerradura.descripcion }}</h2>
-                <button ion-button icon-only outline item-end padding (click)="irAListadoDeCompartidas()"><ion-icon name='people'></ion-icon>Llaves</button>
-                <button ion-button icon-only outline item-end padding (click)="irAConfiguracionCerradura()"><ion-icon name='settings'></ion-icon>Configurar</button>
+                <h2>{{ cerradura.data.descripcion }}</h2>
+                <button ion-button icon-only outline item-end padding (click)="irAListadoDeCompartidas(cerradura)"><ion-icon name='people'></ion-icon>Llaves</button>
+                <button ion-button icon-only outline item-end padding (click)="irAConfiguracionCerradura(cerradura)"><ion-icon name='settings'></ion-icon>Configurar</button>
           </ion-item>
     </ion-list>
 </ion-content>

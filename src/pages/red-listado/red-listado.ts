@@ -11,13 +11,16 @@ import { RedesProvider } from '../../providers/redes/redes';
 })
 export class RedListadoPage {
   public listadoRedes: any[];
-
+  private cerradura:any;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public redesProv: RedesProvider) {
   
-      this.listadoRedes = this.redesProv.getRedes();
+      //this.listadoRedes = this.redesProv.getRedes();
+      console.log("Listado de redes, data recibida:", this.navParams.get('info'));
+      this.cerradura=this.navParams.get('info');
+      this.listadoRedes=this.cerradura.data.redes;
  
   }
 

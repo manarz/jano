@@ -74,12 +74,12 @@ export class CerraduraListadoPage {
   public goToLogin(){
     this.navCtrl.setRoot(LoginPage);
   }
-  public irAConfiguracionCerradura(){
-    console.log("Redirigiendo a configuracion de cerradura");
-    this.navCtrl.push(CerraduraConfiguracionPage);
+  public irAConfiguracionCerradura(cerradura){
+    console.log("Redirigiendo a configuracion de cerradura",cerradura);
+    this.navCtrl.push(CerraduraConfiguracionPage, {info:cerradura});
   }
-  public irAListadoDeCompartidas(){
-    console.log("Redirigiendo a listado de cerraduras compartidas");
+  public irAListadoDeCompartidas(cerradura){
+    console.log("Redirigiendo a listado de cerraduras compartidas",cerradura);
     this.navCtrl.push(LlaveCompartidaListadoPage);
   }
 }

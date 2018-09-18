@@ -15,12 +15,12 @@
           <ion-item>
             <ion-icon name="key" item-start></ion-icon>
             <ion-label stacked>Nombre de la cerradura:</ion-label>
-            <ion-input name="descripcion" type="text" value="Puerta frontal de mi casa"></ion-input>
+            <ion-input name="descripcion" type="text" value="{{ cerradura.data.descripcion }}"></ion-input>
           </ion-item>
           <ion-item>
             <ion-icon name="phone-portrait" item-start></ion-icon>
             <ion-label stacked>Número telefónico de la cerradura:</ion-label>
-            <ion-input name="celular" type="text" value="1144445555"></ion-input>
+            <ion-input name="celular" type="text" value="{{ cerradura.data.telefonoPropio }}"></ion-input>
           </ion-item>
         </ion-list>
           <button ion-button outline block>Guardar cambios</button>
