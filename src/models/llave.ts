@@ -2,6 +2,8 @@ export interface Llave {
     idCerradura : string,
     nombreFamiliar : string,
     estado : string,
+    dueño : string,
+    esPropia : boolean,
 
     aperturaOffline : boolean,
     aperturaRemota : boolean,

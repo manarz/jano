@@ -10,25 +10,38 @@ import { UsuariosProvider } from '../../providers/usuarios/usuarios';
 
 import { CerraduraAltaPage } from '../cerradura-alta/cerradura-alta';
 import { LoginPage } from '../login/login';
+import { LlavesProvider } from '../../providers/llaves/llaves';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'page-llave-listado',
   templateUrl: 'llave-listado.html',
 })
 export class LlaveListadoPage {
-  public listadoCerraduras: any[];
+  public listadoLlaves: any[];
 
+  subscriptions: Subscription[];
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public http: HTTP,
     public alertCtrl: AlertController,
-    public cerradurasProv: CerradurasProvider,
+    public llavesProv: LlavesProvider,
     public httpCommandsProv: HttpCommandsProvider,
     public smsCommandsProv: SmsProvider,
     public usuariosProv: UsuariosProvider
   ) {
-    this.listadoCerraduras = this.cerradurasProv.getCerraduras();
+  }
+  ngOnInit(): void {
+    this.subscriptions=[];
+    this.subscriptions.push(
+      this.llavesProv.listadoLlaves$.subscribe(listado => this.listadoLlaves = listado)
+    );
+  }
+  ngOnDestroy(): void {
+    for(let subscription of this.subscriptions){
+      subscription.unsubscribe();
+    }
   }
 
   ionViewDidLoad() {
@@ -44,10 +57,6 @@ export class LlaveListadoPage {
 
     //item.setElementStyle('transition', null);
     //item.setElementStyle('transform', 'translate3d(-'+swipeAmount+'px, 0px, 0px)');
-  }
-
-  public nuevaCerradura(){
-    this.navCtrl.push(CerraduraAltaPage);
   }
 
   public toogleAperturaWifi(cerradura) {

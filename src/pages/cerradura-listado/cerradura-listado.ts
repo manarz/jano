@@ -96,4 +96,7 @@ export class CerraduraListadoPage implements OnInit, OnDestroy {
     console.log("Redirigiendo a listado de cerraduras compartidas", cerradura);
     this.navCtrl.push(LlaveCompartidaListadoPage);
   }
+  public irANuevaCerradura(){
+    this.navCtrl.push(CerraduraAltaPage);
+  }
 }

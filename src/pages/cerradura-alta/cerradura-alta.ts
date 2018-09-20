@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
 import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
+import { Cerradura } from '../../models/cerradura';
 
 @Component({
   selector: 'page-cerradura-alta',
@@ -19,11 +20,10 @@ export class CerraduraAltaPage {
 
   private createMyForm(){
     return this.formBuilder.group({
-      esPropia:         [true],
+      dueño:            ['TJGuSY13thdL1CFaiXjOyEfzk7k1'],
       descripcion:      ['', Validators.required],
-      celular:          ['', Validators.required],
+      telefonoPropio:   ['', Validators.required],
       codigoActivacion: ['', Validators.required],
-      estaAbierta:      [true]
     });
   }
   
@@ -32,8 +32,7 @@ export class CerraduraAltaPage {
   }
 
   public guardarCerradura(){
-    //console.log(this.myForm.value);
-    this.cerradurasProv.addCerradura(this.myForm.value);
+    this.cerradurasProv.agregarCerradura(<Cerradura>this.myForm.value);
     this.navCtrl.pop();
   }
 }

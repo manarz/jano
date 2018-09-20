@@ -40,6 +40,7 @@ import { SmsProvider } from '../providers/sms/sms';
 import { UsuariosProvider } from '../providers/usuarios/usuarios';
 import { PruebaHomePage } from '../pages/prueba-home/prueba-home';
 import { JanoProvider } from '../providers/jano/jano';
+import { LlavesProvider } from '../providers/llaves/llaves';
 
 
 
@@ -110,7 +111,8 @@ import { JanoProvider } from '../providers/jano/jano';
     HttpCommandsProvider,
     SmsProvider,
     UsuariosProvider,
-    JanoProvider
+    JanoProvider,
+    LlavesProvider
   ]
 })
 export class AppModule {}

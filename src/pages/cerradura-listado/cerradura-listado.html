@@ -20,9 +20,12 @@
                 <ion-avatar item-start>
                   <img src="assets/imgs/keys-icon.png">
                 </ion-avatar>
-                <h2>{{ cerradura.data.descripcion }}</h2>
+                <h2>{{ cerradura.descripcion }}</h2>
                 <button ion-button icon-only outline item-end padding (click)="irAListadoDeCompartidas(cerradura)"><ion-icon name='people'></ion-icon>Llaves</button>
                 <button ion-button icon-only outline item-end padding (click)="irAConfiguracionCerradura(cerradura)"><ion-icon name='settings'></ion-icon>Configurar</button>
           </ion-item>
     </ion-list>
+    <ion-fab right bottom>
+      <button ion-fab color="danger" (click)="irANuevaCerradura()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>
