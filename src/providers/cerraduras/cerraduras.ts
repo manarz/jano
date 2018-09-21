@@ -5,6 +5,7 @@ import { AngularFirestoreCollection } from 'angularfire2/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { Llave } from '../../models/llave';
+import { Red } from '../../models/red';
 
 @Injectable()
 export class CerradurasProvider {
@@ -14,7 +15,7 @@ export class CerradurasProvider {
   public cerraduraCollection: AngularFirestoreCollection;
   private db;
   private cerradura: Cerradura;
-  constructor(janoProv: JanoProvider) {
+  constructor(public janoProv: JanoProvider) {
     this.db = janoProv.getJanoFirestoreDb();
     
     this.cerraduraCollection = this.db.collection("cerraduras")
@@ -46,7 +47,7 @@ export class CerradurasProvider {
           this.listadoCerradurasBehaviorSubject.next(listadoCerraduras);
         }
       );
-    //this.resetCerraduras();
+   // this.resetCerraduras();
 
     /*    
         { esPropia: true,  descripcion: "Mi puerta frontal de casa",  estaAbierta: true , celular:"1132848322", redWifi:[{ssid:"fiber1",pass:"12345"}] },
@@ -61,29 +62,71 @@ export class CerradurasProvider {
     
     ];*/
   }
-  public agregarCerradura(cer:Cerradura) {
+  public agregarCerradura(cerr: Cerradura) {
     console.log("Agregar cerradura:");
     // alta de cerradura
-    this.db.collection("cerraduras").add(cer).then(
-        cerraduraAlta => {
-          console.log("Alta de cerradura exitosa con ID: ", cerraduraAlta.id);
-          let nuevaLlave=<Llave>{};
-          nuevaLlave.idCerradura=cerraduraAlta.id;
-          nuevaLlave.nombreFamiliar=cer.descripcion;
-          nuevaLlave.dueño=cer.dueño;
-          nuevaLlave.estado='abierta';
-          nuevaLlave.aperturaOffline=true,
-          nuevaLlave.aperturaRemota=true,
-          nuevaLlave.nroSecuencia=0;
-          nuevaLlave.esPropia=true;
+    this.db.collection("cerraduras").add(cerr).then(
+      cerraduraAlta => {
+        console.log("Alta de cerradura exitosa con ID: ", cerraduraAlta.id);
+        let nuevaLlave = <Llave>{};
+        nuevaLlave.idCerradura = cerraduraAlta.id;
+        nuevaLlave.nombreFamiliar = cerr.descripcion;
+        nuevaLlave.dueño = cerr.dueño;
+        nuevaLlave.estado = 'abierta';
+        nuevaLlave.aperturaOffline = true,
+          nuevaLlave.aperturaRemota = true,
+          nuevaLlave.nroSecuencia = 0;
+        nuevaLlave.esPropia = true;
 
-          this.db.collection("llaves").add(nuevaLlave).then(
-            llaveAlta => {
-              console.log("Alta de llave exitosa con ID: ", llaveAlta.id);
-            }).catch( error =>  console.error("Error agregando llave: ", error));
-        }).catch(error =>  console.error("Error agregando cerradura: ", error));
+        this.db.collection("llaves").add(nuevaLlave).then(
+          llaveAlta => {
+            console.log("Alta de llave exitosa con ID: ", llaveAlta.id);
+          }).catch(error => console.error("Error agregando llave: ", error));
+        for ( let nuevaRed of cerr.redes) {
+          console.log("Red nueva:",nuevaRed);
+          nuevaRed.cerraduraId=cerraduraAlta.id;
+
+          this.db.collection("redes").add(nuevaRed).then(
+            redAlta => {
+              console.log("Alta de red exitosa con ID: ", redAlta.id);
+            }).catch(error => console.error("Error agregando red: ", error));
+        }
+
+      }).catch(error => console.error("Error agregando cerradura: ", error));
   }
 
+  public modificarCerradura(cerr: Cerradura){
+    console.log('cerradura obtenida para modificar', cerr);
+    this.db.collection("cerraduras").doc(cerr.id)
+    .update(cerr)
+    .then(() => console.log("Modificacion de cerradura exitosa"))
+    .catch(error => console.error("Error modificando cerradura: ", error));
+  }
+
+  public eliminarCerradura(cerr: Cerradura) {
+    console.log('cerradura obtenida para eliminar', cerr);
+    this.db.collection("cerraduras").doc(cerr.id)
+      .delete()
+      .then(() => console.log("Eliminacion de cerradura exitosa"))
+      .catch(error => console.error("Error eliminando cerradura: ", error));
+  }
+  public agregarRed(cerr: Cerradura, red: Red) {
+    red.cerraduraId=cerr.id;
+    console.log('red obtenida para agregar', red);
+    this.db.collection("redes").add(red).then(
+      redAlta => {
+        console.log("Alta de red exitosa con ID: ", redAlta.id);
+      })
+      .then(() => console.log("Agregado de cerradura exitosa"))
+      .catch(error => console.error("Error agregando cerradura: ", error));
+  }
+  public eliminarRed(red: Red) {
+    console.log('red obtenida para eliminar', red);
+    this.db.collection("redes").doc(red.id)
+      .delete()
+      .then(() => console.log("Eliminacion de red exitosa"))
+      .catch(error => console.error("Error eliminando red: ", error));
+  }
   public resetCerraduras() {
     this.cerradura = <Cerradura>{};
     this.cerradura.dueño = 'TJGuSY13thdL1CFaiXjOyEfzk7k1';
@@ -91,7 +134,9 @@ export class CerradurasProvider {
     this.cerradura.estado = 'cerrada';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
     this.cerradura.destinatariosNotificacionSms = { '1145454545': true, '1133552255': true };
-    this.cerradura.redes = { 'home': { pass: 'homepass' }, 'fibertel': { pass: 'fiberpass' } };
+    this.cerradura.redes = [] ;
+    this.cerradura.redes.push(<Red>{ssid:'home', pass: 'homepass' });
+    this.cerradura.redes.push(<Red>{ssid:'fibertel', pass: 'fiberpass' });
     this.cerradura.codigoActivacion = 'TJGuSY13thdL1'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
 
@@ -101,7 +146,9 @@ export class CerradurasProvider {
     this.cerradura.estado = 'abierta';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
     this.cerradura.destinatariosNotificacionSms = { '1145454545': true, '1133552255': true };
-    this.cerradura.redes = { 'home': { pass: 'homepass' }, 'fibertel': { pass: 'fiberpass' } };
+    this.cerradura.redes = [] ;
+    this.cerradura.redes.push(<Red>{ssid:'home', pass: 'homepass' });
+    this.cerradura.redes.push(<Red>{ssid:'fibertel', pass: 'fiberpass' });
     this.cerradura.codigoActivacion = 'TJGuSY13thdL1'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
 
@@ -111,7 +158,9 @@ export class CerradurasProvider {
     this.cerradura.estado = 'abierta';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
     this.cerradura.destinatariosNotificacionSms = { '1145454545': true, '1133552255': true };
-    this.cerradura.redes = { 'home': { pass: 'homepass' }, 'fibertel': { pass: 'fiberpass' } };
+    this.cerradura.redes = [] ;
+    this.cerradura.redes.push(<Red>{ssid:'home', pass: 'homepass' });
+    this.cerradura.redes.push(<Red>{ssid:'fibertel', pass: 'fiberpass' });
     this.cerradura.codigoActivacion = 'TJGuSY13thdL1'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
 
@@ -121,7 +170,9 @@ export class CerradurasProvider {
     this.cerradura.estado = 'cerrada';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
     this.cerradura.destinatariosNotificacionSms = { '1145454545': true, '1133552255': true };
-    this.cerradura.redes = { 'home': { pass: 'homepass' }, 'fibertel': { pass: 'fiberpass' } };
+    this.cerradura.redes = [] ;
+    this.cerradura.redes.push(<Red>{ssid:'home', pass: 'homepass' });
+    this.cerradura.redes.push(<Red>{ssid:'fibertel', pass: 'fiberpass' });
     this.cerradura.codigoActivacion = 'TJGuSY13thdL1'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
   }

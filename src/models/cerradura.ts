@@ -1,3 +1,5 @@
+import { Red } from "./red";
+
 export interface Cerradura {
     id : string,
     descripcion : string,
@@ -7,5 +9,5 @@ export interface Cerradura {
     telefonoPropio : string,
     
     destinatariosNotificacionSms : { [index: string]: boolean },
-    redes : { [index: string]: { pass: string} }
+    redes : Array<Red>
 }

@@ -16,5 +16,7 @@ export class JanoProvider {
     this.janoFirestoreDb = firebase.firestore();
     return this.janoFirestoreDb;
   }
-
+  public getJanoDelete(){
+    return firebase.firestore.FieldValue.delete();
+  }
 }

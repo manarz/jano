@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { RedAltaPage } from '../red-alta/red-alta';
+import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
+import { Red } from '../../models/red';
 import { RedesProvider } from '../../providers/redes/redes';
+import { Subscription } from 'rxjs';
 
 
 
@@ -12,25 +15,38 @@ import { RedesProvider } from '../../providers/redes/redes';
 export class RedListadoPage {
   public listadoRedes: any[];
   private cerradura:any;
+  subscriptions: Subscription[]
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+    public cerradurasProv: CerradurasProvider,
     public redesProv: RedesProvider) {
   
       //this.listadoRedes = this.redesProv.getRedes();
       console.log("Listado de redes, data recibida:", this.navParams.get('info'));
       this.cerradura=this.navParams.get('info');
-      this.listadoRedes=this.cerradura.data.redes;
- 
   }
 
+  ngOnInit(): void {
+    this.subscriptions=[];
+    this.redesProv.getRedes(this.cerradura);
+    this.subscriptions.push(
+      this.redesProv.listadoRedes$.subscribe(listado => this.listadoRedes = listado)
+    );
+  }
+  ngOnDestroy(): void {
+    for(let subscription of this.subscriptions){
+      subscription.unsubscribe();
+    }
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad MisRedesPage');
   }
-  nuevaRed(){
-    this.navCtrl.push(RedAltaPage);
+  irANuevaRed(){
+    this.navCtrl.push(RedAltaPage, { info: this.cerradura });
   }
-  eliminarRed(){
-    console.log('Eliminar red');
+  eliminarRed(red: Red){
+    console.log('Intentando eliminar red',red);
+    this.cerradurasProv.eliminarRed(red);
   }
 }

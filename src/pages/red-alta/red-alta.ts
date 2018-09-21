@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
-import { RedesProvider } from '../../providers/redes/redes';
+import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
+import { Cerradura } from '../../models/cerradura';
 
 @Component({
   selector: 'page-red-alta',
@@ -9,12 +10,17 @@ import { RedesProvider } from '../../providers/redes/redes';
 })
 export class RedAltaPage {
   myForm: FormGroup;
+  private cerradura:Cerradura;
+
   constructor (
-    public redesProv: RedesProvider,
+    public cerradurasProv: CerradurasProvider,
     public navCtrl: NavController,
     public formBuilder: FormBuilder,
     public navParams: NavParams) {
       this.myForm = this.createMyForm();
+      console.log("Alta de red, data recibida:", this.navParams.get('info'));
+      this.cerradura=this.navParams.get('info');
+
   }
 
   private createMyForm(){
@@ -29,8 +35,7 @@ export class RedAltaPage {
   }
 
   public guardarRed(){
-    //console.log(this.myForm.value);
-    this.redesProv.addRed(this.myForm.value);
+    this.cerradurasProv.agregarRed(this.cerradura, this.myForm.value);
     this.navCtrl.pop();
   }
 }

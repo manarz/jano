@@ -15,20 +15,24 @@
           <ion-item>
             <ion-icon name="key" item-start></ion-icon>
             <ion-label stacked>Nombre de la cerradura:</ion-label>
-            <ion-input name="descripcion" type="text" value="{{ cerradura.descripcion }}"></ion-input>
+            <ion-input [(ngModel)]="cerradura.descripcion" name="descripcion" type="text" value="{{ cerradura.descripcion }}"></ion-input>
           </ion-item>
           <ion-item>
             <ion-icon name="phone-portrait" item-start></ion-icon>
             <ion-label stacked>Número telefónico de la cerradura:</ion-label>
-            <ion-input name="celular" type="text" value="{{ cerradura.telefonoPropio }}"></ion-input>
+            <ion-input [(ngModel)]="cerradura.telefonoPropio" name="telefonoPropio" type="text" value="{{ cerradura.telefonoPropio }}"></ion-input>
           </ion-item>
         </ion-list>
-          <button ion-button outline block>Guardar cambios</button>
+          <button ion-button outline block (click)="guardarCambiosCerradura()">Guardar cambios</button>
   </div>
 
         <div padding>
           <button ion-button block (click)="irAdministrarWifi()">Wifi hogareño</button>
           <button ion-button block (click)="irANumerosDeConfianza()">Números de confianza</button>
         </div>
+        <div padding>
+          <button ion-button block (click)="eliminarCerradura()">Eliminar cerradura</button>
+        </div>
+
 </ion-content>
 
