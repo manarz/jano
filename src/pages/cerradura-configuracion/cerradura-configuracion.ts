@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RedListadoPage } from '../red-listado/red-listado';
 import { Cerradura } from '../../models/cerradura';
 import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
+import { NumerosListadoPage } from '../numeros-listado/numeros-listado';
 
 
 
@@ -24,7 +25,7 @@ export class CerraduraConfiguracionPage {
   }
   public irANumerosDeConfianza(){
     console.log("Redirigiendo al listado de numeros de confianza.");
-//    this.navCtrl.push(RedListadoPage);
+    this.navCtrl.push(NumerosListadoPage, {info: this.cerradura});
   }
   public guardarCambiosCerradura(){
     console.log('Intentando modificar cerradura:',this.cerradura.id);

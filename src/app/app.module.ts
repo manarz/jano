@@ -41,6 +41,9 @@ import { UsuariosProvider } from '../providers/usuarios/usuarios';
 import { PruebaHomePage } from '../pages/prueba-home/prueba-home';
 import { JanoProvider } from '../providers/jano/jano';
 import { LlavesProvider } from '../providers/llaves/llaves';
+import { NumerosListadoPage } from '../pages/numeros-listado/numeros-listado';
+import { NumerosNotificacionProvider } from '../providers/numeros-notificacion/numeros-notificacion';
+import { NumeroAltaPage } from '../pages/numero-alta/numero-alta';
 
 
 
@@ -63,6 +66,8 @@ import { LlavesProvider } from '../providers/llaves/llaves';
     RedListadoPage,
     VincularBluetoothPage,
     RedAltaPage,
+    NumerosListadoPage,
+    NumeroAltaPage,
     CerraduraAltaPage,
     CerraduraConfiguracionPage,
     GralConfiguracionPage
@@ -92,6 +97,8 @@ import { LlavesProvider } from '../providers/llaves/llaves';
     LlaveCompartidaListadoPage,
     LlaveConfiguracionPage,
     RedListadoPage,
+    NumerosListadoPage,
+    NumeroAltaPage,
     VincularBluetoothPage,
     RedAltaPage,
     CerraduraAltaPage,
@@ -112,7 +119,8 @@ import { LlavesProvider } from '../providers/llaves/llaves';
     SmsProvider,
     UsuariosProvider,
     JanoProvider,
-    LlavesProvider
+    LlavesProvider,
+    NumerosNotificacionProvider
   ]
 })
 export class AppModule {}

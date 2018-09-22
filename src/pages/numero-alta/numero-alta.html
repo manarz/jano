@@ -1,0 +1,29 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+
+      <ion-title>Nuevo Numero de Confianza</ion-title>  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+      <form [formGroup]="myForm" (ngSubmit)="guardarNumero()">
+        <ion-list>
+          <ion-item>
+            <ion-icon name="person" item-start></ion-icon>
+            <ion-label stacked>Nombre del destinatario:</ion-label>
+            <ion-input formControlName="descripcion" type="text" placeholder="Nombre del destinatario"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="call" item-start></ion-icon>
+            <ion-label stacked>Número:</ion-label>
+            <ion-input formControlName="numero" type="text" placeholder="Número telefonico"></ion-input>
+          </ion-item>
+        </ion-list>
+        <div padding>
+            <button ion-button block type="submit" [disabled]="!myForm.valid">Guardar</button>
+          </div>
+      </form>        
+</ion-content>

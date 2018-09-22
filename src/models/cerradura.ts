@@ -8,6 +8,6 @@ export interface Cerradura {
     codigoActivacion : string,
     telefonoPropio : string,
     
-    destinatariosNotificacionSms : { [index: string]: boolean },
+    destinatariosNotificacionSms : Array<number>,
     redes : Array<Red>
 }

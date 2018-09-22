@@ -48,19 +48,6 @@ export class CerradurasProvider {
         }
       );
    // this.resetCerraduras();
-
-    /*    
-        { esPropia: true,  descripcion: "Mi puerta frontal de casa",  estaAbierta: true , celular:"1132848322", redWifi:[{ssid:"fiber1",pass:"12345"}] },
-        { esPropia: true,  descripcion: "Mi puerta de atras de casa", estaAbierta: false, celular:"3372",       redWifi:[{ssid:"fiber2",pass:"pepe1"}] } ,
-        { esPropia: true,  descripcion: "Mi garage",                  estaAbierta: false, celular:"3372",       redWifi:[{ssid:"fiber2",pass:"pepe1"}] } ,
-        { esPropia: true,  descripcion: "Casa del fondo",             estaAbierta: false, celular:"3372",       redWifi:[{ssid:"fiber2",pass:"pepe1"}] } ,
-        { esPropia: false, descripcion: "Garage de Matias",           estaAbierta: false, celular:"3372",       redWifi:[{ssid:"fiber2",pass:"pepe1"}] } ,
-        { esPropia: false, descripcion: "Puerta de Vero",             estaAbierta: false, celular:"3372",       redWifi:[{ssid:"fiber2",pass:"pepe1"}] } ,
-        { esPropia: false, descripcion: "Puerta de la tia",           estaAbierta: false, celular:"3372",       redWifi:[{ssid:"fiber2",pass:"pepe1"}] } ,
-        { esPropia: false, descripcion: "Puerta frontal de Matias",   estaAbierta: false, celular:"3372",       redWifi:[{ssid:"fiber2",pass:"pepe1"}] } ,
-        { esPropia: false, descripcion: "Puerta del abuelo",          estaAbierta: false, celular:"3372",       redWifi:[{ssid:"fiber2",pass:"pepe1"}] } 
-    
-    ];*/
   }
   public agregarCerradura(cerr: Cerradura) {
     console.log("Agregar cerradura:");
@@ -133,7 +120,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Rivadavia 6542';
     this.cerradura.estado = 'cerrada';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.destinatariosNotificacionSms = { '1145454545': true, '1133552255': true };
+    this.cerradura.destinatariosNotificacionSms = null;
     this.cerradura.redes = [] ;
     this.cerradura.redes.push(<Red>{ssid:'home', pass: 'homepass' });
     this.cerradura.redes.push(<Red>{ssid:'fibertel', pass: 'fiberpass' });
@@ -145,7 +132,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Cuenca 895';
     this.cerradura.estado = 'abierta';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.destinatariosNotificacionSms = { '1145454545': true, '1133552255': true };
+    this.cerradura.destinatariosNotificacionSms =null;
     this.cerradura.redes = [] ;
     this.cerradura.redes.push(<Red>{ssid:'home', pass: 'homepass' });
     this.cerradura.redes.push(<Red>{ssid:'fibertel', pass: 'fiberpass' });
@@ -157,7 +144,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Pasteur 885';
     this.cerradura.estado = 'abierta';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.destinatariosNotificacionSms = { '1145454545': true, '1133552255': true };
+    this.cerradura.destinatariosNotificacionSms = null;
     this.cerradura.redes = [] ;
     this.cerradura.redes.push(<Red>{ssid:'home', pass: 'homepass' });
     this.cerradura.redes.push(<Red>{ssid:'fibertel', pass: 'fiberpass' });
@@ -169,7 +156,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Arieta 402';
     this.cerradura.estado = 'cerrada';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.destinatariosNotificacionSms = { '1145454545': true, '1133552255': true };
+    this.cerradura.destinatariosNotificacionSms = null;
     this.cerradura.redes = [] ;
     this.cerradura.redes.push(<Red>{ssid:'home', pass: 'homepass' });
     this.cerradura.redes.push(<Red>{ssid:'fibertel', pass: 'fiberpass' });

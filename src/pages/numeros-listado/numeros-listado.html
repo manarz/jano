@@ -1,0 +1,28 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+
+      <ion-title>Números de confianza</ion-title>  
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+<h1>Aqui se listan los números a los cuales se notificará eventos</h1>
+<p>Puede indicar muchos números.</p>
+<ion-list>
+  <div *ngFor="let numeroNotificacion of listadoNumeros">
+          <ion-item>
+              <h2>{{ numeroNotificacion.descripcion }}</h2> 
+              <p>(Numero telefónico: {{ numeroNotificacion.numero }})</p>
+              <button ion-button icon-only outline item-end (click)="eliminarNumero(numeroNotificacion)"><ion-icon name="close"> ELIMINAR</ion-icon></button>
+          </ion-item>
+  </div>
+</ion-list>
+<ion-fab right bottom>
+      <button ion-fab color="secondary" (click)="irANuevoNumero()"><ion-icon name="add"></ion-icon></button>
+</ion-fab>
+</ion-content>
