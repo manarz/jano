@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { RedAltaPage } from '../red-alta/red-alta';
-import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
 import { Red } from '../../models/red';
 import { RedesProvider } from '../../providers/redes/redes';
 import { Subscription } from 'rxjs';
@@ -19,7 +18,6 @@ export class RedListadoPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public cerradurasProv: CerradurasProvider,
     public redesProv: RedesProvider) {
   
       //this.listadoRedes = this.redesProv.getRedes();
@@ -47,6 +45,6 @@ export class RedListadoPage {
   }
   eliminarRed(red: Red){
     console.log('Intentando eliminar red',red);
-    this.cerradurasProv.eliminarRed(red);
+    this.redesProv.eliminarRed(red);
   }
 }

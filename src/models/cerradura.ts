@@ -7,7 +7,4 @@ export interface Cerradura {
     estado : string,
     codigoActivacion : string,
     telefonoPropio : string,
-    
-    destinatariosNotificacionSms : Array<number>,
-    redes : Array<Red>
 }

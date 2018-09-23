@@ -45,7 +45,7 @@ export class CerraduraListadoPage implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions=[];
     this.subscriptions.push(
-      this.cerradurasProv.listadoCerraduras$.subscribe(listado => this.listadoCerraduras = listado)
+      this.cerradurasProv.obtenerCerraduras(this.usuariosProv.getUsuario()).subscribe(listado => this.listadoCerraduras = listado)
     );
   }
   ionViewDidLoad() {
@@ -94,7 +94,7 @@ export class CerraduraListadoPage implements OnInit, OnDestroy {
   }
   public irAListadoDeCompartidas(cerradura) {
     console.log("Redirigiendo a listado de cerraduras compartidas", cerradura);
-    this.navCtrl.push(LlaveCompartidaListadoPage);
+    this.navCtrl.push(LlaveCompartidaListadoPage, { info: cerradura });
   }
   public irANuevaCerradura(){
     this.navCtrl.push(CerraduraAltaPage);

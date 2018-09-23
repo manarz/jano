@@ -39,7 +39,7 @@ export class NumerosListadoPage {
     this.navCtrl.push(NumeroAltaPage, { info: this.cerradura });
   }
   eliminarNumero(numero: NumerosNotificacion){
-    console.log('Intentando eliminar red',numero);
+    console.log('Intentando eliminar numero',numero);
     this.numerosProv.eliminarNumero(numero);
   }
 }

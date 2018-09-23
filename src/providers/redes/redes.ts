@@ -3,6 +3,7 @@ import { JanoProvider } from '../jano/jano';
 import { Cerradura } from '../../models/cerradura';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
+import { Red } from '../../models/red';
 
 @Injectable()
 export class RedesProvider {
@@ -44,5 +45,22 @@ export class RedesProvider {
           this.listadoRedesBehaviorSubject.next(listadoRedes);
         }
     )
+  }
+  public agregarRed(cerr: Cerradura, red: Red) {
+    red.cerraduraId=cerr.id;
+    console.log('red obtenida para agregar', red);
+    this.db.collection("redes").add(red).then(
+      redAlta => {
+        console.log("Alta de red exitosa con ID: ", redAlta.id);
+      })
+      .then(() => console.log("Agregado de cerradura exitosa"))
+      .catch(error => console.error("Error agregando cerradura: ", error));
+  }
+  public eliminarRed(red: Red) {
+    console.log('red obtenida para eliminar', red);
+    this.db.collection("redes").doc(red.id)
+      .delete()
+      .then(() => console.log("Eliminacion de red exitosa"))
+      .catch(error => console.error("Error eliminando red: ", error));
   }
 }

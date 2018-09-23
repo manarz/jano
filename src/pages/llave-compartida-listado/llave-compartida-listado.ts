@@ -11,25 +11,43 @@ import { UsuariosProvider } from '../../providers/usuarios/usuarios';
 import { CerraduraAltaPage } from '../cerradura-alta/cerradura-alta';
 import { LlaveConfiguracionPage } from '../llave-configuracion/llave-configuracion';
 import { LoginPage } from '../login/login';
+import { Subscription } from 'rxjs';
+import { LlavesProvider } from '../../providers/llaves/llaves';
+import { Cerradura } from '../../models/cerradura';
+import { Llave } from '../../models/llave';
 
 @Component({
   selector: 'page-llave-compartida-listado',
   templateUrl: 'llave-compartida-listado.html',
 })
 export class LlaveCompartidaListadoPage {
-  public listadoCerraduras: any[];
+  public listadoLlaves: any[];
+  private cerradura: Cerradura;
+  subscriptions: Subscription[];
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public http: HTTP,
     public alertCtrl: AlertController,
-    public cerradurasProv: CerradurasProvider,
+    public llavesProv: LlavesProvider,
     public httpCommandsProv: HttpCommandsProvider,
     public smsCommandsProv: SmsProvider,
     public usuariosProv: UsuariosProvider
   ) {
-    this.listadoCerraduras = this.cerradurasProv.getCerraduras();
+    console.log("Llave compartida listado, data recibida:",navParams.get('info'));
+    this.cerradura=navParams.get('info');
+  }
+  ngOnInit(): void {
+    this.subscriptions=[];
+    this.subscriptions.push(
+      this.llavesProv.obtenerLlavesCerradura(this.cerradura.id).subscribe(listado => this.listadoLlaves = listado)
+    );
+  }
+  ngOnDestroy(): void {
+    for(let subscription of this.subscriptions){
+      subscription.unsubscribe();
+    }
   }
 
   ionViewDidLoad() {
@@ -72,8 +90,8 @@ export class LlaveCompartidaListadoPage {
   public goToLogin(){
     this.navCtrl.setRoot(LoginPage);
   }
-  public irAConfiguracionLlave(){
-    console.log('Redirigiendo a configuracion de llaves');
-    this.navCtrl.push(LlaveConfiguracionPage);
+  public irAConfiguracionLlave(llave: Llave){
+    console.log('Redirigiendo a configuracion de llaves',llave);
+    this.navCtrl.push(LlaveConfiguracionPage, {info: llave});
   }
 }

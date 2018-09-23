@@ -12,6 +12,8 @@ import { CerraduraAltaPage } from '../cerradura-alta/cerradura-alta';
 import { LoginPage } from '../login/login';
 import { LlavesProvider } from '../../providers/llaves/llaves';
 import { Subscription } from 'rxjs';
+import { Cerradura } from '../../models/cerradura';
+import { Llave } from '../../models/llave';
 
 @Component({
   selector: 'page-llave-listado',
@@ -35,7 +37,7 @@ export class LlaveListadoPage {
   ngOnInit(): void {
     this.subscriptions=[];
     this.subscriptions.push(
-      this.llavesProv.listadoLlaves$.subscribe(listado => this.listadoLlaves = listado)
+      this.llavesProv.obtenerLlavesPropias(this.usuariosProv.getUsuario()).subscribe(listado => this.listadoLlaves = listado)
     );
   }
   ngOnDestroy(): void {
@@ -59,13 +61,13 @@ export class LlaveListadoPage {
     //item.setElementStyle('transform', 'translate3d(-'+swipeAmount+'px, 0px, 0px)');
   }
 
-  public toogleAperturaWifi(cerradura) {
+  public toogleAperturaWifi(cerradura: Llave) {
     this.httpCommandsProv.toogleStatusCerradura(cerradura);
   }
-  public toogleAperturaSms(cerradura){
+  public toogleAperturaSms(cerradura: Llave){
     this.smsCommandsProv.toogleStatusCerradura(cerradura);
   }
-  public toogleAperturaBluetooth(cerradura){
+  public toogleAperturaBluetooth(cerradura: Llave){
 
   }
   public async logout(){

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from 'ionic-angular';
 import { SMS } from '@ionic-native/sms';
+import { Cerradura } from '../../models/cerradura';
+import { Llave } from '../../models/llave';
 
 @Injectable()
 export class SmsProvider {
@@ -8,8 +10,8 @@ export class SmsProvider {
   constructor(public smsProv: SMS, public alertCtrl: AlertController) {
   }
 
-  public toogleStatusCerradura(cerradura){
-    this.smsProv.send(cerradura.celular, cerradura.estaAbierta ? 'CERRAR' : 'ABRIR' )
+  public toogleStatusCerradura(llave: Llave){
+    this.smsProv.send(llave.telefonoCerradura, llave.idCerradura + (llave.estado=='abierta')? 'CERRAR' : 'ABRIR' )
     .then(()=>{
       let alert = this.alertCtrl.create({
         title: 'Mensaje enviado',

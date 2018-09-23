@@ -20,7 +20,6 @@ export class CerraduraAltaPage {
 
   private createMyForm(){
     return this.formBuilder.group({
-      dueño:            ['TJGuSY13thdL1CFaiXjOyEfzk7k1'],
       descripcion:      ['', Validators.required],
       telefonoPropio:   ['', Validators.required],
       codigoActivacion: ['', Validators.required],

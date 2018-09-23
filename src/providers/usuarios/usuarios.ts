@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth'; 
 import firebase from 'firebase/app';
 
-
 @Injectable()
 export class UsuariosProvider {
   private usuario: any;
   providerGg: firebase.auth.GoogleAuthProvider;
+  public unsubscribe;
   constructor(public http: HTTP, private afAuth: AngularFireAuth) {
     this.providerGg = new firebase.auth.GoogleAuthProvider();
   }
@@ -49,15 +49,17 @@ export class UsuariosProvider {
     if(this.usuario){
       return this.usuario.uid;
     }
-    return null;
+    return 'TJGuSY13thdL1CFaiXjOyEfzk7k1';
   }
   async logout(){
     if(this.usuario){
       console.log("Logout userid: "+ this.usuario.uid );
       const result = await this.afAuth.auth.signOut();
       this.usuario=null;
+      this.unsubscribe();
       console.log("Logout exitoso" );
       console.log(result);
+      
     } else{
       console.log("No se puede hacer logout!, el userid esta vacio.");
     }

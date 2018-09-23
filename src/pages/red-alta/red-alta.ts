@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
-import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
 import { Cerradura } from '../../models/cerradura';
+import { RedesProvider } from '../../providers/redes/redes';
 
 @Component({
   selector: 'page-red-alta',
@@ -13,7 +13,7 @@ export class RedAltaPage {
   private cerradura:Cerradura;
 
   constructor (
-    public cerradurasProv: CerradurasProvider,
+    public redesProv: RedesProvider,
     public navCtrl: NavController,
     public formBuilder: FormBuilder,
     public navParams: NavParams) {
@@ -35,7 +35,7 @@ export class RedAltaPage {
   }
 
   public guardarRed(){
-    this.cerradurasProv.agregarRed(this.cerradura, this.myForm.value);
+    this.redesProv.agregarRed(this.cerradura, this.myForm.value);
     this.navCtrl.pop();
   }
 }
