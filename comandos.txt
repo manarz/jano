@@ -1,0 +1,4 @@
+ionic cordova build android --prod --release
+cd "C:\Users\Man\AppData\Local\Android\Sdk\build-tools\27.0.3\lib"
+../zipalign -v -p 4 jano-0.2.2-unsigned.apk jano-0.2.2-zipaligned.apk
+java -jar ./apksigner.jar sign --ks jano.keystore --out jano-0.2.2-signed.apk jano-0.2.2-zipaligned.apk
