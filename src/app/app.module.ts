@@ -7,6 +7,8 @@ import { BLE } from '@ionic-native/ble';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { SMS } from '@ionic-native/sms';
 import { HTTP } from '@ionic-native/http';
+import { FirebaseDynamicLinks } from '@ionic-native/firebase-dynamic-links';
+import { AppVersion } from '@ionic-native/app-version';
 
 import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
@@ -77,7 +79,12 @@ import { NumeroAltaPage } from '../pages/numero-alta/numero-alta';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFirestoreModule.enablePersistence(),    
     AngularFireAuthModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, {}, {
+      links: [
+        {component: LoginPage, name:'Login', segment:'login/:item'},
+        {component: RegistrarsePage, name:'Registrarse', segment:'registro2'}
+      ]
+    })
   ],
 
   bootstrap: [IonicApp],
@@ -106,12 +113,14 @@ import { NumeroAltaPage } from '../pages/numero-alta/numero-alta';
     GralConfiguracionPage
   ],
   providers: [
+    AppVersion,
     StatusBar,
     SplashScreen,
     BLE,
     BluetoothSerial,
     SMS,
     HTTP,
+    FirebaseDynamicLinks,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     RedesProvider,
     CerradurasProvider,
