@@ -25,12 +25,12 @@
         <ion-list>
                 <ion-item>
                     <ion-label stacked>Acceso Remoto</ion-label>
-                    <ion-toggle checked="{{llave.aperturaRemota?true:false}}"></ion-toggle>
+                    <ion-toggle [(ngModel)]="llave.aperturaRemota" checked="{{llave.aperturaRemota?true:false}}"></ion-toggle>
                 </ion-item>
 
                 <ion-item>
                     <ion-label stacked>Acceso Offline</ion-label>
-                    <ion-toggle checked="{{llave.aperturaOffline?true:false}}"></ion-toggle>
+                    <ion-toggle [(ngModel)]="llave.aperturaOffline" checked="{{llave.aperturaOffline?true:false}}"></ion-toggle>
                 </ion-item>
 
                 <ion-item>
@@ -41,34 +41,32 @@
                 <ion-item-divider color="light">Vigencia</ion-item-divider>
                 <ion-item>
                     <ion-label stacked>Comienza:</ion-label>
-                    <ion-datetime displayFormat="D MM YYYY" pickerFormat="D MM YYYY" min="2018" max="2040-01-01" [(ngModel)]="llave.vigenciaDesde"></ion-datetime>
+                    <ion-datetime  [(ngModel)]="llave.vigenciaDesde" displayFormat="D MM YYYY" pickerFormat="D MM YYYY" min="2018" max="2040-01-01"></ion-datetime>
                 </ion-item>
                 <ion-item>
                     <ion-label stacked>Finaliza:</ion-label>
-                    <ion-datetime displayFormat="D MM YYYY" pickerFormat="D MM YYYY" min="2018" max="2040-01-01" [(ngModel)]="llave.vigenciaHasta"></ion-datetime>
+                    <ion-datetime [(ngModel)]="llave.vigenciaHasta"  displayFormat="D MM YYYY" pickerFormat="D MM YYYY" min="2018" max="2040-01-01" ></ion-datetime>
                 </ion-item>
                   <ion-item-divider color="light">Horarios limitados:</ion-item-divider>
                   <ion-item>
                       <ion-label stacked>Desde:</ion-label>
-                      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="llave.franjaHorariaDesde"></ion-datetime>
+                      <ion-datetime [(ngModel)]="llave.franjaHorariaDesde" displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
                   </ion-item>
                   <ion-item>
                       <ion-label stacked>Hasta:</ion-label>
-                      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="llave.franjaHorariaHasta"></ion-datetime>
+                      <ion-datetime [(ngModel)]="llave.franjaHorariaHasta" displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
                   </ion-item>
                   <ion-item-divider color="light">Dias limitados:</ion-item-divider>
-                  <button ion-button outline color="{{llave.vigenciaDias.domingo?'secondary':'dark'}}">Dom</button>
-                  <button ion-button outline color="{{llave.vigenciaDias.lunes?'secondary':'dark'}}">Lun</button>
-                  <button ion-button outline color="{{llave.vigenciaDias.martes?'secondary':'dark'}}">Mar</button>
-                  <button ion-button outline color="{{llave.vigenciaDias.miercoles?'secondary':'dark'}}">Mie</button>
-                  <button ion-button outline color="{{llave.vigenciaDias.jueves?'secondary':'dark'}}">Jue</button>
-                  <button ion-button outline color="{{llave.vigenciaDias.viernes?'secondary':'dark'}}">Vie</button>
-                  <button ion-button outline color="{{llave.vigenciaDias.sabado?'secondary':'dark'}}">Sab</button>
+                  <button ion-button outline (click)="llave.vigenciaDias.domingo  =!llave.vigenciaDias.domingo"  color="{{llave.vigenciaDias.domingo?  'secondary':'dark' }}" [style.text-decoration]="!llave.vigenciaDias.domingo?  'line-through':''">Dom</button>
+                  <button ion-button outline (click)="llave.vigenciaDias.lunes    =!llave.vigenciaDias.lunes"    color="{{llave.vigenciaDias.lunes?    'secondary':'dark' }}" [style.text-decoration]="!llave.vigenciaDias.lunes?    'line-through':''">Lun</button>
+                  <button ion-button outline (click)="llave.vigenciaDias.martes   =!llave.vigenciaDias.martes"   color="{{llave.vigenciaDias.martes?   'secondary':'dark' }}" [style.text-decoration]="!llave.vigenciaDias.martes?   'line-through':''">Mar</button>
+                  <button ion-button outline (click)="llave.vigenciaDias.miercoles=!llave.vigenciaDias.miercoles"color="{{llave.vigenciaDias.miercoles?'secondary':'dark' }}" [style.text-decoration]="!llave.vigenciaDias.miercoles?'line-through':''">Mie</button>
+                  <button ion-button outline (click)="llave.vigenciaDias.jueves   =!llave.vigenciaDias.jueves"   color="{{llave.vigenciaDias.jueves?   'secondary':'dark' }}" [style.text-decoration]="!llave.vigenciaDias.jueves?   'line-through':''">Jue</button>
+                  <button ion-button outline (click)="llave.vigenciaDias.viernes  =!llave.vigenciaDias.viernes"  color="{{llave.vigenciaDias.viernes?  'secondary':'dark' }}" [style.text-decoration]="!llave.vigenciaDias.viernes?  'line-through':''">Vie</button>
+                  <button ion-button outline (click)="llave.vigenciaDias.sabado   =!llave.vigenciaDias.sabado"   color="{{llave.vigenciaDias.sabado?   'secondary':'dark' }}" [style.text-decoration]="!llave.vigenciaDias.sabado?   'line-through':''">Sab</button> 
                   </ion-item-group>
-                    
-                  
-              </ion-list>
-                <button ion-button outline block>Guardar cambios</button>
+                </ion-list>
+                <button ion-button (click)="modificarLlave()" outline block>Guardar cambios</button>
         </div>
       
 </ion-content>

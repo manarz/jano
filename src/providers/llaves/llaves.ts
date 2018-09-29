@@ -3,6 +3,7 @@ import { JanoProvider } from '../jano/jano';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { UsuariosProvider } from '../usuarios/usuarios';
+import { Llave } from '../../models/llave';
 
 @Injectable()
 export class LlavesProvider {
@@ -12,6 +13,13 @@ export class LlavesProvider {
   private db;
   constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider) {
     this.db = janoProv.getJanoFirestoreDb();
+  }
+  public modificarLlave(llave: Llave){
+    console.log('llave obtenida para modificar', llave);
+    this.db.collection("llaves").doc(llave.id)
+    .update(llave)
+    .then(() => console.log("Modificacion de llave exitosa"))
+    .catch(error => console.error("Error modificando llave: ", error));
   }
 
   public obtenerLlavesPropias(userId: string) {

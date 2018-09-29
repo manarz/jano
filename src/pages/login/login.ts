@@ -31,7 +31,10 @@ export class LoginPage {
     this.version="w.0.2.6";
       this.firebaseDynamicLinks.onDynamicLink()
         .subscribe((res: any) => alert(JSON.stringify(res)), (error: any) => alert(JSON.stringify(error)))
-    } else alert(navParams.get('item'));
+    } else if(navParams.get('item') && navParams.get('item')!=':item' ) {
+      alert(navParams.get('item'));
+    }
+
     
   }
 

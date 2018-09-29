@@ -1,4 +1,5 @@
 export interface Llave {
+    id: string;
     idCerradura : string,
     nombreFamiliar : string,
     estado : string,
@@ -9,8 +10,8 @@ export interface Llave {
     aperturaOffline : boolean,
     aperturaRemota : boolean,
 
-    vigenciaDesde : number,
-    vigenciaHasta : number,
+    vigenciaDesde : string,
+    vigenciaHasta : string,
 
     franjaHorariaDesde : string,
     franjaHorariaHasta : string,
