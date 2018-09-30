@@ -14,6 +14,7 @@ import { LlavesProvider } from '../../providers/llaves/llaves';
 import { Subscription } from 'rxjs';
 import { Cerradura } from '../../models/cerradura';
 import { Llave } from '../../models/llave';
+import { LlavePrestadaConfiguracionPage } from '../llave-prestada-configuracion/llave-prestada-configuracion';
 
 @Component({
   selector: 'page-llave-listado',
@@ -46,8 +47,7 @@ export class LlaveListadoPage {
     }
   }
 
-  ionViewDidLoad() {
-  }
+
   public openOption(itemSlide: ItemSliding) {
     let swipeAmount=350;
 
@@ -81,5 +81,9 @@ export class LlaveListadoPage {
   }
   public goToLogin(){
     this.navCtrl.setRoot(LoginPage);
+  }
+  public irALlavePropiaConfiguracion(llave: Llave){
+    console.log('Intentando ir a configuracion de llave.', llave);
+    this.navCtrl.push(LlavePrestadaConfiguracionPage, { info: llave });
   }
 }

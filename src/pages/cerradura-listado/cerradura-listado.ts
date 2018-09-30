@@ -81,7 +81,7 @@ export class CerraduraListadoPage implements OnInit, OnDestroy {
       this.usuariosProv.logout();
       this.goToLogin();
     } catch (e) {
-      console.log("Login fallido");
+      console.log("Logout fallido");
       console.log(e);
     }
   }

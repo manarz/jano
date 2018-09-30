@@ -8,7 +8,8 @@ import { CerraduraListadoPage } from '../cerradura-listado/cerradura-listado';
 import { UsuariosProvider } from '../../providers/usuarios/usuarios';
 import { Platform } from 'ionic-angular';
 import { FirebaseDynamicLinks } from '@ionic-native/firebase-dynamic-links';
-import { AppVersion } from '@ionic-native/app-version';
+import { LlaveListadoPage } from '../llave-listado/llave-listado';
+import { LlaveCompartidaRecepcionPage } from '../llave-compartida-recepcion/llave-compartida-recepcion';
 
 //import { FirebaseApp } from 'angularfire2';
 @Component({
@@ -18,24 +19,29 @@ import { AppVersion } from '@ionic-native/app-version';
 export class LoginPage {
   user = {} as User;
   usuario: any;
-  public version: any;
+  public version: string;
+  private idLlave: string;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public usuariosProv: UsuariosProvider,
     public firebaseDynamicLinks: FirebaseDynamicLinks,
-    public plt: Platform,
-    public appVersion: AppVersion
+    public plt: Platform
   ) {
+    this.version = "0.2.8";
     if (this.plt.is('android')) {
-      this.appVersion.getVersionCode().then((data) => this.version=data
-    ).catch(err=>console.log('Error al obtener la version'+err));
-    this.version="w.0.2.6";
       this.firebaseDynamicLinks.onDynamicLink()
-        .subscribe((res: any) => alert(JSON.stringify(res)), (error: any) => alert(JSON.stringify(error)))
-    } else if(navParams.get('item') && navParams.get('item')!=':item' ) {
-      alert(navParams.get('item'));
+        .subscribe(
+          (res: any) => {
+          if (res.deepLink)
+            this.idLlave = res.deepLink.substring(res.deepLink.indexOf("/login/")+7);
+            console.log('Se recibio la siguiente llave:' + this.idLlave );
+          },
+          (error: any) => {
+            alert("No se pudo recuperar la llave compartida" + JSON.stringify(error));
+          })
+    } else if (navParams.get('item') && navParams.get('item') != ':item') {
+      this.idLlave=navParams.get('item');
+      console.log('Se recibio la siguiente llave:' + this.idLlave );
     }
-
-    
   }
 
   async login(user: User) {
@@ -54,7 +60,11 @@ export class LoginPage {
     this.navCtrl.push(RegistrarsePage);
   }
   goToHomePage() {
-    this.navCtrl.setRoot(CerraduraListadoPage);
+    if(this.idLlave){
+      this.navCtrl.setRoot(LlaveCompartidaRecepcionPage, {info: this.idLlave} );
+    } else {
+      this.navCtrl.setRoot(LlaveListadoPage);
+    }
   }
   async signInWithGoogle() {
     console.log('Sign in with google');

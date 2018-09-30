@@ -37,7 +37,10 @@ export class LlavesProvider {
     }
     return this.listadoLlaves$;
   }
-  public obtenerLlaves(campo: string, operador: string, valor: string) {
+  public obtenerLlavePuntual(llaveId: string) {
+     return this.db.collection("llaves").doc(llaveId).get();
+  }
+  private obtenerLlaves(campo: string, operador: string, valor: string) {
     this.db.collection("llaves")
       .where(campo, operador, valor)
       .onSnapshot({ includeMetadataChanges: true },

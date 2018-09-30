@@ -12,18 +12,18 @@ export class RegistrarsePage {
   user = {} as User;
   constructor(public navCtrl: NavController, public navParams: NavParams, private afAuth:AngularFireAuth) {
   }
- async registrar(user: User){
+ async registrar(){
     try{
       console.log("Registro de mail disparado");
-      const result= await this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
+      const result= await this.afAuth.auth.createUserWithEmailAndPassword(this.user.email, this.user.password);
       console.log("Usuario registrado");
       console.log(result);
-
     }
     catch(e){
       console.log("Usuario NO registrado");
       console.log(e);
     }
+    this.navCtrl.pop();
   }
   goToLoginPage(){
     this.navCtrl.setRoot(LoginPage);

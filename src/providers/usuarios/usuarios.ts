@@ -7,7 +7,6 @@ import firebase from 'firebase/app';
 export class UsuariosProvider {
   private usuario: any;
   providerGg: firebase.auth.GoogleAuthProvider;
-  public unsubscribe;
   constructor(public http: HTTP, private afAuth: AngularFireAuth) {
     this.providerGg = new firebase.auth.GoogleAuthProvider();
   }
@@ -18,7 +17,7 @@ export class UsuariosProvider {
   }
   loginConGoogle(){
 
-      if (!(<any>window).cordova) {
+
         console.log("Autenticacion con cordova plugin");
         return this.afAuth.auth.signInWithPopup(this.providerGg).then( result => {
           this.usuario = result.user;
@@ -27,6 +26,7 @@ export class UsuariosProvider {
         }).catch(function(error) {
           alert(error.message);
         });
+/*        if (!(<any>window).cordova) {
       } else {
         console.log("Autenticacion sin cordova plugin: no esta probado");
         return this.afAuth.auth.signInWithRedirect(this.providerGg)
@@ -43,7 +43,8 @@ export class UsuariosProvider {
             alert(error.message);
           });
         });
-      }
+        
+      }*/
   }
   getUsuario(){
     if(this.usuario){
@@ -56,7 +57,6 @@ export class UsuariosProvider {
       console.log("Logout userid: "+ this.usuario.uid );
       const result = await this.afAuth.auth.signOut();
       this.usuario=null;
-      this.unsubscribe();
       console.log("Logout exitoso" );
       console.log(result);
       

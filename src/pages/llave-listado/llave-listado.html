@@ -21,8 +21,10 @@
               <ion-avatar item-start>
                 <img src="{{ llave.esPropia ? 'assets/imgs/keys-icon.png' : 'assets/imgs/key-icon.png'}}">
               </ion-avatar>
-              <h2>{{ llave.nombreFamiliar }}</h2>     
-              <p>({{llave.esPropia ? 'Propia' : 'Compartida'}})</p>
+              <div (click)="irALlavePropiaConfiguracion(llave)">
+                  <h2>{{ llave.nombreFamiliar }}</h2>     
+                  <p>({{llave.esPropia ? 'Propia' : 'Compartida'}})</p>
+              </div>
 
               <ion-fab middle right edge>
                   <button ion-fab color="{{ llave.estado=='abierta' ? 'cerraduraAbierta':'cerraduraCerrada'}}"><ion-icon name="{{ llave.estado=='abierta' ? 'unlock' : 'lock' }}"></ion-icon></button>

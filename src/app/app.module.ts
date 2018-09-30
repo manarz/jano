@@ -46,6 +46,8 @@ import { LlavesProvider } from '../providers/llaves/llaves';
 import { NumerosListadoPage } from '../pages/numeros-listado/numeros-listado';
 import { NumerosNotificacionProvider } from '../providers/numeros-notificacion/numeros-notificacion';
 import { NumeroAltaPage } from '../pages/numero-alta/numero-alta';
+import { LlavePrestadaConfiguracionPage } from '../pages/llave-prestada-configuracion/llave-prestada-configuracion';
+import { LlaveCompartidaRecepcionPage } from '../pages/llave-compartida-recepcion/llave-compartida-recepcion';
 
 
 
@@ -63,7 +65,9 @@ import { NumeroAltaPage } from '../pages/numero-alta/numero-alta';
     PruebaHomePage,
     CerraduraListadoPage,
     LlaveListadoPage,
+    LlavePrestadaConfiguracionPage,
     LlaveCompartidaListadoPage,
+    LlaveCompartidaRecepcionPage,
     LlaveConfiguracionPage,
     RedListadoPage,
     VincularBluetoothPage,
@@ -101,7 +105,9 @@ import { NumeroAltaPage } from '../pages/numero-alta/numero-alta';
     PruebaHomePage,
     CerraduraListadoPage,
     LlaveListadoPage,
+    LlavePrestadaConfiguracionPage,
     LlaveCompartidaListadoPage,
+    LlaveCompartidaRecepcionPage,
     LlaveConfiguracionPage,
     RedListadoPage,
     NumerosListadoPage,

@@ -1,0 +1,27 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+  
+        <ion-title>Configuracion de la llave {{llave.nombreFamiliar}}</ion-title> 
+        <ion-buttons right>
+          <button ion-button icon-only (click)="logout()">
+            <ion-icon name='exit'></ion-icon>
+          </button>
+        </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+
+
+<ion-content padding>
+    <div padding>
+      <h1>Te compartieron una llave!!!</h1>
+        <ion-item>
+            <ion-icon name="key" item-start></ion-icon>
+            <ion-label stacked>Nombre asociado a la llave compartida:</ion-label>
+            <ion-input name="nombreFamiliar" type="text" value="{{ llave.nombreFamiliar }}"></ion-input>
+          </ion-item>
+     </div>
+</ion-content>

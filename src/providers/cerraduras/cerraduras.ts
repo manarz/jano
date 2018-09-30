@@ -26,7 +26,7 @@ export class CerradurasProvider {
     if(this.usuario!=userId){
       this.usuario=userId;
       console.log('Suscribiendo cerraduras');
-      this.usuariosProv.unsubscribe =  this.db.collection("cerraduras")
+      this.db.collection("cerraduras")
         .where("dueño", "==", this.usuariosProv.getUsuario())
         .onSnapshot({ includeMetadataChanges: true },
           querySnapshot => {
