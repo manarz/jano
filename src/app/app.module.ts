@@ -48,6 +48,7 @@ import { NumerosNotificacionProvider } from '../providers/numeros-notificacion/n
 import { NumeroAltaPage } from '../pages/numero-alta/numero-alta';
 import { LlavePrestadaConfiguracionPage } from '../pages/llave-prestada-configuracion/llave-prestada-configuracion';
 import { LlaveCompartidaRecepcionPage } from '../pages/llave-compartida-recepcion/llave-compartida-recepcion';
+import { LlaveACompartirConfiguracionPage } from '../pages/llave-a-compartir-configuracion/llave-a-compartir-configuracion';
 
 
 
@@ -67,6 +68,7 @@ import { LlaveCompartidaRecepcionPage } from '../pages/llave-compartida-recepcio
     LlaveListadoPage,
     LlavePrestadaConfiguracionPage,
     LlaveCompartidaListadoPage,
+    LlaveACompartirConfiguracionPage,
     LlaveCompartidaRecepcionPage,
     LlaveConfiguracionPage,
     RedListadoPage,
@@ -105,6 +107,7 @@ import { LlaveCompartidaRecepcionPage } from '../pages/llave-compartida-recepcio
     PruebaHomePage,
     CerraduraListadoPage,
     LlaveListadoPage,
+    LlaveACompartirConfiguracionPage,
     LlavePrestadaConfiguracionPage,
     LlaveCompartidaListadoPage,
     LlaveCompartidaRecepcionPage,

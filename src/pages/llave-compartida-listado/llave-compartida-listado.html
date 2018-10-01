@@ -6,11 +6,6 @@
       </button>
 
       <ion-title>Llaves de {{ cerradura.descripcion }}</ion-title> 
-      <ion-buttons right>
-        <button ion-button icon-only (click)="logout()">
-          <ion-icon name='exit'></ion-icon>
-        </button>
-      </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -18,10 +13,10 @@
   <ion-list *ngFor="let llave of listadoLlaves">
         <ion-item>
               <ion-avatar item-start>
-                <img src="assets/imgs/key-icon.png">
+                <img src="{{llave.esAdministrador? 'assets/imgs/keys-icon.png':'assets/imgs/key-icon.png'}}">
               </ion-avatar>
               <h2>{{ llave.nombreFamiliar }}</h2>     
-              <p>({{ llave.esPropia?'Propia': 'Compartida' }})</p>
+              <p>({{ llave.esAdministrador?'Administrador': 'Compartida' }})</p>
               <button ion-button icon-only outline item-end padding (click)="irAConfiguracionLlave(llave)"><ion-icon name='settings'></ion-icon>Configurar</button>
 
         </ion-item>

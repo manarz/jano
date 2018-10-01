@@ -91,7 +91,7 @@ export class LlaveCompartidaListadoPage {
     this.navCtrl.setRoot(LoginPage);
   }
   public irAConfiguracionLlave(llave: Llave){
-    console.log('Redirigiendo a configuracion de llaves',llave);
-    this.navCtrl.push(LlaveConfiguracionPage, {info: llave});
+      console.log('Redirigiendo a configuracion de llaves',llave);
+      this.navCtrl.push(LlaveConfiguracionPage, {info: llave});
   }
 }

@@ -15,6 +15,8 @@ import { Subscription } from 'rxjs';
 import { Cerradura } from '../../models/cerradura';
 import { Llave } from '../../models/llave';
 import { LlavePrestadaConfiguracionPage } from '../llave-prestada-configuracion/llave-prestada-configuracion';
+import { LlaveConfiguracionPage } from '../llave-configuracion/llave-configuracion';
+import { LlaveACompartirConfiguracionPage } from '../llave-a-compartir-configuracion/llave-a-compartir-configuracion';
 
 @Component({
   selector: 'page-llave-listado',
@@ -82,8 +84,21 @@ export class LlaveListadoPage {
   public goToLogin(){
     this.navCtrl.setRoot(LoginPage);
   }
-  public irALlavePropiaConfiguracion(llave: Llave){
+  public irALlaveAdministradorConfiguracion(llave: Llave){
     console.log('Intentando ir a configuracion de llave.', llave);
-    this.navCtrl.push(LlavePrestadaConfiguracionPage, { info: llave });
+    if(llave.esAdministrador){
+      this.navCtrl.push(LlaveConfiguracionPage, { info: llave });
+    }else{
+      this.navCtrl.push(LlavePrestadaConfiguracionPage, { info: llave });
+    }
+  }
+  public irACompartirLlave(llave: Llave){
+    let nuevaLlave = <Llave>{...llave}
+    nuevaLlave.id='';
+    nuevaLlave.dueño='';
+    nuevaLlave.esAdministrador=false;
+    nuevaLlave.nombreFamiliar='Copia de '+nuevaLlave.nombreFamiliar;
+    console.log('Intentando ir a llave a compartir', nuevaLlave);
+    this.navCtrl.push(LlaveACompartirConfiguracionPage, { info: nuevaLlave });
   }
 }

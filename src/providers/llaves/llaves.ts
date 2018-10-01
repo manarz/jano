@@ -14,6 +14,10 @@ export class LlavesProvider {
   constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider) {
     this.db = janoProv.getJanoFirestoreDb();
   }
+  public crearLlave(nuevaLlave: Llave){
+    console.log('llave obtenida para crear y compartir', nuevaLlave);
+    return this.db.collection("llaves").add(nuevaLlave);
+  }
   public modificarLlave(llave: Llave){
     console.log('llave obtenida para modificar', llave);
     this.db.collection("llaves").doc(llave.id)
@@ -32,7 +36,7 @@ export class LlavesProvider {
 
   public obtenerLlavesCerradura(cerraduraId: string) {
     if (this.pedidoVigente != 'llavesCerradura' + cerraduraId) {
-      this.pedidoVigente = 'llavesPropias' + cerraduraId;
+      this.pedidoVigente = 'llavesCerradura' + cerraduraId;
       this.obtenerLlaves("idCerradura", "==", cerraduraId);
     }
     return this.listadoLlaves$;

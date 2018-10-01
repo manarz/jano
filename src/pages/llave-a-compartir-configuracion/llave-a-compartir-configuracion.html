@@ -16,6 +16,11 @@
           </ion-item>
 
         <ion-list>
+              <ion-item>
+                  <ion-label stacked>Administra llave</ion-label>
+                  <ion-toggle [(ngModel)]="llave.esAdministrador" checked="{{llave.esAdministrador?true:false}}"></ion-toggle>
+              </ion-item>
+
                 <ion-item>
                     <ion-label stacked>Acceso Remoto</ion-label>
                     <ion-toggle [(ngModel)]="llave.aperturaRemota" checked="{{llave.aperturaRemota?true:false}}"></ion-toggle>
@@ -59,7 +64,8 @@
                   <button ion-button outline (click)="llave.vigenciaDias.sabado   =!llave.vigenciaDias.sabado"   color="{{llave.vigenciaDias.sabado?   'secondary':'dark' }}" [style.text-decoration]="!llave.vigenciaDias.sabado?   'line-through':''">Sab</button> 
                   </ion-item-group>
                 </ion-list>
-                <button ion-button (click)="modificarLlave()" outline block>Guardar cambios</button>
+                <button ion-button (click)="crearModificarLlave()" outline block>{{ (llave.id=='')? 'Crear':'Modificar' }}</button>
+                <button ion-button (click)="compartirLlave()" disabled="{{(sePuedeCompartir(llave))? '' : 'disabled' }}" outline block>Compartir</button>
         </div>
       
 </ion-content>

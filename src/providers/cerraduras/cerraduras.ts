@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { Llave } from '../../models/llave';
 import { UsuariosProvider } from '../usuarios/usuarios';
+import { LlavesProvider } from '../llaves/llaves';
 
 @Injectable()
 export class CerradurasProvider {
@@ -15,10 +16,10 @@ export class CerradurasProvider {
   private db;
   private cerradura: Cerradura;
 
-  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider) {
+  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public llavesProv: LlavesProvider) {
     this.db = janoProv.getJanoFirestoreDb();
 
-   // this.resetCerraduras();
+   //this.resetCerraduras();
 
   }
   public obtenerCerraduras(userId: string){
@@ -74,7 +75,7 @@ export class CerradurasProvider {
         nuevaLlave.aperturaOffline = true,
         nuevaLlave.aperturaRemota = true,
         nuevaLlave.nroSecuencia = 0;
-        nuevaLlave.esPropia = true;
+        nuevaLlave.esAdministrador = true;
         nuevaLlave.telefonoCerradura = cerr.telefonoPropio;
         nuevaLlave.vigenciaDias = {
           domingo : true,
@@ -86,7 +87,7 @@ export class CerradurasProvider {
           sabado : true
       };
 
-        this.db.collection("llaves").add(nuevaLlave).then(
+        this.llavesProv.crearLlave(nuevaLlave).then(
           llaveAlta => {
             console.log("Alta de llave exitosa con ID: ", llaveAlta.id);
           }).catch(error => console.error("Error agregando llave: ", error));

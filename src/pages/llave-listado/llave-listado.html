@@ -19,11 +19,11 @@
       <ion-item-sliding *ngFor="let llave of listadoLlaves">
         <ion-item>
               <ion-avatar item-start>
-                <img src="{{ llave.esPropia ? 'assets/imgs/keys-icon.png' : 'assets/imgs/key-icon.png'}}">
+                <img src="{{ llave.esAdministrador ? 'assets/imgs/keys-icon.png' : 'assets/imgs/key-icon.png'}}">
               </ion-avatar>
-              <div (click)="irALlavePropiaConfiguracion(llave)">
+              <div (click)="irALlaveAdministradorConfiguracion(llave)">
                   <h2>{{ llave.nombreFamiliar }}</h2>     
-                  <p>({{llave.esPropia ? 'Propia' : 'Compartida'}})</p>
+                  <p>({{llave.esAdministrador ? 'Administrador' : 'Compartida'}})</p>
               </div>
 
               <ion-fab middle right edge>
@@ -32,35 +32,16 @@
                     <button (click)="toogleAperturaWifi(llave)" ion-fab><ion-icon name="wifi"></ion-icon></button>
                     <button (click)="toogleAperturaSms(llave)" ion-fab><ion-icon name="mail"></ion-icon></button>
                     <button (click)="toogleAperturaBluetooth(llave)" ion-fab><ion-icon name="bluetooth"></ion-icon></button>
-                    <!--button *ngIf="llave.esPropia" ion-fab><ion-icon name="share"></ion-icon></button-->
+                    <!--button *ngIf="llave.esAdministrador" ion-fab><ion-icon name="share"></ion-icon></button-->
                   </ion-fab-list>
               </ion-fab>
         </ion-item>
 
         <ion-item-options side="right">
-          <button ion-button color="secondary"  (click)="toogleAperturaWifi(llave)" >
-            <ion-icon name="wifi"></ion-icon>
-            {{ llave.estado=='abierta' ? 'Cerrar':'Abrir' }}
-          </button>
-          <button ion-button color="secondary">
-          <ion-icon name="mail"></ion-icon>
-            {{ llave.estado=='abierta' ? 'Cerrar':'Abrir' }}
-          </button>
-          <button ion-button color="secondary">
-            <ion-icon name="bluetooth"></ion-icon>
-            {{ llave.estado=='abierta' ? 'Cerrar':'Abrir' }}
-          </button>
-          <button *ngIf="llave.esPropia" ion-button color="secondary">
+          <button *ngIf="llave.esAdministrador" (click)="irACompartirLlave(llave)" ion-button color="secondary">
               <ion-icon name="share"></ion-icon>
               Compartir
            </button>
-      
-        </ion-item-options>
-        <ion-item-options *ngIf="llave.esPropia" side="left">
-          <button ion-button color="secondary">
-            <ion-icon name="settings"></ion-icon>
-            Configurar
-          </button>
         </ion-item-options>
       </ion-item-sliding>
         </ion-list>

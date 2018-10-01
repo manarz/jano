@@ -26,7 +26,7 @@ export class LoginPage {
     public firebaseDynamicLinks: FirebaseDynamicLinks,
     public plt: Platform
   ) {
-    this.version = "0.2.8";
+    this.version = "0.3.0";
     if (this.plt.is('android')) {
       this.firebaseDynamicLinks.onDynamicLink()
         .subscribe(

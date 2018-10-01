@@ -4,7 +4,7 @@ export interface Llave {
     nombreFamiliar : string,
     estado : string,
     dueño : string,
-    esPropia : boolean,
+    esAdministrador : boolean,
     telefonoCerradura : string,
 
     aperturaOffline : boolean,
