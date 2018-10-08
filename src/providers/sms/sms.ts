@@ -3,15 +3,17 @@ import { AlertController } from 'ionic-angular';
 import { SMS } from '@ionic-native/sms';
 import { Cerradura } from '../../models/cerradura';
 import { Llave } from '../../models/llave';
+import { LlavesProvider } from '../llaves/llaves';
 
 @Injectable()
 export class SmsProvider {
 
-  constructor(public smsProv: SMS, public alertCtrl: AlertController) {
+  constructor(public smsProv: SMS, public alertCtrl: AlertController, public llavesProv: LlavesProvider) {
   }
 
   public toogleStatusCerradura(llave: Llave){
-    this.smsProv.send(llave.telefonoCerradura, llave.idCerradura + (llave.estado=='abierta')? 'CERRAR' : 'ABRIR' )
+    let comando=this.llavesProv.obtenerComandoAperturaCierre(llave);
+    this.smsProv.send(llave.telefonoCerradura, comando )
     .then(()=>{
       let alert = this.alertCtrl.create({
         title: 'Mensaje enviado',

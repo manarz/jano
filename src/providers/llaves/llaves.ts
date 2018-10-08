@@ -14,6 +14,26 @@ export class LlavesProvider {
   constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider) {
     this.db = janoProv.getJanoFirestoreDb();
   }
+  public pad(n) {
+    return n<10 ? '0'+n : n
+  }
+  public obtenerComandoAperturaCierre(llave: Llave){
+    let comando=llave.estado=='ABR' ? 'CER':'ABR';
+    comando+=';'+llave.nroSecuencia+';'
+    let d=new Date();
+    comando+=         d.getFullYear()
+    comando+=this.pad(d.getMonth())
+    comando+=this.pad(d.getDay())
+    comando+=this.pad(d.getHours())
+    comando+=this.pad(d.getMinutes())
+    comando+=this.pad(d.getSeconds())
+    comando+=this.pad(d.getMonth())
+    comando+=this.pad(d.getMonth())
+    comando+=this.pad(d.getMonth())
+    comando+=this.pad(d.getMonth())
+    return comando;    
+  }
+
   public crearLlave(nuevaLlave: Llave){
     console.log('llave obtenida para crear y compartir', nuevaLlave);
     return this.db.collection("llaves").add(nuevaLlave);

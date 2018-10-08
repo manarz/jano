@@ -17,6 +17,7 @@ import { Llave } from '../../models/llave';
 import { LlavePrestadaConfiguracionPage } from '../llave-prestada-configuracion/llave-prestada-configuracion';
 import { LlaveConfiguracionPage } from '../llave-configuracion/llave-configuracion';
 import { LlaveACompartirConfiguracionPage } from '../llave-a-compartir-configuracion/llave-a-compartir-configuracion';
+import { VincularBluetoothPage } from '../vincular-bluetooth/vincular-bluetooth';
 
 @Component({
   selector: 'page-llave-listado',
@@ -63,14 +64,14 @@ export class LlaveListadoPage {
     //item.setElementStyle('transform', 'translate3d(-'+swipeAmount+'px, 0px, 0px)');
   }
 
-  public toogleAperturaWifi(cerradura: Llave) {
-    this.httpCommandsProv.toogleStatusCerradura(cerradura);
+  public toogleAperturaWifi(llave: Llave) {
+    this.httpCommandsProv.toogleStatusCerradura(llave);
   }
-  public toogleAperturaSms(cerradura: Llave){
-    this.smsCommandsProv.toogleStatusCerradura(cerradura);
+  public toogleAperturaSms(llave: Llave){
+    this.smsCommandsProv.toogleStatusCerradura(llave);
   }
-  public toogleAperturaBluetooth(cerradura: Llave){
-
+  public toogleAperturaBluetooth(llave: Llave){
+    this.navCtrl.push(VincularBluetoothPage, {info:llave});
   }
   public async logout(){
     try{
