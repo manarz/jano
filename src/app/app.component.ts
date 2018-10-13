@@ -10,7 +10,6 @@ import { CerraduraListadoPage } from '../pages/cerradura-listado/cerradura-lista
 import { LlaveListadoPage } from '../pages/llave-listado/llave-listado';
 import { RedListadoPage } from '../pages/red-listado/red-listado';
 import { VincularBluetoothPage } from '../pages/vincular-bluetooth/vincular-bluetooth';
-import { GralConfiguracionPage } from '../pages/gral-configuracion/gral-configuracion';
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { PruebaHomePage } from '../pages/prueba-home/prueba-home';

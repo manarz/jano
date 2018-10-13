@@ -21,6 +21,8 @@ export class SmsProvider {
         buttons: ['Ok']
       });
       alert.present();
+      llave.estado=(llave.estado=='ABR')?'CER':'ABR';
+      this.llavesProv.modificarLlave(llave);
     })
     .catch(()=>{
       let alert = this.alertCtrl.create({

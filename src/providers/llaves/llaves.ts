@@ -4,15 +4,18 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { UsuariosProvider } from '../usuarios/usuarios';
 import { Llave } from '../../models/llave';
+import { AlertController } from 'ionic-angular';
 
 @Injectable()
 export class LlavesProvider {
   private listadoLlavesBehaviorSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   private listadoLlaves$: Observable<any[]> = this.listadoLlavesBehaviorSubject.asObservable();
   private pedidoVigente: string;
-  private db;
-  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider) {
-    this.db = janoProv.getJanoFirestoreDb();
+  private firestore;
+  private realtime; 
+  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public alertCtrl: AlertController) {
+    this.firestore = janoProv.getJanoFirestoreDb();
+    this.realtime = janoProv.getJanoRealtime();
   }
   public pad(n) {
     return n<10 ? '0'+n : n
@@ -27,24 +30,28 @@ export class LlavesProvider {
     comando+=this.pad(d.getHours())
     comando+=this.pad(d.getMinutes())
     comando+=this.pad(d.getSeconds())
-    comando+=this.pad(d.getMonth())
-    comando+=this.pad(d.getMonth())
-    comando+=this.pad(d.getMonth())
-    comando+=this.pad(d.getMonth())
     return comando;    
   }
 
   public crearLlave(nuevaLlave: Llave){
-    console.log('llave obtenida para crear y compartir', nuevaLlave);
-    return this.db.collection("llaves").add(nuevaLlave);
+    console.log('llave obtenida para crear', nuevaLlave);
+    return this.firestore.collection("llaves").add(nuevaLlave);
   }
   public modificarLlave(llave: Llave){
     console.log('llave obtenida para modificar', llave);
-    this.db.collection("llaves").doc(llave.id)
+    this.firestore.collection("llaves").doc(llave.id)
     .update(llave)
     .then(() => console.log("Modificacion de llave exitosa"))
     .catch(error => console.error("Error modificando llave: ", error));
   }
+  public eliminarLlave(llave: Llave) {
+    console.log('llave obtenida para eliminar', llave);
+    this.firestore.collection("llaves").doc(llave.id)
+      .delete()
+      .then(() => console.log("Eliminacion de llave exitosa"))
+      .catch(error => console.error("Error eliminando llave: ", error));
+  }
+
 
   public obtenerLlavesPropias(userId: string) {
     if (this.pedidoVigente != 'llavesPropias' + userId) {
@@ -62,10 +69,10 @@ export class LlavesProvider {
     return this.listadoLlaves$;
   }
   public obtenerLlavePuntual(llaveId: string) {
-     return this.db.collection("llaves").doc(llaveId).get();
+     return this.firestore.collection("llaves").doc(llaveId).get();
   }
   private obtenerLlaves(campo: string, operador: string, valor: string) {
-    this.db.collection("llaves")
+    this.firestore.collection("llaves")
       .where(campo, operador, valor)
       .onSnapshot({ includeMetadataChanges: true },
         querySnapshot => {
@@ -94,5 +101,30 @@ export class LlavesProvider {
           this.listadoLlavesBehaviorSubject.next(listadoLlaves);
         }
       );
+  }
+  public enviarComandoAperturaCierre(llave: Llave){
+    this.realtime
+    .ref(llave.codigoActivacion + '/appToArduino/comando')
+    .set(this.obtenerComandoAperturaCierre(llave))
+    .then(() =>{
+      console.log('Sincronizado realtime');
+      let alert = this.alertCtrl.create({
+        title: 'Comando enviado',
+        message: 'Comando enviado con exito',
+        buttons: ['Ok']
+      });
+      alert.present();
+      llave.estado=(llave.estado=='ABR')?'CER':'ABR';
+      this.modificarLlave(llave);
+    })
+    .catch(e => {
+      console.log('Error realtime:', e)
+      let alert = this.alertCtrl.create({
+        title: 'Error',
+        message: 'No se ha podido enviar el comando!',
+        buttons: ['Ok']
+      });
+      alert.present();
+    });
   }
 }

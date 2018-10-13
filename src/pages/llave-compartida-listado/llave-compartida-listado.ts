@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { HTTP } from '@ionic-native/http';
-import { HttpCommandsProvider } from '../../providers/http-commands/http-commands';
 
 import { NavController, NavParams, AlertController, Item, ItemSliding  } from 'ionic-angular';
 import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
@@ -20,7 +19,7 @@ import { Llave } from '../../models/llave';
   selector: 'page-llave-compartida-listado',
   templateUrl: 'llave-compartida-listado.html',
 })
-export class LlaveCompartidaListadoPage {
+export class LlaveCompartidaListadoPage implements OnInit, OnDestroy{
   public listadoLlaves: any[];
   private cerradura: Cerradura;
   subscriptions: Subscription[];
@@ -31,7 +30,6 @@ export class LlaveCompartidaListadoPage {
     public http: HTTP,
     public alertCtrl: AlertController,
     public llavesProv: LlavesProvider,
-    public httpCommandsProv: HttpCommandsProvider,
     public smsCommandsProv: SmsProvider,
     public usuariosProv: UsuariosProvider
   ) {
@@ -70,7 +68,7 @@ export class LlaveCompartidaListadoPage {
   }
 
   public toogleAperturaWifi(cerradura) {
-    this.httpCommandsProv.toogleStatusCerradura(cerradura);
+    return null
   }
   public toogleAperturaSms(cerradura){
     this.smsCommandsProv.toogleStatusCerradura(cerradura);

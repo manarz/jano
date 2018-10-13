@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { HTTP } from '@ionic-native/http';
-import { HttpCommandsProvider } from '../../providers/http-commands/http-commands';
 
 import { NavController, NavParams, AlertController, Item, ItemSliding  } from 'ionic-angular';
 import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
@@ -23,7 +22,7 @@ import { VincularBluetoothPage } from '../vincular-bluetooth/vincular-bluetooth'
   selector: 'page-llave-listado',
   templateUrl: 'llave-listado.html',
 })
-export class LlaveListadoPage {
+export class LlaveListadoPage implements OnInit, OnDestroy {
   public listadoLlaves: any[];
 
   subscriptions: Subscription[];
@@ -33,7 +32,6 @@ export class LlaveListadoPage {
     public http: HTTP,
     public alertCtrl: AlertController,
     public llavesProv: LlavesProvider,
-    public httpCommandsProv: HttpCommandsProvider,
     public smsCommandsProv: SmsProvider,
     public usuariosProv: UsuariosProvider
   ) {
@@ -65,7 +63,7 @@ export class LlaveListadoPage {
   }
 
   public toogleAperturaWifi(llave: Llave) {
-    this.httpCommandsProv.toogleStatusCerradura(llave);
+    this.llavesProv.enviarComandoAperturaCierre(llave);
   }
   public toogleAperturaSms(llave: Llave){
     this.smsCommandsProv.toogleStatusCerradura(llave);

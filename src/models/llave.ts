@@ -1,6 +1,7 @@
 export interface Llave {
     id: string;
     idCerradura : string,
+    codigoActivacion: string,
     nombreFamiliar : string,
     estado : string,
     dueño : string,

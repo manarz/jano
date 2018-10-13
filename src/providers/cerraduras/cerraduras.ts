@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { Llave } from '../../models/llave';
 import { UsuariosProvider } from '../usuarios/usuarios';
 import { LlavesProvider } from '../llaves/llaves';
+import { ArduinoToApp } from '../../models/arduinoToApp';
+import { AppToArduino } from '../../models/appToArduino';
 
 @Injectable()
 export class CerradurasProvider {
@@ -14,10 +16,12 @@ export class CerradurasProvider {
   private listadoCerraduras$: Observable<any[]> = this.listadoCerradurasBehaviorSubject.asObservable();
   private usuario: string;
   private db;
+  private realtime;
   private cerradura: Cerradura;
 
   constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public llavesProv: LlavesProvider) {
     this.db = janoProv.getJanoFirestoreDb();
+    this.realtime = janoProv.getJanoRealtime();
 
    // this.resetCerraduras();
 
@@ -67,8 +71,29 @@ export class CerradurasProvider {
     this.db.collection("cerraduras").add(cerr).then(
       cerraduraAlta => {
         console.log("Alta de cerradura exitosa con ID: ", cerraduraAlta.id);
+        // alta de cerradura en realtime
+        let appToArduino=<AppToArduino>{};
+        appToArduino.comando="X";
+        appToArduino.saldo=0;
+        appToArduino.numerosDeConfianza="X";
+        appToArduino.reset="X";
+        this.realtime.ref(cerr.codigoActivacion + '/appToArduino')
+        .set(appToArduino)
+        .then(console.log("Registro de cerradura realtime"))
+        .catch(e => console.log("Error en alta de cerradura realtime", e));
+        let arduinoToApp=<ArduinoToApp>{};
+        arduinoToApp.comando="X";
+        arduinoToApp.puertaEstado="X";
+        arduinoToApp.puertaForzada="X";
+        this.realtime.ref(cerr.codigoActivacion + '/arduinoToApp')
+        .set(appToArduino)
+        .then(console.log("Registro de cerradura realtime"))
+        .catch(e => console.log("Error en alta de cerradura realtime", e));
+
+        // fin de alta en realtime
         let nuevaLlave = <Llave>{};
         nuevaLlave.idCerradura = cerraduraAlta.id;
+        nuevaLlave.codigoActivacion = cerr.codigoActivacion;
         nuevaLlave.nombreFamiliar = cerr.descripcion;
         nuevaLlave.dueño = cerr.dueño;
         nuevaLlave.estado = cerr.estado;
@@ -120,7 +145,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Rivadavia 6542';
     this.cerradura.estado = 'CER';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.codigoActivacion = 'TJGuSY13thdL1'; // Hash combinación entre cerradura.dueño y cerradura.id
+    this.cerradura.codigoActivacion = 'codigoCerradura1'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
 
     this.cerradura = <Cerradura>{};
@@ -128,7 +153,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Cuenca 895';
     this.cerradura.estado = 'ABR';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.codigoActivacion = 'TJGuSY13thdL1'; // Hash combinación entre cerradura.dueño y cerradura.id
+    this.cerradura.codigoActivacion = 'codigoCerradura2'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
 
     this.cerradura = <Cerradura>{};
@@ -136,7 +161,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Pasteur 885';
     this.cerradura.estado = 'ABR';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.codigoActivacion = 'TJGuSY13thdL1'; // Hash combinación entre cerradura.dueño y cerradura.id
+    this.cerradura.codigoActivacion = 'codigoCerradura3'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
 
     this.cerradura = <Cerradura>{};
@@ -144,7 +169,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Arieta 402';
     this.cerradura.estado = 'CER';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.codigoActivacion = 'TJGuSY13thdL1'; // Hash combinación entre cerradura.dueño y cerradura.id
+    this.cerradura.codigoActivacion = 'codigoCerradura4'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
   }
 }

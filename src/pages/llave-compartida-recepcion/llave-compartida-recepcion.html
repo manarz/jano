@@ -6,11 +6,6 @@
         </button>
   
         <ion-title>Configuracion de la llave {{llave.nombreFamiliar}}</ion-title> 
-        <ion-buttons right>
-          <button ion-button icon-only (click)="logout()">
-            <ion-icon name='exit'></ion-icon>
-          </button>
-        </ion-buttons>
     </ion-navbar>
   </ion-header>
 
@@ -23,5 +18,9 @@
             <ion-label stacked>Nombre asociado a la llave compartida:</ion-label>
             <ion-input name="nombreFamiliar" type="text" value="{{ llave.nombreFamiliar }}"></ion-input>
           </ion-item>
+        <ion-item>
+              <button (click)='rechazarLlaveCompartida()' ion-button>Rechazar</button>
+              <button (click)='aceptarLlaveCompartida()'ion-button>Aceptar</button>
+        </ion-item>
      </div>
 </ion-content>

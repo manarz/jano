@@ -23,13 +23,10 @@ export class CerraduraAltaPage {
       descripcion:      ['', Validators.required],
       telefonoPropio:   ['', Validators.required],
       codigoActivacion: ['', Validators.required],
+      estado:           ['ABR']
     });
   }
   
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RedDetallePage');
-  }
-
   public guardarCerradura(){
     this.cerradurasProv.agregarCerradura(<Cerradura>this.myForm.value);
     this.navCtrl.pop();

@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { HTTP } from '@ionic-native/http';
-import { HttpCommandsProvider } from '../../providers/http-commands/http-commands';
-
 import { NavController, NavParams, AlertController, Item, ItemSliding } from 'ionic-angular';
 import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
 import { SmsProvider } from '../../providers/sms/sms';
@@ -37,7 +35,6 @@ export class CerraduraListadoPage implements OnInit, OnDestroy {
     public http: HTTP,
     public alertCtrl: AlertController,
     public cerradurasProv: CerradurasProvider,
-    public httpCommandsProv: HttpCommandsProvider,
     public smsCommandsProv: SmsProvider,
     public usuariosProv: UsuariosProvider
   ) { }
@@ -68,7 +65,7 @@ export class CerraduraListadoPage implements OnInit, OnDestroy {
   }
 
   public toogleAperturaWifi(cerradura) {
-    this.httpCommandsProv.toogleStatusCerradura(cerradura);
+    return null
   }
   public toogleAperturaSms(cerradura) {
     this.smsCommandsProv.toogleStatusCerradura(cerradura);

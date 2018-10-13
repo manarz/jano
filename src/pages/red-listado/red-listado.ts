@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { RedAltaPage } from '../red-alta/red-alta';
 import { Red } from '../../models/red';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   selector: 'page-red-listado',
   templateUrl: 'red-listado.html',
 })
-export class RedListadoPage {
+export class RedListadoPage implements OnInit, OnDestroy{
   public listadoRedes: any[];
   private cerradura:any;
   subscriptions: Subscription[]

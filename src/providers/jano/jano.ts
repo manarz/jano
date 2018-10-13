@@ -1,22 +1,23 @@
-import { HTTP } from '@ionic-native/http';
 import { Injectable } from '@angular/core';
-import firebase from 'firebase/app';
+import * as firebase from 'firebase';
+
+//import firebase from 'firebase/app';
+
 
 @Injectable()
 export class JanoProvider {
   private janoApp;
   private janoFirestoreDb;
-  constructor(public http: HTTP) {
-    this.janoApp = firebase.app;
-  }
-  public getJanoApp(){
-    return this.janoApp;
+  private janoRealtimeDb;
+  constructor() {
   }
   public getJanoFirestoreDb(){
-    this.janoFirestoreDb = firebase.firestore();
-    return this.janoFirestoreDb;
+    return firebase.firestore();
   }
   public getJanoDelete(){
     return firebase.firestore.FieldValue.delete();
+  }
+  public getJanoRealtime(){
+    return firebase.database();
   }
 }

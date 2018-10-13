@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { User } from '../../models/user';
-import { AngularFireAuth } from 'angularfire2/auth'; 
+import { AngularFireAuth } from 'angularfire2/auth';
 import { LoginPage } from '../login/login';
 
 @Component({
@@ -10,22 +10,22 @@ import { LoginPage } from '../login/login';
 })
 export class RegistrarsePage {
   user = {} as User;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private afAuth:AngularFireAuth) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private afAuth: AngularFireAuth) {
   }
- async registrar(){
-    try{
-      console.log("Registro de mail disparado");
-      const result= await this.afAuth.auth.createUserWithEmailAndPassword(this.user.email, this.user.password);
-      console.log("Usuario registrado");
-      console.log(result);
-    }
-    catch(e){
-      console.log("Usuario NO registrado");
-      console.log(e);
-    }
-    this.navCtrl.pop();
+  registrar() {
+    console.log("Registro de mail disparado");
+    this.afAuth.auth.createUserWithEmailAndPassword(this.user.email, this.user.password)
+      .then(result => {
+        console.log("Usuario registrado");
+        console.log(result);
+        this.navCtrl.pop();
+      })
+      .catch(e => {
+        console.log("Usuario NO registrado");
+        alert("Usuario no registrado: "+ e);
+      })
   }
-  goToLoginPage(){
+  goToLoginPage() {
     this.navCtrl.setRoot(LoginPage);
   }
 }

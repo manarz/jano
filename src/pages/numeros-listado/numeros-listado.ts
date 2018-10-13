@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Cerradura } from '../../models/cerradura';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { NumeroAltaPage } from '../numero-alta/numero-alta';
   selector: 'page-numeros-listado',
   templateUrl: 'numeros-listado.html',
 })
-export class NumerosListadoPage {
+export class NumerosListadoPage implements OnInit, OnDestroy{
   private cerradura:Cerradura;
   public listadoNumeros: any[];
   subscriptions: Subscription[];
@@ -40,6 +40,6 @@ export class NumerosListadoPage {
   }
   eliminarNumero(numero: NumerosNotificacion){
     console.log('Intentando eliminar numero',numero);
-    this.numerosProv.eliminarNumero(numero);
+    this.numerosProv.eliminarNumero(numero, this.cerradura);
   }
 }

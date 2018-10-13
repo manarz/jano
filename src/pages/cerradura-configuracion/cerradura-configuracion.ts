@@ -30,11 +30,13 @@ export class CerraduraConfiguracionPage {
   public guardarCambiosCerradura(){
     console.log('Intentando modificar cerradura:',this.cerradura.id);
     this.cerradurasProv.modificarCerradura(this.cerradura);
+    this.navCtrl.pop();
   }
   
   public eliminarCerradura(){
     console.log('Intentando eliminar cerradura:', this.cerradura.id);
     this.cerradurasProv.eliminarCerradura(this.cerradura);
+    this.navCtrl.pop();
   }
 
 }

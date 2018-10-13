@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Llave } from '../../models/llave';
 import { LlavesProvider } from '../../providers/llaves/llaves';
+import { UsuariosProvider } from '../../providers/usuarios/usuarios';
+import { LlaveListadoPage } from '../llave-listado/llave-listado';
 
 @Component({
   selector: 'page-llave-compartida-recepcion',
@@ -10,7 +12,7 @@ import { LlavesProvider } from '../../providers/llaves/llaves';
 export class LlaveCompartidaRecepcionPage {
   public idLlave: string;
   public llave: Llave;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public llaveProv: LlavesProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public llaveProv: LlavesProvider, public usuariosProv: UsuariosProvider) {
     console.log("Recepcion de llave compartida, data recibida:",navParams.get('info'));
     this.idLlave=navParams.get('info');
     this.llave=<Llave>{};
@@ -24,6 +26,13 @@ export class LlaveCompartidaRecepcionPage {
       }
     })
     .catch(e=>console.log('Error obteniendo llave id:'+ this.idLlave))
+  }
+  public aceptarLlaveCompartida(){
+    this.llave.dueño=this.usuariosProv.getUsuario();
+    this.navCtrl.setRoot(LlaveListadoPage);
+  }
+  public rechazarLlaveCompartida(){
+    this.llaveProv.eliminarLlave(this.llave);
   }
 
 
