@@ -13,7 +13,7 @@ import { NumerosListadoPage } from '../numeros-listado/numeros-listado';
 })
 
 export class CerraduraConfiguracionPage {
-  private cerradura: Cerradura;
+  public cerradura: Cerradura;
   constructor(public navCtrl: NavController, public navParams: NavParams, public cerradurasProv:CerradurasProvider) {
     console.log("Configuracion de cerradura, data recibida:",navParams.get('info'));
     this.cerradura=navParams.get('info');

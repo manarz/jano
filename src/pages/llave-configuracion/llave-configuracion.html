@@ -20,13 +20,19 @@
                     <ion-label stacked>Acceso Remoto</ion-label>
                     <ion-toggle [(ngModel)]="llave.aperturaRemota" ></ion-toggle>
                 </ion-item>
-
+                <ion-item *ngIf="esDuenioDeLlave()">
+                        <ion-label stacked>Apertura Automática</ion-label>
+                        <ion-toggle [(ngModel)]="llave.aperturaAutomatica" ></ion-toggle>
+                </ion-item>
+                <ion-item *ngIf="esDuenioDeLlave()">
+                        <ion-label stacked>Cierre Automático</ion-label>
+                        <ion-toggle [(ngModel)]="llave.cierreAutomatico" ></ion-toggle>
+                </ion-item>
                 <ion-item>
                     <ion-label stacked>Acceso Offline</ion-label>
                     <ion-toggle [(ngModel)]="llave.aperturaOffline"></ion-toggle>
                 </ion-item>
                 <ion-item *ngIf="puedeVincularBluetooth()">
-                    
                     <button ion-button (click)="irAVincularBluetooth()" block outline><ion-icon name="bluetooth"></ion-icon>Vincular Bluetooth</button>
                 </ion-item>
 
@@ -65,5 +71,9 @@
             </ion-list>
             <button ion-button (click)="modificarLlave()" outline block>Guardar cambios</button>
         </div>
+        <div padding>
+                <button ion-button outline block (click)="eliminarLlave()" color="danger">Eliminar llave</button>
+              </div>
+    
       
 </ion-content>

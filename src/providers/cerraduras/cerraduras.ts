@@ -9,18 +9,20 @@ import { UsuariosProvider } from '../usuarios/usuarios';
 import { LlavesProvider } from '../llaves/llaves';
 import { ArduinoToApp } from '../../models/arduinoToApp';
 import { AppToArduino } from '../../models/appToArduino';
+import { EventosProvider } from '../eventos/eventos';
+import { EventosCerradura } from '../../models/eventosCerradura';
 
 @Injectable()
 export class CerradurasProvider {
   private listadoCerradurasBehaviorSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   private listadoCerraduras$: Observable<any[]> = this.listadoCerradurasBehaviorSubject.asObservable();
   private usuario: string;
-  private db;
+  private firestore;
   private realtime;
   private cerradura: Cerradura;
 
-  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public llavesProv: LlavesProvider) {
-    this.db = janoProv.getJanoFirestoreDb();
+  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public llavesProv: LlavesProvider, public eventosProv: EventosProvider) {
+    this.firestore = janoProv.getJanoFirestoreDb();
     this.realtime = janoProv.getJanoRealtime();
 
    // this.resetCerraduras();
@@ -31,7 +33,7 @@ export class CerradurasProvider {
     if (this.usuario != userId) {
       this.usuario = userId;
       console.log('Suscribiendo cerraduras');
-      this.db.collection("cerraduras")
+      this.firestore.collection("cerraduras")
         .where("dueño", "==", this.usuariosProv.getUsuario())
         .onSnapshot({ includeMetadataChanges: true },
           querySnapshot => {
@@ -39,8 +41,8 @@ export class CerradurasProvider {
             let listadoCerraduras = [];
             querySnapshot.forEach(
               doc => listadoCerraduras.push({
-                id: doc.id,
-                ...doc.data()
+                ...doc.data(),
+                id: doc.id
               })
             )
             //registro de cambios recibidos
@@ -68,9 +70,16 @@ export class CerradurasProvider {
     console.log("Agregar cerradura:");
     cerr.dueño = this.usuariosProv.getUsuario();
     // Alta de cerradura
-    this.db.collection("cerraduras").add(cerr).then(
+    this.firestore.collection("cerraduras").add(cerr).then(
       cerraduraAlta => {
         console.log("Alta de cerradura exitosa con ID: ", cerraduraAlta.id);
+        let evento=<EventosCerradura>{}
+        evento.cerraduraId=cerraduraAlta.id
+        evento.fechaHora= new Date();
+        evento.queHizo  = "Alta de cerradura";
+        evento.quienFue = this.usuariosProv.nombreDeUsuario();
+        this.eventosProv.agregarEvento(evento);
+
         // alta de cerradura en realtime
         let appToArduino=<AppToArduino>{};
         appToArduino.comando="X";
@@ -106,6 +115,9 @@ export class CerradurasProvider {
         nuevaLlave.vigenciaDesde = null;
         nuevaLlave.vigenciaHasta = null;
         nuevaLlave.telefonoCerradura = cerr.telefonoPropio;
+        nuevaLlave.aperturaAutomatica = false, 
+        nuevaLlave.cierreAutomatico = false,
+    
         nuevaLlave.vigenciaDias = {
           domingo: true,
           lunes: true,
@@ -119,13 +131,19 @@ export class CerradurasProvider {
         this.llavesProv.crearLlave(nuevaLlave).then(
           llaveAlta => {
             console.log("Alta de llave exitosa con ID: ", llaveAlta.id);
+            let evento=<EventosCerradura>{}
+            evento.cerraduraId=cerraduraAlta.id
+            evento.fechaHora= new Date();
+            evento.queHizo  = "Alta de llave";
+            evento.quienFue = this.usuariosProv.nombreDeUsuario();
+            this.eventosProv.agregarEvento(evento);
           }).catch(error => console.error("Error agregando llave: ", error));
       }).catch(error => console.error("Error agregando cerradura: ", error));
   }
 
   public modificarCerradura(cerr: Cerradura) {
     console.log('cerradura obtenida para modificar', cerr);
-    this.db.collection("cerraduras").doc(cerr.id)
+    this.firestore.collection("cerraduras").doc(cerr.id)
       .update(cerr)
       .then(() => console.log("Modificacion de cerradura exitosa"))
       .catch(error => console.error("Error modificando cerradura: ", error));
@@ -133,7 +151,7 @@ export class CerradurasProvider {
 
   public eliminarCerradura(cerr: Cerradura) {
     console.log('cerradura obtenida para eliminar', cerr);
-    this.db.collection("cerraduras").doc(cerr.id)
+    this.firestore.collection("cerraduras").doc(cerr.id)
       .delete()
       .then(() => console.log("Eliminacion de cerradura exitosa"))
       .catch(error => console.error("Error eliminando cerradura: ", error));

@@ -30,8 +30,8 @@
                   <button ion-fab color="{{ llave.estado=='ABR' ? 'cerraduraAbierta':'cerraduraCerrada'}}"><ion-icon name="{{ llave.estado=='ABR' ? 'unlock' : 'lock' }}"></ion-icon></button>
                   <ion-fab-list side="left">
                     <button (click)="toogleAperturaWifi(llave)" ion-fab><ion-icon name="wifi"></ion-icon></button>
-                    <button (click)="toogleAperturaSms(llave)" ion-fab><ion-icon name="mail"></ion-icon></button>
-                    <button (click)="toogleAperturaBluetooth(llave)" ion-fab><ion-icon name="bluetooth"></ion-icon></button>
+                    <button *ngIf="isAndroid" (click)="toogleAperturaSms(llave)" ion-fab><ion-icon name="mail"></ion-icon></button>
+                    <button *ngIf="isAndroid" (click)="toogleAperturaBluetooth(llave)" ion-fab><ion-icon name="bluetooth"></ion-icon></button>
                     <!--button *ngIf="llave.esAdministrador" ion-fab><ion-icon name="share"></ion-icon></button-->
                   </ion-fab-list>
               </ion-fab>

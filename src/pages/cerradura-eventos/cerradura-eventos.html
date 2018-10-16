@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Actividad de Cerradura {{ cerradura.descripcion }}</ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let evento of listadoEventos">
+      <p>
+          {{ evento.fechaHora | date: 'dd/MM/yy HH:mm:ss' }} - {{ evento.quienFue }} - {{ evento.queHizo }}
+      </p>
+    </ion-item>
+  </ion-list>
+</ion-content>

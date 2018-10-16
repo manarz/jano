@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { UsuariosProvider } from '../usuarios/usuarios';
 import { Llave } from '../../models/llave';
 import { AlertController } from 'ionic-angular';
+import { EventosCerradura } from '../../models/eventosCerradura';
+import { EventosProvider } from '../eventos/eventos';
 
 @Injectable()
 export class LlavesProvider {
@@ -13,7 +15,7 @@ export class LlavesProvider {
   private pedidoVigente: string;
   private firestore;
   private realtime; 
-  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public alertCtrl: AlertController) {
+  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public alertCtrl: AlertController, public eventosProv: EventosProvider) {
     this.firestore = janoProv.getJanoFirestoreDb();
     this.realtime = janoProv.getJanoRealtime();
   }
@@ -25,7 +27,7 @@ export class LlavesProvider {
     comando+=';'+llave.nroSecuencia+';'
     let d=new Date();
     comando+=         d.getFullYear()
-    comando+=this.pad(d.getMonth())
+    comando+=this.pad(d.getMonth()+1)
     comando+=this.pad(d.getDay())
     comando+=this.pad(d.getHours())
     comando+=this.pad(d.getMinutes())
@@ -78,10 +80,10 @@ export class LlavesProvider {
         querySnapshot => {
           console.log("Snapshot recibido llaves");
           let listadoLlaves = [];
-          querySnapshot.forEach(
+          querySnapshot.forEach(            
             doc => listadoLlaves.push({
-              id: doc.id,
-              ...doc.data()
+              ...doc.data(),
+              id: doc.id
             })
           )
           //registro de cambios recibidos
@@ -107,6 +109,15 @@ export class LlavesProvider {
     .ref(llave.codigoActivacion + '/appToArduino/comando')
     .set(this.obtenerComandoAperturaCierre(llave))
     .then(() =>{
+      //Registro de evento
+      let evento=<EventosCerradura>{}
+      evento.cerraduraId=llave.idCerradura
+      evento.fechaHora= new Date();
+      evento.queHizo  = (llave.estado=='ABR')?'Cierre ':'Apertura ';
+      evento.queHizo += "por internet";
+      evento.quienFue = this.usuariosProv.nombreDeUsuario();
+      this.eventosProv.agregarEvento(evento);
+                    
       console.log('Sincronizado realtime');
       let alert = this.alertCtrl.create({
         title: 'Comando enviado',

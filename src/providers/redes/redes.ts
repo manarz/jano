@@ -23,8 +23,8 @@ export class RedesProvider {
           let listadoRedes=[];
           querySnapshot.forEach(
             doc => listadoRedes.push({
-              id: doc.id,
-              ...doc.data()
+              ...doc.data(),
+              id: doc.id
             })
           )
 

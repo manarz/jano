@@ -25,8 +25,8 @@ export class NumerosNotificacionProvider {
           let listadoNumeros = [];
           querySnapshot.forEach(
             doc => listadoNumeros.push({
-              id: doc.id,
-              ...doc.data()
+              ...doc.data(),
+              id: doc.id
             })
           )
 

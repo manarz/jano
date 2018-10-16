@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { HTTP } from '@ionic-native/http';
 
-import { NavController, NavParams, AlertController, Item, ItemSliding  } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Item, ItemSliding, Platform  } from 'ionic-angular';
 import { CerradurasProvider } from '../../providers/cerraduras/cerraduras';
 import { SmsProvider } from '../../providers/sms/sms';
 import { UsuariosProvider } from '../../providers/usuarios/usuarios';
@@ -24,7 +24,7 @@ import { VincularBluetoothPage } from '../vincular-bluetooth/vincular-bluetooth'
 })
 export class LlaveListadoPage implements OnInit, OnDestroy {
   public listadoLlaves: any[];
-
+  public isAndroid: boolean;
   subscriptions: Subscription[];
   constructor(
     public navCtrl: NavController, 
@@ -33,8 +33,10 @@ export class LlaveListadoPage implements OnInit, OnDestroy {
     public alertCtrl: AlertController,
     public llavesProv: LlavesProvider,
     public smsCommandsProv: SmsProvider,
-    public usuariosProv: UsuariosProvider
+    public usuariosProv: UsuariosProvider,
+    public plt: Platform
   ) {
+    this.isAndroid = this.plt.is('android');
   }
   ngOnInit(): void {
     this.subscriptions=[];

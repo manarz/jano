@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Llave } from '../../models/llave';
 import { LlavesProvider } from '../../providers/llaves/llaves';
 import { VincularBluetoothPage } from '../vincular-bluetooth/vincular-bluetooth';
@@ -12,11 +12,11 @@ import { UsuariosProvider } from '../../providers/usuarios/usuarios';
 export class LlaveConfiguracionPage {
   public llave: Llave;
   public tiempoLimitado: boolean;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public llavesProv: LlavesProvider, public usuariosProv: UsuariosProvider) {
+  public isAndroid: boolean;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public llavesProv: LlavesProvider, public usuariosProv: UsuariosProvider, public plt: Platform) {
     console.log("Llave configuracion, data recibida:", navParams.get('info'));
     this.llave = navParams.get('info');
-    
+    this.isAndroid = this.plt.is('android');
     this.tiempoLimitado = false
     this.tiempoLimitado = this.tiempoLimitado || Boolean(this.llave.vigenciaDesde)
     this.tiempoLimitado = this.tiempoLimitado || Boolean(this.llave.vigenciaHasta)
@@ -31,9 +31,11 @@ export class LlaveConfiguracionPage {
     this.tiempoLimitado = this.tiempoLimitado || !this.llave.vigenciaDias.sabado
   }
   public puedeVincularBluetooth(){
-    let puedeVincularbt=this.llave.aperturaOffline && this.llave.dueño==this.usuariosProv.getUsuario()
-    //console.log("puede vincular:"+ puedeVincularbt)
-    return puedeVincularbt
+    let puedeVincularbt=this.isAndroid && this.llave.aperturaOffline && this.llave.dueño==this.usuariosProv.getUsuario()
+    return puedeVincularbt;
+  }
+  public esDuenioDeLlave(){
+    return this.llave.dueño==this.usuariosProv.getUsuario()
   }
   public resetTiempoLimitado() {
     if(!this.tiempoLimitado){
@@ -59,4 +61,9 @@ export class LlaveConfiguracionPage {
     console.log("Redirigiendo a vincular bluetooth", this.llave);
     this.navCtrl.push(VincularBluetoothPage, { info: this.llave });
   }
+  public eliminarLlave(){
+    this.llavesProv.eliminarLlave(this.llave);
+    this.navCtrl.pop();
+  }
+
 }

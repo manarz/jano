@@ -13,6 +13,7 @@ import { LlaveCompartidaListadoPage } from '../llave-compartida-listado/llave-co
 import { LoginPage } from '../login/login';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
+import { CerraduraEventosPage } from '../cerradura-eventos/cerradura-eventos';
 
 @Component({
   selector: 'page-cerradura-listado',
@@ -92,6 +93,10 @@ export class CerraduraListadoPage implements OnInit, OnDestroy {
   public irAListadoDeCompartidas(cerradura) {
     console.log("Redirigiendo a listado de cerraduras compartidas", cerradura);
     this.navCtrl.push(LlaveCompartidaListadoPage, { info: cerradura });
+  }
+  public irAEventosCerradura(cerradura) {
+    console.log("Redirigiendo a listado de eventos cerradura", cerradura);
+    this.navCtrl.push(CerraduraEventosPage, { info: cerradura });
   }
   public irANuevaCerradura(){
     this.navCtrl.push(CerraduraAltaPage);

@@ -3,7 +3,7 @@
         <button ion-button menuToggle>
           <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Configuracion de la llave {{llave.nombreFamiliar}}</ion-title> 
+        <ion-title>Configuracion de la llave {{ llave.nombreFamiliar }}</ion-title> 
     </ion-navbar>
 </ion-header>
   
@@ -23,36 +23,36 @@
 
                 <ion-item>
                     <ion-label stacked>Acceso Remoto</ion-label>
-                    <ion-toggle [(ngModel)]="llave.aperturaRemota" checked="{{llave.aperturaRemota?true:false}}"></ion-toggle>
+                    <ion-toggle [(ngModel)]="llave.aperturaRemota" ></ion-toggle>
                 </ion-item>
 
                 <ion-item>
                     <ion-label stacked>Acceso Offline</ion-label>
-                    <ion-toggle [(ngModel)]="llave.aperturaOffline" checked="{{llave.aperturaOffline?true:false}}"></ion-toggle>
+                    <ion-toggle [(ngModel)]="llave.aperturaOffline"></ion-toggle>
                 </ion-item>
 
                 <ion-item>
                     <ion-label stacked>Acceso de tiempo limitado</ion-label>
-                    <ion-toggle checked="{{(llave.vigenciaDesde || llave.vigenciaHasta)? true:false}}"></ion-toggle>
+                    <ion-toggle (click)="resetTiempoLimitado()" [(ngModel)]="tiempoLimitado"></ion-toggle>
                 </ion-item>
-              <ion-item-group>
+              <ion-item-group *ngIf="tiempoLimitado">
                 <ion-item-divider color="light">Vigencia</ion-item-divider>
                 <ion-item>
                     <ion-label stacked>Comienza:</ion-label>
-                    <ion-datetime  [(ngModel)]="llave.vigenciaDesde" displayFormat="D MM YYYY" pickerFormat="D MM YYYY" min="2018" max="2040-01-01"></ion-datetime>
+                    <ion-datetime  [(ngModel)]="llave.vigenciaDesde" displayFormat="DD MM YYYY" pickerFormat="DD MM YYYY" min="2018" max="2040-01-01"></ion-datetime>
                 </ion-item>
                 <ion-item>
                     <ion-label stacked>Finaliza:</ion-label>
-                    <ion-datetime [(ngModel)]="llave.vigenciaHasta"  displayFormat="D MM YYYY" pickerFormat="D MM YYYY" min="2018" max="2040-01-01" ></ion-datetime>
+                    <ion-datetime [(ngModel)]="llave.vigenciaHasta"  displayFormat="DD MM YYYY" pickerFormat="DD MM YYYY" min="2018" max="2040-01-01" ></ion-datetime>
                 </ion-item>
                   <ion-item-divider color="light">Horarios limitados:</ion-item-divider>
                   <ion-item>
                       <ion-label stacked>Desde:</ion-label>
-                      <ion-datetime [(ngModel)]="llave.franjaHorariaDesde" displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
+                      <ion-datetime [(ngModel)]="llave.franjaHorariaDesde" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
                   </ion-item>
                   <ion-item>
                       <ion-label stacked>Hasta:</ion-label>
-                      <ion-datetime [(ngModel)]="llave.franjaHorariaHasta" displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
+                      <ion-datetime [(ngModel)]="llave.franjaHorariaHasta" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
                   </ion-item>
                   <ion-item-divider color="light">Dias limitados:</ion-item-divider>
                   <button ion-button outline (click)="llave.vigenciaDias.domingo  =!llave.vigenciaDias.domingo"  color="{{llave.vigenciaDias.domingo?  'secondary':'dark' }}" [style.text-decoration]="!llave.vigenciaDias.domingo?  'line-through':''">Dom</button>

@@ -4,6 +4,9 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { Llave } from '../../models/llave';
 import { LlavesProvider } from '../../providers/llaves/llaves';
+import { EventosCerradura } from '../../models/eventosCerradura';
+import { UsuariosProvider } from '../../providers/usuarios/usuarios';
+import { EventosProvider } from '../../providers/eventos/eventos';
 
 @Component({
   selector: 'page-vincular-bluetooth',
@@ -23,7 +26,9 @@ export class VincularBluetoothPage implements OnInit, OnDestroy {
     public bluetoothSerial: BluetoothSerial,
     public alertCtrl: AlertController,
     public ngZone: NgZone,
-    public llavesProv: LlavesProvider
+    public llavesProv: LlavesProvider,
+    public usuariosProv: UsuariosProvider,
+    public eventosProv: EventosProvider
   ) {
     console.log("Vinculacion de bluetooth, data recibida:", navParams.get('info'));
     this.llave = navParams.get('info');
@@ -71,12 +76,21 @@ export class VincularBluetoothPage implements OnInit, OnDestroy {
           let comando = this.llavesProv.obtenerComandoAperturaCierre(this.llave);
           this.bluetoothSerial.write(comando)
             .then(data => {
-              alert('Exito tx ' + comando + JSON.stringify(data));
+              alert('Comando enviado con exito.');
+              //Registro de evento
+              let evento=<EventosCerradura>{}
+              evento.cerraduraId=this.llave.idCerradura
+              evento.fechaHora= new Date();
+              evento.queHizo  = (this.llave.estado=='ABR')?'Cierre ':'Apertura ';
+              evento.queHizo += "por bluetooth";
+              evento.quienFue = this.usuariosProv.nombreDeUsuario();
+              this.eventosProv.agregarEvento(evento);
+              // Cambio de estado en firebase
               this.llave.estado=(this.llave.estado=='ABR')?'CER':'ABR';
               this.llavesProv.modificarLlave(this.llave);
               this.disconnect();
             })
-            .catch(err => alert('Error tx ' + comando + JSON.stringify(err)));
+            .catch(err => alert('Error enviando comando: ' + comando + JSON.stringify(err)));
         },
         //conexion fallida
         (error) => alert(error)

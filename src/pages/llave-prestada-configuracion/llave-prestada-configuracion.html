@@ -14,6 +14,13 @@
         <ion-label stacked>Nombre asociado a la llave:</ion-label>
         <ion-input [(ngModel)]="llave.nombreFamiliar" type="text" value="{{ llave.nombreFamiliar }}"></ion-input>
     </ion-item>
+    <ion-item *ngIf="puedeVincularBluetooth()">
+            <button ion-button (click)="irAVincularBluetooth()" block outline><ion-icon name="bluetooth"></ion-icon>Vincular Bluetooth</button>
+    </ion-item>
 
     <button ion-button (click)="modificarLlave()" outline block>Guardar cambios</button>
+    <div padding>
+            <button ion-button outline block (click)="eliminarLlave()" color="danger">Eliminar llave</button>
+          </div>
+  
 </ion-content>

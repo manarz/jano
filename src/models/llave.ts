@@ -6,6 +6,8 @@ export interface Llave {
     estado : string,
     dueño : string,
     esAdministrador : boolean,
+    aperturaAutomatica : boolean, 
+    cierreAutomatico : boolean,
     telefonoCerradura : string,
     bluetoothDevice: {
         name: string,

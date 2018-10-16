@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { User } from '../../models/user';
 import { RegistrarsePage } from '../registrarse/registrarse';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -24,9 +24,10 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public usuariosProv: UsuariosProvider,
     public firebaseDynamicLinks: FirebaseDynamicLinks,
-    public plt: Platform
+    public plt: Platform,
+    public alertCtrl: AlertController
   ) {
-    this.version = "0.4.0";
+    this.version = "0.4.2";
     if (this.plt.is('android')) {
       this.firebaseDynamicLinks.onDynamicLink()
         .subscribe(
@@ -52,8 +53,36 @@ export class LoginPage {
       this.goToHomePage();
     } catch (e) {
       console.log("Login fallido");
-      console.log(e);
-      alert(e.message);
+      let mensajeDeError: string;
+      switch(e.code) { 
+        case "auth/invalid-email": { 
+           mensajeDeError = "Email invalido";
+           break; 
+        } 
+        case "auth/user-disabled": { 
+           mensajeDeError = "El usuario se encuentra deshabilitado."
+           break; 
+        } 
+        case "auth/user-not-found": { 
+          mensajeDeError = "Usuario o Password incorrecto."
+          break; 
+        } 
+        case "auth/wrong-password": { 
+          mensajeDeError = "Usuario o Password incorrecto."
+          break; 
+        } 
+        default: { 
+           mensajeDeError = e.code
+           break; 
+        } 
+     } 
+     let alert = this.alertCtrl.create({
+      title: 'Login:',
+      message: mensajeDeError,
+      buttons: ['Ok']
+    });
+    alert.present();
+
     }
   }
   registrar() {

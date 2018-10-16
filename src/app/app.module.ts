@@ -8,6 +8,7 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { SMS } from '@ionic-native/sms';
 import { HTTP } from '@ionic-native/http';
 import { FirebaseDynamicLinks } from '@ionic-native/firebase-dynamic-links';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
@@ -48,6 +49,8 @@ import { LlavePrestadaConfiguracionPage } from '../pages/llave-prestada-configur
 import { LlaveCompartidaRecepcionPage } from '../pages/llave-compartida-recepcion/llave-compartida-recepcion';
 import { LlaveACompartirConfiguracionPage } from '../pages/llave-a-compartir-configuracion/llave-a-compartir-configuracion';
 import { CerraduraRealtimeProvider } from '../providers/cerradura-realtime/cerradura-realtime';
+import { EventosProvider } from '../providers/eventos/eventos';
+import { CerraduraEventosPage } from '../pages/cerradura-eventos/cerradura-eventos';
 
 
 
@@ -76,7 +79,8 @@ import { CerraduraRealtimeProvider } from '../providers/cerradura-realtime/cerra
     NumerosListadoPage,
     NumeroAltaPage,
     CerraduraAltaPage,
-    CerraduraConfiguracionPage
+    CerraduraConfiguracionPage,
+    CerraduraEventosPage
     ],
   imports: [
     BrowserModule,
@@ -117,7 +121,8 @@ import { CerraduraRealtimeProvider } from '../providers/cerradura-realtime/cerra
     VincularBluetoothPage,
     RedAltaPage,
     CerraduraAltaPage,
-    CerraduraConfiguracionPage
+    CerraduraConfiguracionPage,
+    CerraduraEventosPage
     
   ],
   providers: [
@@ -128,6 +133,7 @@ import { CerraduraRealtimeProvider } from '../providers/cerradura-realtime/cerra
     SMS,
     HTTP,
     FirebaseDynamicLinks,
+    SocialSharing,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     RedesProvider,
     CerradurasProvider,
@@ -136,7 +142,8 @@ import { CerraduraRealtimeProvider } from '../providers/cerradura-realtime/cerra
     JanoProvider,
     LlavesProvider,
     NumerosNotificacionProvider,
-    CerraduraRealtimeProvider
+    CerraduraRealtimeProvider,
+    EventosProvider
   ]
 })
 export class AppModule {}

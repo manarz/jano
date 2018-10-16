@@ -19,7 +19,7 @@ export class LlaveCompartidaRecepcionPage {
     this.llaveProv.obtenerLlavePuntual(this.idLlave)
     .then(llavePedida=>{
       if (llavePedida.exists) {
-        this.llave = { id: this.idLlave,...llavePedida.data()};
+        this.llave = { ...llavePedida.data(), id: llavePedida.id };
         console.log('Llave obtenida:', this.llave);
       }else{
         console.log('No se encontro la llave buscada.');
@@ -29,12 +29,11 @@ export class LlaveCompartidaRecepcionPage {
   }
   public aceptarLlaveCompartida(){
     this.llave.dueño=this.usuariosProv.getUsuario();
+    this.llaveProv.modificarLlave(this.llave);
     this.navCtrl.setRoot(LlaveListadoPage);
   }
   public rechazarLlaveCompartida(){
     this.llaveProv.eliminarLlave(this.llave);
+    this.navCtrl.setRoot(LlaveListadoPage);
   }
-
-
-
 }
