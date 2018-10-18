@@ -49,7 +49,7 @@ export class UsuariosProvider {
 
   }
   nombreDeUsuario(){
-    return firebase.auth().currentUser.displayName || firebase.auth().currentUser.email
+    return firebase.auth().currentUser.displayName || firebase.auth().currentUser.email || 'Usuario Generico'
   }
 
   getUsuario() {

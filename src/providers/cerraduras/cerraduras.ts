@@ -11,6 +11,8 @@ import { ArduinoToApp } from '../../models/arduinoToApp';
 import { AppToArduino } from '../../models/appToArduino';
 import { EventosProvider } from '../eventos/eventos';
 import { EventosCerradura } from '../../models/eventosCerradura';
+import { RedesProvider } from '../redes/redes';
+import { NumerosNotificacionProvider } from '../numeros-notificacion/numeros-notificacion';
 
 @Injectable()
 export class CerradurasProvider {
@@ -21,11 +23,11 @@ export class CerradurasProvider {
   private realtime;
   private cerradura: Cerradura;
 
-  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public llavesProv: LlavesProvider, public eventosProv: EventosProvider) {
+  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public llavesProv: LlavesProvider, public eventosProv: EventosProvider, public redesProv: RedesProvider, public numerosProv: NumerosNotificacionProvider) {
     this.firestore = janoProv.getJanoFirestoreDb();
     this.realtime = janoProv.getJanoRealtime();
 
-   // this.resetCerraduras();
+    //this.resetCerraduras();
 
   }
   public obtenerCerraduras(userId: string) {
@@ -73,31 +75,31 @@ export class CerradurasProvider {
     this.firestore.collection("cerraduras").add(cerr).then(
       cerraduraAlta => {
         console.log("Alta de cerradura exitosa con ID: ", cerraduraAlta.id);
-        let evento=<EventosCerradura>{}
-        evento.cerraduraId=cerraduraAlta.id
-        evento.fechaHora= new Date();
-        evento.queHizo  = "Alta de cerradura";
+        let evento = <EventosCerradura>{}
+        evento.cerraduraId = cerraduraAlta.id
+        evento.fechaHora = new Date();
+        evento.queHizo = "Alta de cerradura";
         evento.quienFue = this.usuariosProv.nombreDeUsuario();
         this.eventosProv.agregarEvento(evento);
 
         // alta de cerradura en realtime
-        let appToArduino=<AppToArduino>{};
-        appToArduino.comando="X";
-        appToArduino.saldo=0;
-        appToArduino.numerosDeConfianza="X";
-        appToArduino.reset="X";
+        let appToArduino = <AppToArduino>{};
+        appToArduino.comando = "X";
+        appToArduino.saldo = 0;
+        appToArduino.numerosDeConfianza = "X";
+        appToArduino.reset = "X";
         this.realtime.ref(cerr.codigoActivacion + '/appToArduino')
-        .set(appToArduino)
-        .then(console.log("Registro de cerradura realtime"))
-        .catch(e => console.log("Error en alta de cerradura realtime", e));
-        let arduinoToApp=<ArduinoToApp>{};
-        arduinoToApp.comando="X";
-        arduinoToApp.puertaEstado="X";
-        arduinoToApp.puertaForzada="X";
+          .set(appToArduino)
+          .then(console.log("Registro de cerradura realtime"))
+          .catch(e => console.log("Error en alta de cerradura realtime", e));
+        let arduinoToApp = <ArduinoToApp>{};
+        arduinoToApp.comando = "X";
+        arduinoToApp.puertaEstado = "X";
+        arduinoToApp.puertaForzada = "X";
         this.realtime.ref(cerr.codigoActivacion + '/arduinoToApp')
-        .set(appToArduino)
-        .then(console.log("Registro de cerradura realtime"))
-        .catch(e => console.log("Error en alta de cerradura realtime", e));
+          .set(appToArduino)
+          .then(console.log("Registro de cerradura realtime"))
+          .catch(e => console.log("Error en alta de cerradura realtime", e));
 
         // fin de alta en realtime
         let nuevaLlave = <Llave>{};
@@ -115,26 +117,26 @@ export class CerradurasProvider {
         nuevaLlave.vigenciaDesde = null;
         nuevaLlave.vigenciaHasta = null;
         nuevaLlave.telefonoCerradura = cerr.telefonoPropio;
-        nuevaLlave.aperturaAutomatica = false, 
-        nuevaLlave.cierreAutomatico = false,
-    
-        nuevaLlave.vigenciaDias = {
-          domingo: true,
-          lunes: true,
-          martes: true,
-          miercoles: true,
-          jueves: true,
-          viernes: true,
-          sabado: true
-        };
+        nuevaLlave.aperturaAutomatica = false,
+          nuevaLlave.cierreAutomatico = false,
+
+          nuevaLlave.vigenciaDias = {
+            domingo: true,
+            lunes: true,
+            martes: true,
+            miercoles: true,
+            jueves: true,
+            viernes: true,
+            sabado: true
+          };
 
         this.llavesProv.crearLlave(nuevaLlave).then(
           llaveAlta => {
             console.log("Alta de llave exitosa con ID: ", llaveAlta.id);
-            let evento=<EventosCerradura>{}
-            evento.cerraduraId=cerraduraAlta.id
-            evento.fechaHora= new Date();
-            evento.queHizo  = "Alta de llave";
+            let evento = <EventosCerradura>{}
+            evento.cerraduraId = cerraduraAlta.id
+            evento.fechaHora = new Date();
+            evento.queHizo = "Alta de llave";
             evento.quienFue = this.usuariosProv.nombreDeUsuario();
             this.eventosProv.agregarEvento(evento);
           }).catch(error => console.error("Error agregando llave: ", error));
@@ -151,6 +153,16 @@ export class CerradurasProvider {
 
   public eliminarCerradura(cerr: Cerradura) {
     console.log('cerradura obtenida para eliminar', cerr);
+    this.eventosProv.eliminarEventos(cerr)
+    this.llavesProv.eliminarLlaves(cerr);
+    this.redesProv.eliminarRedes(cerr);
+    this.numerosProv.eliminarNumeros(cerr);
+
+    this.realtime.ref(cerr.codigoActivacion)
+      .set({ appToArduino: { configuracion: 'ELIMINADO' } })
+      .then(console.log("Registro de cerradura realtime eliminado"))
+      .catch(e => console.log("Error eliminando cerradura realtime", e));
+
     this.firestore.collection("cerraduras").doc(cerr.id)
       .delete()
       .then(() => console.log("Eliminacion de cerradura exitosa"))

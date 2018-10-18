@@ -14,7 +14,28 @@ export class EventosProvider {
   constructor(private janoProv: JanoProvider) {
     this.firestore = janoProv.getJanoFirestoreDb();
   }
+  public eliminarEventos(cerradura: Cerradura){
+    console.log("Eliminando eventos de cerradura", cerradura);
+    this.firestore.collection("eventosCerradura")
+    .where("cerraduraId", "==", cerradura.id)
+    .get()
+    .then(
+      querySnapshot => {
+        console.log("Eventos encontrados");
+        querySnapshot.forEach(    
+          doc =>  this.eliminarEvento(doc.id)
+        )}
+    )
+  }
+  public eliminarEvento(evento: EventosCerradura) {
+    console.log('evento obtenido para eliminar', evento);
+    this.firestore.collection("eventosCerradura").doc(evento.id)
+      .delete()
+      .then(() => console.log("Eliminacion de evento exitoso"))
+      .catch(error => console.error("Error eliminando evento: ", error));
+  }
 
+  
   public agregarEvento(evento: EventosCerradura) {
     console.log('evento obtenido para registrar', evento);
     this.firestore.collection("eventosCerradura").add(evento).then(

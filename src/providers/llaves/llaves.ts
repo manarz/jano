@@ -7,6 +7,7 @@ import { Llave } from '../../models/llave';
 import { AlertController } from 'ionic-angular';
 import { EventosCerradura } from '../../models/eventosCerradura';
 import { EventosProvider } from '../eventos/eventos';
+import { Cerradura } from '../../models/cerradura';
 
 @Injectable()
 export class LlavesProvider {
@@ -52,6 +53,19 @@ export class LlavesProvider {
       .delete()
       .then(() => console.log("Eliminacion de llave exitosa"))
       .catch(error => console.error("Error eliminando llave: ", error));
+  }
+  public eliminarLlaves(cerradura: Cerradura){
+    console.log("Eliminando llaves de cerradura", cerradura);
+    this.firestore.collection("llaves")
+    .where("idCerradura", "==", cerradura.id)
+    .get()
+    .then(
+      querySnapshot => {
+        console.log("Llaves encontradas");
+        querySnapshot.forEach(    
+          doc =>  this.eliminarLlave(doc.id)
+        )}
+    )
   }
 
 

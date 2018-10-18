@@ -63,4 +63,17 @@ export class RedesProvider {
       .then(() => console.log("Eliminacion de red exitosa"))
       .catch(error => console.error("Error eliminando red: ", error));
   }
+  public eliminarRedes(cerradura: Cerradura){
+    console.log("Eliminando redes de cerradura", cerradura);
+    this.db.collection("redes")
+    .where("cerraduraId", "==", cerradura.id)
+    .get()
+    .then(
+      querySnapshot => {
+        console.log("Redes encontradas");
+        querySnapshot.forEach(    
+          doc =>  this.eliminarRed(doc.id)
+        )}
+    )
+  }
 }

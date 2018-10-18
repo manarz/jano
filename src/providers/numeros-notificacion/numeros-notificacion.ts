@@ -89,5 +89,18 @@ export class NumerosNotificacionProvider {
         console.log("Error obteniendo los numeros para actualizar realtime: ", error);
       });
   }
+  public eliminarNumeros(cerradura: Cerradura){
+    console.log("Eliminando numeros de confianza de cerradura", cerradura);
+    this.firestore.collection("numerosNotificacion")
+    .where("cerraduraId", "==", cerradura.id)
+    .get()
+    .then(
+      querySnapshot => {
+        console.log("Numeros encontrados");
+        querySnapshot.forEach(    
+          doc =>  this.eliminarNumero(doc.id, cerradura)
+        )}
+    )
+  }
 
 }
