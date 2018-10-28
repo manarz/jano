@@ -28,7 +28,7 @@ export class LoginPage {
     public platform: Platform,
     public alertCtrl: AlertController
   ) {
-    this.version = "0.4.3";
+    this.version = "0.4.5";
     this.isAndroid = this.platform.is('android') && !this.platform.is('mobileweb');
     if (this.isAndroid) {
       this.firebaseDynamicLinks.onDynamicLink()
@@ -51,6 +51,22 @@ export class LoginPage {
     try {
       console.log("Intentando Login");
       await this.usuariosProv.loginConEmail(user.email, user.password);
+      if(this.usuariosProv.mailNoVerificado()){
+        let alert = this.alertCtrl.create({
+          title: 'Bienvenido a Jano!',
+          message: 'Te hemos enviado un mail a tu casilla. Verifica por favor tu cuenta y luego realiza el login.',
+          buttons: [
+            {
+              text: 'Aceptar',
+              handler: data => {
+                console.log('Aceptado.');
+              }
+            }]
+        })
+        alert.present();
+        this.usuariosProv.logout();
+        return
+      }
       console.log("Login exitoso userid:" + this.usuariosProv.getUsuario());
       this.goToHomePage();
     } catch (e) {

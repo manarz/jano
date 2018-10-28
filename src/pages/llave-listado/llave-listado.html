@@ -15,6 +15,14 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-card *ngIf="listadoLlaves.length==0">
+        <ion-card-header>
+           Bienvenido a Jano!
+        </ion-card-header>
+        <ion-card-content>
+            <b>Aquí se mostrarán tus llaves. Puedes registrar una cerradura desplegando el menú lateral Mis cerraduras.</b> 
+        </ion-card-content>
+      </ion-card>
   <ion-list>
       <ion-item-sliding *ngFor="let llave of listadoLlaves">
         <ion-item>

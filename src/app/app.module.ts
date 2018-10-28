@@ -17,9 +17,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { FIREBASE_CONFIG } from './app.firebase.config';
 
 
-import { PruebaBleListarDispositivosPage } from '../pages/prueba-ble-listar-dispositivos/prueba-ble-listar-dispositivos';
-import { PruebaBleDetalleConexionPage } from '../pages/prueba-ble-detalle-conexion/prueba-ble-detalle-conexion';
-import { PruebaEnvioSmsPage } from '../pages/prueba-envio-sms/prueba-envio-sms';
 import { CerraduraListadoPage } from '../pages/cerradura-listado/cerradura-listado';
 import { LlaveListadoPage } from '../pages/llave-listado/llave-listado';
 import { LlaveCompartidaListadoPage } from '../pages/llave-compartida-listado/llave-compartida-listado';
@@ -39,7 +36,6 @@ import { RedesProvider } from '../providers/redes/redes';
 import { CerradurasProvider } from '../providers/cerraduras/cerraduras';
 import { SmsProvider } from '../providers/sms/sms';
 import { UsuariosProvider } from '../providers/usuarios/usuarios';
-import { PruebaHomePage } from '../pages/prueba-home/prueba-home';
 import { JanoProvider } from '../providers/jano/jano';
 import { LlavesProvider } from '../providers/llaves/llaves';
 import { NumerosListadoPage } from '../pages/numeros-listado/numeros-listado';
@@ -48,7 +44,6 @@ import { NumeroAltaPage } from '../pages/numero-alta/numero-alta';
 import { LlavePrestadaConfiguracionPage } from '../pages/llave-prestada-configuracion/llave-prestada-configuracion';
 import { LlaveCompartidaRecepcionPage } from '../pages/llave-compartida-recepcion/llave-compartida-recepcion';
 import { LlaveACompartirConfiguracionPage } from '../pages/llave-a-compartir-configuracion/llave-a-compartir-configuracion';
-import { CerraduraRealtimeProvider } from '../providers/cerradura-realtime/cerradura-realtime';
 import { EventosProvider } from '../providers/eventos/eventos';
 import { CerraduraEventosPage } from '../pages/cerradura-eventos/cerradura-eventos';
 import { BluetoothProvider } from '../providers/bluetooth/bluetooth';
@@ -65,10 +60,6 @@ import { MiPerfilPage } from '../pages/mi-perfil/mi-perfil';
     LogoutPage,
     MiPerfilPage,
 
-    PruebaBleListarDispositivosPage,
-    PruebaBleDetalleConexionPage,
-    PruebaEnvioSmsPage,
-    PruebaHomePage,
     CerraduraListadoPage,
     LlaveListadoPage,
     LlavePrestadaConfiguracionPage,
@@ -108,10 +99,6 @@ import { MiPerfilPage } from '../pages/mi-perfil/mi-perfil';
     LogoutPage,
     MiPerfilPage,
 
-    PruebaBleListarDispositivosPage,
-    PruebaBleDetalleConexionPage,
-    PruebaEnvioSmsPage,
-    PruebaHomePage,
     CerraduraListadoPage,
     LlaveListadoPage,
     LlaveACompartirConfiguracionPage,
@@ -146,7 +133,6 @@ import { MiPerfilPage } from '../pages/mi-perfil/mi-perfil';
     JanoProvider,
     LlavesProvider,
     NumerosNotificacionProvider,
-    CerraduraRealtimeProvider,
     EventosProvider,
     BluetoothProvider
     ]

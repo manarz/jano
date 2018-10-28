@@ -21,7 +21,7 @@ import { Llave } from '../../models/llave';
 })
 export class LlaveCompartidaListadoPage implements OnInit, OnDestroy{
   public listadoLlaves: any[];
-  private cerradura: Cerradura;
+  public cerradura: Cerradura;
   subscriptions: Subscription[];
 
   constructor(

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { Cerradura } from '../../models/cerradura';
 import { Subscription } from 'rxjs';
 import { NumerosNotificacion } from '../../models/numerosNotificacion';

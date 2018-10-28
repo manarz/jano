@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { Llave } from '../../models/llave';
 import { LlavesProvider } from '../../providers/llaves/llaves';
 import { UsuariosProvider } from '../../providers/usuarios/usuarios';

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Cerradura } from '../../models/cerradura';
 import { NumerosNotificacionProvider } from '../../providers/numeros-notificacion/numeros-notificacion';

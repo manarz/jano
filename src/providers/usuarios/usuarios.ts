@@ -16,6 +16,9 @@ export class UsuariosProvider {
     console.log(result);
     this.usuario = result.user;
   }
+  public mailNoVerificado(){
+    return !this.afAuth.auth.currentUser.emailVerified
+  }
   validarCuenta(email, password) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
