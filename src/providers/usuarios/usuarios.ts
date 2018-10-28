@@ -16,23 +16,35 @@ export class UsuariosProvider {
     console.log(result);
     this.usuario = result.user;
   }
+  validarCuenta(email, password) {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+  eliminarCuenta() {
+    this.logout()
+    console.log("Eliminacion de cuenta en progreso.")
+    this.afAuth.auth.currentUser.delete().then(() => {
+      console.log("Usuario eliminado con exito");
+    }).catch(error => {
+      console.log("Error al eliminar usuario")
+    })
+  }
   loginConGoogle() {
     if (this.platform.is('android') && !this.platform.is('mobileweb')) {
       console.log("Autenticacion sin cordova plugin: no esta probado");
       return this.afAuth.auth.signInWithRedirect(this.providerGg)
-      .then(() => {
-        console.log("Autenticacion exitosa");
-        return this.afAuth.auth.getRedirectResult().then( result => {
-          // This gives you a Google Access Token.
-          // You can use it to access the Google API.
-          let token = result.credential.accessToken;
-          // The signed-in user info.
-          let user = result.user;
-          console.log(token, user);
-        }).catch(function(error) {
-          alert(error.message);
+        .then(() => {
+          console.log("Autenticacion exitosa");
+          return this.afAuth.auth.getRedirectResult().then(result => {
+            // This gives you a Google Access Token.
+            // You can use it to access the Google API.
+            let token = result.credential.accessToken;
+            // The signed-in user info.
+            let user = result.user;
+            console.log(token, user);
+          }).catch(function (error) {
+            alert(error.message);
+          });
         });
-      });
     } else {
       console.log("Autenticacion web");
       return this.afAuth.auth.signInWithPopup(this.providerGg).then(result => {
@@ -44,8 +56,8 @@ export class UsuariosProvider {
       });
     }
   }
-  nombreDeUsuario(){
-    return (firebase.auth().currentUser)? firebase.auth().currentUser.email : 'mailg@mail.com'
+  nombreDeUsuario() {
+    return (firebase.auth().currentUser) ? firebase.auth().currentUser.email : 'jano@mail.com'
   }
 
   getUsuario() {

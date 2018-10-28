@@ -27,9 +27,9 @@ export class EventosProvider {
         )}
     )
   }
-  public eliminarEvento(evento: EventosCerradura) {
-    console.log('evento obtenido para eliminar', evento);
-    this.firestore.collection("eventosCerradura").doc(evento.id)
+  public eliminarEvento(idEvento: string) {
+    console.log('evento obtenido para eliminar', idEvento);
+    this.firestore.collection("eventosCerradura").doc(idEvento)
       .delete()
       .then(() => console.log("Eliminacion de evento exitoso"))
       .catch(error => console.error("Error eliminando evento: ", error));

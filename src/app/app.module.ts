@@ -52,6 +52,7 @@ import { CerraduraRealtimeProvider } from '../providers/cerradura-realtime/cerra
 import { EventosProvider } from '../providers/eventos/eventos';
 import { CerraduraEventosPage } from '../pages/cerradura-eventos/cerradura-eventos';
 import { BluetoothProvider } from '../providers/bluetooth/bluetooth';
+import { MiPerfilPage } from '../pages/mi-perfil/mi-perfil';
 
 
 
@@ -62,6 +63,7 @@ import { BluetoothProvider } from '../providers/bluetooth/bluetooth';
     LoginPage,
     RegistrarsePage,
     LogoutPage,
+    MiPerfilPage,
 
     PruebaBleListarDispositivosPage,
     PruebaBleDetalleConexionPage,
@@ -104,6 +106,7 @@ import { BluetoothProvider } from '../providers/bluetooth/bluetooth';
     LoginPage,
     RegistrarsePage,
     LogoutPage,
+    MiPerfilPage,
 
     PruebaBleListarDispositivosPage,
     PruebaBleDetalleConexionPage,

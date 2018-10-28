@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+
+      <ion-title>Mi Perfil</ion-title> 
+      <ion-buttons right>
+        <button ion-button icon-only (click)="logout()">
+          <ion-icon name='exit'></ion-icon>
+        </button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-input type="email" readonly="true" value="{{nombreDeUsuario}}"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button ion-button outline block (click)="verificarPasswordYEliminarCuenta()" color="danger">ELIMINAR CUENTA</button>
+
+</ion-content>

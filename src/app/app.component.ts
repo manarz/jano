@@ -13,6 +13,7 @@ import { VincularBluetoothPage } from '../pages/vincular-bluetooth/vincular-blue
 import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
 import { PruebaHomePage } from '../pages/prueba-home/prueba-home';
+import { MiPerfilPage } from '../pages/mi-perfil/mi-perfil';
 
 @Component({
   templateUrl: 'app.html'
@@ -27,6 +28,7 @@ export class MyApp {
     this.rootPage = LoginPage;
     this.pages=[{titulo: "Mi llavero",           component: LlaveListadoPage,      icon:"key" },
                 {titulo: "Mis cerraduras",       component: CerraduraListadoPage,  icon:"lock"},
+                {titulo: "Mi perfil",            component: MiPerfilPage,          icon:"person"},
                 {titulo: "Salir",                component: LogoutPage,            icon:"exit"},
 /*
                 {titulo: "Vincular Bluetooth",   component: VincularBluetoothPage, icon:"bluetooth"},

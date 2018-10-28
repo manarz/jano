@@ -72,7 +72,7 @@ export class RedesProvider {
       querySnapshot => {
         console.log("Redes encontradas");
         querySnapshot.forEach(    
-          doc =>  this.eliminarRed(doc.id)
+          doc =>  this.eliminarRed({...doc.data(), id:doc.id})
         )}
     )
   }

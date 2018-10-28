@@ -37,7 +37,7 @@
               <ion-item>
                   <ion-icon name="logo-usd" item-start></ion-icon>
                   <ion-label stacked>Saldo:</ion-label>
-                  <ion-input disabled="disabled" [(ngModel)]="cerradurasProv.saldo" type="text"></ion-input>
+                  <ion-input readonly="true" [(ngModel)]="cerradurasProv.saldo" type="text"></ion-input>
                 </ion-item>
                 <button ion-button outline block (click)="consultarSaldo()">Consultar Saldo</button>
 

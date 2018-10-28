@@ -99,7 +99,7 @@ export class NumerosNotificacionProvider {
       querySnapshot => {
         console.log("Numeros encontrados");
         querySnapshot.forEach(    
-          doc =>  this.eliminarNumero(doc.id, cerradura)
+          doc =>  this.eliminarNumero({...doc.data(),id:doc.id}, cerradura)
         )}
     )
   }

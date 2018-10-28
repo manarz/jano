@@ -55,6 +55,19 @@ export class LlavesProvider {
       .then(() => console.log("Eliminacion de llave exitosa"))
       .catch(error => console.error("Error eliminando llave: ", error));
   }
+  public eliminarCuenta(usuario:string){
+    this.firestore.collection("llaves")
+    .where("dueño", "==", usuario)
+    .get()
+    .then(
+      querySnapshot => {
+        console.log("Llaves encontradas");
+        querySnapshot.forEach(    
+          doc =>  this.eliminarLlave({...doc.data(),id:doc.id})
+        )}
+    )
+
+  }
   public eliminarLlaves(cerradura: Cerradura){
     console.log("Eliminando llaves de cerradura", cerradura);
     this.firestore.collection("llaves")
@@ -64,7 +77,7 @@ export class LlavesProvider {
       querySnapshot => {
         console.log("Llaves encontradas");
         querySnapshot.forEach(    
-          doc =>  this.eliminarLlave(doc.id)
+          doc =>  this.eliminarLlave({...doc.data(), id:doc.id})
         )}
     )
   }

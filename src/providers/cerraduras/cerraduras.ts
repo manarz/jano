@@ -38,6 +38,7 @@ export class CerradurasProvider {
     //this.resetCerraduras();
 
   }
+
   public obtenerCerraduras(userId: string) {
     console.log('Obteniendo cerraduras');
     if (this.usuario != userId) {
@@ -203,6 +204,19 @@ export class CerradurasProvider {
       .then(() => console.log("Eliminacion de cerradura exitosa"))
       .catch(error => console.error("Error eliminando cerradura: ", error));
   }
+  public eliminarCuenta(usuario:string){
+    this.firestore.collection("cerraduras")
+    .where("dueño", "==", usuario)
+    .get()
+    .then(
+      querySnapshot => {
+        console.log("Cerraduras encontradas");
+        querySnapshot.forEach(    
+          doc =>  this.eliminarCerradura({...doc.data(),id:doc.id})
+        )}
+    )
+  }
+
 
   public resetCerraduras() {
     this.cerradura = <Cerradura>{};
