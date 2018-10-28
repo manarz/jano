@@ -51,6 +51,7 @@ import { LlaveACompartirConfiguracionPage } from '../pages/llave-a-compartir-con
 import { CerraduraRealtimeProvider } from '../providers/cerradura-realtime/cerradura-realtime';
 import { EventosProvider } from '../providers/eventos/eventos';
 import { CerraduraEventosPage } from '../pages/cerradura-eventos/cerradura-eventos';
+import { BluetoothProvider } from '../providers/bluetooth/bluetooth';
 
 
 
@@ -143,7 +144,8 @@ import { CerraduraEventosPage } from '../pages/cerradura-eventos/cerradura-event
     LlavesProvider,
     NumerosNotificacionProvider,
     CerraduraRealtimeProvider,
-    EventosProvider
-  ]
+    EventosProvider,
+    BluetoothProvider
+    ]
 })
 export class AppModule {}

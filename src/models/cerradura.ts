@@ -1,5 +1,3 @@
-import { Red } from "./red";
-
 export interface Cerradura {
     id : string,
     descripcion : string,
@@ -7,4 +5,12 @@ export interface Cerradura {
     estado : string,
     codigoActivacion : string,
     telefonoPropio : string,
+    redId: string, 
+    telefonoDuenio: string,
+    notificaAperturaManual: boolean,
+    notificaBateriaBaja: boolean,
+    notificaSaldoMinimo: number,
+    notificaSaldoXPeriodo: number,
+    notificaPuertaForzada: boolean,
+    cierreAutomatico: boolean
 }

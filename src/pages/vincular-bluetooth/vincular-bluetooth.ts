@@ -53,48 +53,19 @@ export class VincularBluetoothPage implements OnInit, OnDestroy {
   }
 
   startScanning() {
+    this.setStatus("Buscando dispositivos ...");
     this.dispositivosVisibles = null;
     this.gettingDevices = true;
     this.bluetoothSerial.discoverUnpaired()
       .then((dispositivos) => {
+        this.setStatus("Busqueda finalizada");
         this.dispositivosVisibles = dispositivos;
         this.gettingDevices = false;
       },
-        (err) => {
-          alert(JSON.stringify(err));
-        })
-  }
-  public enviarComandoApertura() {
-    this.setStatus("Intentando conexión a " + this.llave.bluetoothDevice.name + "...");
-    this.bluetoothSerial.connect(this.llave.bluetoothDevice.address)
-      .subscribe(
-        //conexion exitosa
-        (data) => {
-          this.conectado = true;
-          this.puedeEnviarComando = true;
-          this.setStatus("Conectado.");
-          let comando = this.llavesProv.obtenerComandoAperturaCierre(this.llave);
-          this.bluetoothSerial.write(comando)
-            .then(data => {
-              alert('Comando enviado con exito.');
-              //Registro de evento
-              let evento=<EventosCerradura>{}
-              evento.cerraduraId=this.llave.idCerradura
-              evento.fechaHora= new Date();
-              evento.queHizo  = (this.llave.estado=='ABR')?'Cierre ':'Apertura ';
-              evento.queHizo += "por bluetooth";
-              evento.quienFue = this.usuariosProv.nombreDeUsuario();
-              this.eventosProv.agregarEvento(evento);
-              // Cambio de estado en firebase
-              this.llave.estado=(this.llave.estado=='ABR')?'CER':'ABR';
-              this.llavesProv.modificarLlave(this.llave);
-              this.disconnect();
-            })
-            .catch(err => alert('Error enviando comando: ' + comando + JSON.stringify(err)));
-        },
-        //conexion fallida
-        (error) => alert(error)
-      );
+      (err) => {
+        this.setStatus("Busqueda finalizada");
+        alert(JSON.stringify(err));
+      })
   }
   esDispositivoAsociado(dispositivo: any) {
     return this.llave.bluetoothDevice && this.llave.bluetoothDevice.address == dispositivo.address;
@@ -104,20 +75,13 @@ export class VincularBluetoothPage implements OnInit, OnDestroy {
     this.llavesProv.modificarLlave(this.llave);
 
     let alert = this.alertCtrl.create({
-      title: 'Probar comando',
-      message: 'Quiere probar la conexión ' + this.llave.estado == 'ABR' ? 'cerrando' : 'abriendo' + ' este dispositivo?\n' + JSON.stringify(dispositivo),
+      title: 'Vinculacion exitosa',
+      message: 'Dispositivo '+dispositivo.name? dispositivo.name: dispositivo.address +' asociado con exito.' ,
       buttons: [
         {
-          text: 'Cancelar',
-          role: 'cancel',
+          text: 'Aceptar',
           handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Probar ' + this.llave.estado == 'ABR' ? 'cierre' : 'apertura',
-          handler: () => {
-            this.enviarComandoApertura();
+            this.navCtrl.pop();
           }
         }
       ]

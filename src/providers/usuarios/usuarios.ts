@@ -8,7 +8,7 @@ import { Platform } from 'ionic-angular';
 export class UsuariosProvider {
   private usuario: any;
   providerGg: firebase.auth.GoogleAuthProvider;
-  constructor(public http: HTTP, private afAuth: AngularFireAuth, public plt: Platform) {
+  constructor(public http: HTTP, private afAuth: AngularFireAuth, public platform: Platform) {
     this.providerGg = new firebase.auth.GoogleAuthProvider();
   }
   async loginConEmail(email, password) {
@@ -17,7 +17,7 @@ export class UsuariosProvider {
     this.usuario = result.user;
   }
   loginConGoogle() {
-    if (this.plt.is('android')) {
+    if (this.platform.is('android') && !this.platform.is('mobileweb')) {
       console.log("Autenticacion sin cordova plugin: no esta probado");
       return this.afAuth.auth.signInWithRedirect(this.providerGg)
       .then(() => {
@@ -43,13 +43,9 @@ export class UsuariosProvider {
         alert(error.message);
       });
     }
-
-
-
-
   }
   nombreDeUsuario(){
-    return firebase.auth().currentUser.displayName || firebase.auth().currentUser.email || 'Usuario Generico'
+    return (firebase.auth().currentUser)? firebase.auth().currentUser.email : 'mailg@mail.com'
   }
 
   getUsuario() {

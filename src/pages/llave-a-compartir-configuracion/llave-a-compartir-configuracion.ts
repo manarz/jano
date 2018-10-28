@@ -12,7 +12,7 @@ export class LlaveACompartirConfiguracionPage {
   public llave: Llave;
   public tiempoLimitado: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public llavesProv: LlavesProvider, public alertCtrl: AlertController, public socialSharing: SocialSharing, public plt:Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public llavesProv: LlavesProvider, public alertCtrl: AlertController, public socialSharing: SocialSharing, public platform:Platform) {
     console.log("Llave configuracion, data recibida:", navParams.get('info'));
     this.llave=navParams.get('info');
     this.tiempoLimitado = false
@@ -60,7 +60,7 @@ export class LlaveACompartirConfiguracionPage {
   public compartirLlave() {
     let shareLink = 'https://jano.page.link/?link=' + encodeURIComponent('https://jano-2332.firebaseapp.com/#/login/' + this.llave.id) + '&apn=ar.com.jano';
     console.log('Compartiendo llave:' + shareLink);
-    if(this.plt.is('android')){
+    if(this.platform.is('android') && !this.platform.is('mobileweb')){
       const confirm = this.alertCtrl.create({
         title: 'Compartir llave',
         message: '¿Cómo deseas compartir esta llave?',

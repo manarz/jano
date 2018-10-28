@@ -5,7 +5,7 @@
         <ion-icon name="menu"></ion-icon>
       </button>
 
-      <ion-title>Nueva Cerradura</ion-title>  </ion-navbar>
+      <ion-title>Configuración de Cerradura</ion-title>  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
@@ -15,21 +15,35 @@
           <ion-item>
             <ion-icon name="key" item-start></ion-icon>
             <ion-label stacked>Nombre de la cerradura:</ion-label>
-            <ion-input [(ngModel)]="cerradura.descripcion" name="descripcion" type="text" value="{{ cerradura.descripcion }}"></ion-input>
+            <ion-input [(ngModel)]="cerradura.descripcion" type="text"></ion-input>
           </ion-item>
           <ion-item>
             <ion-icon name="phone-portrait" item-start></ion-icon>
             <ion-label stacked>Número telefónico de la cerradura:</ion-label>
-            <ion-input [(ngModel)]="cerradura.telefonoPropio" name="telefonoPropio" type="text" value="{{ cerradura.telefonoPropio }}"></ion-input>
+            <ion-input [(ngModel)]="cerradura.telefonoPropio" type="number"></ion-input>
+          </ion-item>
+          <ion-item-divider></ion-item-divider>
+          <ion-item>
+              <ion-label stacked>Cierre automático</ion-label>
+              <ion-toggle [(ngModel)]="cerradura.cierreAutomatico"></ion-toggle>
           </ion-item>
         </ion-list>
           <button ion-button outline block (click)="guardarCambiosCerradura()">Guardar cambios</button>
   </div>
-
         <div padding>
           <button ion-button block (click)="irAdministrarWifi()">Wifi hogareño</button>
-          <button ion-button block (click)="irANumerosDeConfianza()">Números de confianza</button>
+          <button ion-button block (click)="irANumerosDeConfianza()">Notificaciones</button>
+          <ion-list>
+              <ion-item>
+                  <ion-icon name="logo-usd" item-start></ion-icon>
+                  <ion-label stacked>Saldo:</ion-label>
+                  <ion-input disabled="disabled" [(ngModel)]="cerradurasProv.saldo" type="text"></ion-input>
+                </ion-item>
+                <button ion-button outline block (click)="consultarSaldo()">Consultar Saldo</button>
+
+              </ion-list>
         </div>
+
         <div padding>
           <button ion-button outline block (click)="eliminarCerradura()" color="danger">Eliminar cerradura</button>
         </div>

@@ -11,10 +11,13 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let evento of listadoEventos">
-      <p>
-          {{ evento.fechaHora | date: 'dd/MM/yy HH:mm:ss' }} - {{ evento.quienFue }} - {{ evento.queHizo }}
-      </p>
-    </ion-item>
+      <ion-card *ngFor="let evento of listadoEventos">
+          <ion-card-header>
+              {{ evento.fechaHora | date: 'dd/MM/yy HH:mm:ss' }}
+          </ion-card-header>
+          <ion-card-content>
+              <b>{{ evento.quienFue }}</b> - {{ evento.queHizo }}
+          </ion-card-content>
+        </ion-card>
   </ion-list>
 </ion-content>

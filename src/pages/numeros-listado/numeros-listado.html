@@ -1,28 +1,58 @@
 <ion-header>
 
-  <ion-navbar color="primary">
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
 
-      <ion-title>Números de confianza</ion-title>  
-  </ion-navbar>
+        <ion-title>Notificaciones</ion-title>
+    </ion-navbar>
 </ion-header>
-
-
 <ion-content padding>
-<h1>Aqui se listan los números a los cuales se notificará eventos</h1>
-<p>Puede indicar muchos números.</p>
-<ion-list>
-  <div *ngFor="let numeroNotificacion of listadoNumeros">
-          <ion-item>
-              <h2>{{ numeroNotificacion.descripcion }}</h2> 
-              <p>(Numero telefónico: {{ numeroNotificacion.numero }})</p>
-              <button ion-button icon-only outline item-end (click)="eliminarNumero(numeroNotificacion)"><ion-icon name="close"> ELIMINAR</ion-icon></button>
-          </ion-item>
-  </div>
-</ion-list>
-<ion-fab right bottom>
-      <button ion-fab color="secondary" (click)="irANuevoNumero()"><ion-icon name="add"></ion-icon></button>
-</ion-fab>
+    <div padding>
+        <ion-list>
+            <ion-item>
+                <ion-icon name="phone-portrait" item-start></ion-icon>
+                <ion-label stacked>Número del dueño de la cerradura:</ion-label>
+                <ion-input [(ngModel)]="cerradura.telefonoDuenio" type="number"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="logo-usd" item-start></ion-icon>
+                <ion-label stacked>Notificacion por saldo mínimo:</ion-label>
+                <ion-input [(ngModel)]="cerradura.notificaSaldoMinimo" type="number"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="calendar" item-start></ion-icon>
+                <ion-label stacked>Notificacion cada n dias:</ion-label>
+                <ion-input [(ngModel)]="cerradura.notificaSaldoXPeriodo" type="number"></ion-input>
+            </ion-item>
+            <ion-item-divider></ion-item-divider>
+
+            <ion-item>
+                <ion-label stacked>Notificacion por apertura manual</ion-label>
+                <ion-toggle [(ngModel)]="cerradura.notificaAperturaManual"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Notificacion por bateria baja</ion-label>
+                <ion-toggle [(ngModel)]="cerradura.notificaBateriaBaja"></ion-toggle>
+            </ion-item>
+        </ion-list>
+        <ion-item>
+            <ion-label stacked>Notificacion de puerta forzada</ion-label>
+            <ion-toggle [(ngModel)]="cerradura.notificaPuertaForzada"></ion-toggle>
+        </ion-item>
+        <h6 *ngIf="this.cerradura.notificaPuertaForzada">Números de confianza adicionales para ésta notificación</h6>
+        <button ion-button *ngIf="puedeAgregarNumeros()" outline item-right (click)="irANuevoNumero()">Agregar número</button>
+        <ion-list *ngIf="this.cerradura.notificaPuertaForzada">
+            <ion-item *ngFor="let numeroNotificacion of listadoNumeros">
+                <h2>{{ numeroNotificacion.descripcion }}</h2>
+                <p>Número: {{ numeroNotificacion.numero }}</p>
+                <button ion-button icon-only outline item-end (click)="eliminarNumero(numeroNotificacion)">
+                    <ion-icon name="trash"></ion-icon>
+                </button>
+            </ion-item>
+        </ion-list>
+        <button ion-button outline block (click)="guardarCambiosCerradura()">Guardar cambios</button>
+    </div>
+
 </ion-content>

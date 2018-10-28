@@ -9,6 +9,7 @@ import { EventosCerradura } from '../../models/eventosCerradura';
 import { EventosProvider } from '../eventos/eventos';
 import { Cerradura } from '../../models/cerradura';
 
+
 @Injectable()
 export class LlavesProvider {
   private listadoLlavesBehaviorSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
@@ -87,6 +88,16 @@ export class LlavesProvider {
   public obtenerLlavePuntual(llaveId: string) {
      return this.firestore.collection("llaves").doc(llaveId).get();
   }
+  public obtenerLlaveDueñoCerradura(cerradura: Cerradura){
+    console.log("Obteniendo llave del dueño de la cerradura:"+
+    "dueño"+"=="+this.usuariosProv.getUsuario()+
+    "idCerradura"+"=="+cerradura.id
+    );
+    return this.firestore.collection("llaves")
+    .where("idCerradura","==",cerradura.id)
+    .where("dueño","==",this.usuariosProv.getUsuario())
+    .get();
+  }
   private obtenerLlaves(campo: string, operador: string, valor: string) {
     this.firestore.collection("llaves")
       .where(campo, operador, valor)
@@ -123,6 +134,7 @@ export class LlavesProvider {
     .ref(llave.codigoActivacion + '/appToArduino/comando')
     .set(this.obtenerComandoAperturaCierre(llave))
     .then(() =>{
+      console.log('Registro ok de comando de apertura/cierre realtime. Se registra evento.');
       //Registro de evento
       let evento=<EventosCerradura>{}
       evento.cerraduraId=llave.idCerradura
@@ -143,7 +155,7 @@ export class LlavesProvider {
       this.modificarLlave(llave);
     })
     .catch(e => {
-      console.log('Error realtime:', e)
+      console.log('Error realtime:', JSON.stringify(e,Object.getOwnPropertyNames(e)))
       let alert = this.alertCtrl.create({
         title: 'Error',
         message: 'No se ha podido enviar el comando!',

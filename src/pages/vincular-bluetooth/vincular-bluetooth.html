@@ -11,11 +11,11 @@
       <ion-spinner name="crescent" *ngIf="gettingDevices"></ion-spinner>
 
       <ion-list-header *ngIf="dispositivosVisibles">
-        Dispositivos disponibles
+        Elija el dispositivo cerradura Jano a vincular.
       </ion-list-header>
       <ion-list radio-group>
         <ion-item *ngFor='let dispositivo of dispositivosVisibles'>
-          <ion-label>{{ dispositivo.name || 'Sin nombre:'+ dispositivo.address  }}</ion-label>
+          <ion-label>{{ dispositivo.name || 'Sin nombre: '+ dispositivo.address  }}</ion-label>
           <ion-radio (click)="setearDispositivo(dispositivo)" checked="esDispositivoAsociado(dispositivo)"></ion-radio>
         </ion-item>
       </ion-list>

@@ -21,14 +21,16 @@ export class LoginPage {
   usuario: any;
   public version: string;
   private idLlave: string;
+  public isAndroid: boolean;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public usuariosProv: UsuariosProvider,
     public firebaseDynamicLinks: FirebaseDynamicLinks,
-    public plt: Platform,
+    public platform: Platform,
     public alertCtrl: AlertController
   ) {
-    this.version = "0.4.2";
-    if (this.plt.is('android')) {
+    this.version = "0.4.3";
+    this.isAndroid = this.platform.is('android') && !this.platform.is('mobileweb');
+    if (this.isAndroid) {
       this.firebaseDynamicLinks.onDynamicLink()
         .subscribe(
           (res: any) => {

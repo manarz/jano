@@ -70,7 +70,7 @@ export class NumerosNotificacionProvider {
       })
       .catch(error => console.error("Error eliminando numero: ", error));
   }
-  private sincronizarNumerosNotificacion(cerradura: Cerradura) {
+  public sincronizarNumerosNotificacion(cerradura: Cerradura) {
     this.firestore.collection("numerosNotificacion")
       .where("cerraduraId", "==", cerradura.id)
       .get()
@@ -79,6 +79,7 @@ export class NumerosNotificacionProvider {
         querySnapshot.forEach(doc => {
           numerosNotificacion = doc.data().numero + "|" + numerosNotificacion
         });
+        numerosNotificacion = cerradura.telefonoDuenio? cerradura.telefonoDuenio+"|"+numerosNotificacion : numerosNotificacion
         this.realtime
           .ref(cerradura.codigoActivacion + '/appToArduino/numerosDeConfianza')
           .set("NUM;" + numerosNotificacion.substring(0,numerosNotificacion.length-1))

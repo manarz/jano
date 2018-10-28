@@ -17,6 +17,7 @@ import { LlavePrestadaConfiguracionPage } from '../llave-prestada-configuracion/
 import { LlaveConfiguracionPage } from '../llave-configuracion/llave-configuracion';
 import { LlaveACompartirConfiguracionPage } from '../llave-a-compartir-configuracion/llave-a-compartir-configuracion';
 import { VincularBluetoothPage } from '../vincular-bluetooth/vincular-bluetooth';
+import { BluetoothProvider } from '../../providers/bluetooth/bluetooth';
 
 @Component({
   selector: 'page-llave-listado',
@@ -34,9 +35,10 @@ export class LlaveListadoPage implements OnInit, OnDestroy {
     public llavesProv: LlavesProvider,
     public smsCommandsProv: SmsProvider,
     public usuariosProv: UsuariosProvider,
-    public plt: Platform
+    public platform: Platform,
+    public bluetoothProv: BluetoothProvider
   ) {
-    this.isAndroid = this.plt.is('android');
+    this.isAndroid = this.platform.is('android') && !this.platform.is('mobileweb');
   }
   ngOnInit(): void {
     this.subscriptions=[];
@@ -71,8 +73,34 @@ export class LlaveListadoPage implements OnInit, OnDestroy {
     this.smsCommandsProv.toogleStatusCerradura(llave);
   }
   public toogleAperturaBluetooth(llave: Llave){
-    this.navCtrl.push(VincularBluetoothPage, {info:llave});
+    if(llave.bluetoothDevice && llave.bluetoothDevice.address){
+      this.bluetoothProv.enviarComandoApertura(llave);
+    }else{
+      this.confirmarIrAVincularBT(llave);
+    }
   }
+  confirmarIrAVincularBT(llave: Llave){
+    let alert = this.alertCtrl.create({
+      title: 'Apertura bluetooth',
+      message: 'Debe vincular su teléfono a traves de bluetooth primero.',
+      buttons: [{
+        text: 'Cancelar',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      },
+      {
+        text: 'Vincular',
+        handler: () => {
+          console.log('Intentando ir a Vincular Bluetooth');
+          this.navCtrl.push(VincularBluetoothPage, {info:llave});
+        }
+      }]
+    });
+    alert.present();
+  }
+
   public async logout(){
     try{
       this.usuariosProv.logout();

@@ -13,10 +13,10 @@ export class LlaveConfiguracionPage {
   public llave: Llave;
   public tiempoLimitado: boolean;
   public isAndroid: boolean;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public llavesProv: LlavesProvider, public usuariosProv: UsuariosProvider, public plt: Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public llavesProv: LlavesProvider, public usuariosProv: UsuariosProvider, public platform: Platform) {
     console.log("Llave configuracion, data recibida:", navParams.get('info'));
     this.llave = navParams.get('info');
-    this.isAndroid = this.plt.is('android');
+    this.isAndroid = this.platform.is('android')&& !this.platform.is('mobileweb');
     this.tiempoLimitado = false
     this.tiempoLimitado = this.tiempoLimitado || Boolean(this.llave.vigenciaDesde)
     this.tiempoLimitado = this.tiempoLimitado || Boolean(this.llave.vigenciaHasta)

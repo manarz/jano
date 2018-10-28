@@ -2,27 +2,39 @@
 
     <ion-navbar color="primary">
         <button ion-button menuToggle>
-          <ion-icon name="menu"></ion-icon>
+            <ion-icon name="menu"></ion-icon>
         </button>
 
-        <ion-title>Mis Redes</ion-title>  
+        <ion-title>Mis Redes</ion-title>
     </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-<h1>Aqui se listan las redes wifi que utilizara la cerradura</h1>
-<p>Puede indicar varias redes, en ese caso se utilizará la red que tenga mejor conectividad.</p>
-<ion-list>
-    <div *ngFor="let red of listadoRedes">
-            <ion-item>
-                <h2>{{ red.ssid }}</h2> 
-                <p>(pass: {{ red.pass }})</p>
-                <button ion-button icon-only outline item-end (click)="eliminarRed(red)"><ion-icon name="close"> ELIMINAR</ion-icon></button>
+    <h1>Aqui se listan las redes wifi que utilizara la cerradura</h1>
+    <p>Puede indicar guardar varias redes, la cerradura Jano utilizará la red que se encuentre sincronizada.</p>
+    <ion-list>
+        <div *ngFor="let red of listadoRedes">
+            <ion-item color="{{red.id==cerradura.redId?  'secondary':'light' }}">
+                    <div>
+                <h2>Red: {{ red.ssid }}</h2>
+                <p> Clave: {{ red.pass }}</p>
+                <button ion-button icon-only outline item-end (click)="eliminarRed(red)">
+                        <ion-icon name="trash"></ion-icon>
+                    </button>
+                <button ion-button icon-only outline item-end (click)="sincronizarRed(red)">
+                    <ion-icon name="sync">{{red.id==cerradura.redId?'RE':''}}SINCRONIZAR</ion-icon>
+                </button>
+
+
+
+                </div>
             </ion-item>
-    </div>
-</ion-list>
-<ion-fab right bottom>
-        <button ion-fab color="secondary" (click)="irANuevaRed()"><ion-icon name="add"></ion-icon></button>
-</ion-fab>
+        </div>
+    </ion-list>
+    <ion-fab right bottom>
+        <button ion-fab color="secondary" (click)="irANuevaRed()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
 </ion-content>

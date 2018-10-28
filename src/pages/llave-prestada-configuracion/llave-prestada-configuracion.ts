@@ -15,7 +15,7 @@ export class LlavePrestadaConfiguracionPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public llavesProv:LlavesProvider, public plt: Platform, public usuariosProv: UsuariosProvider) {
     console.log("Llave prestada configuracion, data recibida:", navParams.get('info'));
     this.llave=navParams.get('info');
-    this.isAndroid = this.plt.is('android');
+    this.isAndroid = this.plt.is('android')&& !this.plt.is('mobileweb');
 
   }
   public modificarLlave(){

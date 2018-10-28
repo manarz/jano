@@ -22,8 +22,16 @@ export class CerradurasProvider {
   private firestore;
   private realtime;
   private cerradura: Cerradura;
+  public saldo: string;
 
-  constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public llavesProv: LlavesProvider, public eventosProv: EventosProvider, public redesProv: RedesProvider, public numerosProv: NumerosNotificacionProvider) {
+  constructor(
+    public janoProv: JanoProvider,
+    public usuariosProv: UsuariosProvider,
+    public llavesProv: LlavesProvider,
+    public eventosProv: EventosProvider,
+    public redesProv: RedesProvider,
+    public numerosProv: NumerosNotificacionProvider
+  ) {
     this.firestore = janoProv.getJanoFirestoreDb();
     this.realtime = janoProv.getJanoRealtime();
 
@@ -142,12 +150,39 @@ export class CerradurasProvider {
           }).catch(error => console.error("Error agregando llave: ", error));
       }).catch(error => console.error("Error agregando cerradura: ", error));
   }
-
+  public vincularSaldo(cerradura: Cerradura) {
+    this.realtime.ref(cerradura.codigoActivacion + '/arduinoToApp')
+      .on('value', data => {
+        console.log("Saldo obtenido:", data.val());
+        this.saldo = (data.val() && data.val().saldo) ? data.val().saldo : '0';
+      });
+  }  
+  public pedirSaldo(cerradura: Cerradura) {
+    this.realtime.ref(cerradura.codigoActivacion + '/appToArduino/saldoPeriodo')
+      .set('-1')
+      .then(console.log("Registro de pedido de saldo realtime ok"))
+      .catch(e => console.log("Error en pedido de saldo realtime", e));
+  }
   public modificarCerradura(cerr: Cerradura) {
     console.log('cerradura obtenida para modificar', cerr);
     this.firestore.collection("cerraduras").doc(cerr.id)
       .update(cerr)
-      .then(() => console.log("Modificacion de cerradura exitosa"))
+      .then(() => {
+        console.log("Modificacion de cerradura exitosa")
+
+        let notificaciones={} as any;
+        notificaciones.saldoPeriodo = cerr.notificaSaldoXPeriodo || '0'
+        notificaciones.saldo        = cerr.notificaSaldoMinimo|| '-1'
+        notificaciones.notificaPuertaForzada  = cerr.notificaPuertaForzada || false
+        notificaciones.notificaAperturaManual = cerr.notificaAperturaManual || false
+        notificaciones.notificaBateriaBaja    = cerr.notificaBateriaBaja || false
+        this.realtime.ref(cerr.codigoActivacion + '/appToArduino')
+          .update(notificaciones)
+          .then(console.log("Modificacion de cerradura realtime"))
+          .catch(e => console.log("Error en modificacion de cerradura realtime", e));
+
+        this.numerosProv.sincronizarNumerosNotificacion(cerr)
+      })
       .catch(error => console.error("Error modificando cerradura: ", error));
   }
 
@@ -175,7 +210,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Rivadavia 6542';
     this.cerradura.estado = 'CER';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.codigoActivacion = 'codigoCerradura1'; // Hash combinación entre cerradura.dueño y cerradura.id
+    this.cerradura.codigoActivacion = 'Rivadavia'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
 
     this.cerradura = <Cerradura>{};
@@ -183,7 +218,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Cuenca 895';
     this.cerradura.estado = 'ABR';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.codigoActivacion = 'codigoCerradura2'; // Hash combinación entre cerradura.dueño y cerradura.id
+    this.cerradura.codigoActivacion = 'Cuenca'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
 
     this.cerradura = <Cerradura>{};
@@ -191,7 +226,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Pasteur 885';
     this.cerradura.estado = 'ABR';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.codigoActivacion = 'codigoCerradura3'; // Hash combinación entre cerradura.dueño y cerradura.id
+    this.cerradura.codigoActivacion = 'Pasteur'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
 
     this.cerradura = <Cerradura>{};
@@ -199,7 +234,7 @@ export class CerradurasProvider {
     this.cerradura.descripcion = 'Arieta 402';
     this.cerradura.estado = 'CER';
     this.cerradura.telefonoPropio = '1132848322'; //telefono del chip
-    this.cerradura.codigoActivacion = 'codigoCerradura4'; // Hash combinación entre cerradura.dueño y cerradura.id
+    this.cerradura.codigoActivacion = 'Arieta'; // Hash combinación entre cerradura.dueño y cerradura.id
     this.agregarCerradura(this.cerradura);
   }
 }
