@@ -206,7 +206,9 @@ export class LlavesProvider {
           buttons: ['Ok']
         });
         alert.present();
-        llave.estado = (llave.estado == 'ABR') ? 'CER' : 'ABR';
+        if(this.codigoActivacionJano!=llave.codigoActivacion){
+          llave.estado = (llave.estado == 'ABR') ? 'CER' : 'ABR';
+        }
         llave.nroSecuencia++
         this.modificarLlave(llave);
       })
