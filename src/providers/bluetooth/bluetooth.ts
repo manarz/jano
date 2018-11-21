@@ -43,6 +43,7 @@ export class BluetoothProvider {
                 this.eventosProv.agregarEvento(evento);
                 // Cambio de estado en firebase
                 llave.estado = (llave.estado == 'ABR') ? 'CER' : 'ABR';
+                llave.nroSecuencia++
                 this.llavesProv.modificarLlave(llave);
                 this.bluetoothSerial.disconnect();
               })

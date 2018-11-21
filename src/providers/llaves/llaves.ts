@@ -15,38 +15,76 @@ export class LlavesProvider {
   private listadoLlavesBehaviorSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   private listadoLlaves$: Observable<any[]> = this.listadoLlavesBehaviorSubject.asObservable();
   private pedidoVigente: string;
+  private codigoActivacionJano: string;
   private firestore;
-  private realtime; 
+  private realtime;
   constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public alertCtrl: AlertController, public eventosProv: EventosProvider) {
     this.firestore = janoProv.getJanoFirestoreDb();
     this.realtime = janoProv.getJanoRealtime();
+    this.codigoActivacionJano = 'unlam2018';
   }
-  public pad(n) {
-    return n<10 ? '0'+n : n
+  public sincronizarJanoReal(){
+    this.realtime.ref(this.codigoActivacionJano + '/arduinoToApp/comando')
+    .on('value', snapshot => {
+      if (snapshot.val() && snapshot.val().substr(0, 3) == 'COK') {
+        console.log('CERRADO');
+        this.actualizarEstadoLlavesJano('CER')
+
+      } else if (snapshot.val() && snapshot.val().substr(0, 3) == 'AOK') {
+        console.log('ABIERTO')
+        this.actualizarEstadoLlavesJano('ABR')
+      } else console.log('comando jano actualizado a: ' + snapshot.val())
+    })
+
   }
-  public obtenerComandoAperturaCierre(llave: Llave){
-    let comando=llave.estado=='ABR' ? 'CER':'ABR';
-    comando+=';'+llave.nroSecuencia+';'
-    let d=new Date();
-    comando+=         d.getFullYear()
-    comando+=this.pad(d.getMonth()+1)
-    comando+=this.pad(d.getDay())
-    comando+=this.pad(d.getHours())
-    comando+=this.pad(d.getMinutes())
-    comando+=this.pad(d.getSeconds())
-    return comando;    
+  public actualizarEstadoLlavesJano(estado: string) {
+    this.firestore.collection("llaves")
+      .where('codigoActivacion', '==', this.codigoActivacionJano)
+      .get()
+      .then(
+        querySnapshot => {
+          console.log("Llaves recibidas para modificar");
+          let listadoLlaves = [];
+          querySnapshot.forEach(
+            doc => {
+              let llaveJano={...doc.data(),id:doc.id}
+              if(llaveJano.estado!=estado){
+                this.modificarLlave(llaveJano)
+              }
+            })
+          
+        })
+      .catch(function (error) {
+        console.log("Error getting documents: ", error);
+      });
   }
 
-  public crearLlave(nuevaLlave: Llave){
+  public pad(n) {
+    return n < 10 ? '0' + n : n
+  }
+  public obtenerComandoAperturaCierre(llave: Llave) {
+    let comando = llave.estado == 'ABR' ? 'CER' : 'ABR';
+    comando += ';' + llave.nroSecuencia + ';'
+    let d = new Date();
+    comando += d.getFullYear()
+    comando += this.pad(d.getMonth() + 1)
+    comando += this.pad(d.getDay())
+    comando += this.pad(d.getHours())
+    comando += this.pad(d.getMinutes())
+    comando += this.pad(d.getSeconds())
+    return comando;
+  }
+
+  public crearLlave(nuevaLlave: Llave) {
     console.log('llave obtenida para crear', nuevaLlave);
     return this.firestore.collection("llaves").add(nuevaLlave);
   }
-  public modificarLlave(llave: Llave){
+  public modificarLlave(llave: Llave) {
     console.log('llave obtenida para modificar', llave);
     this.firestore.collection("llaves").doc(llave.id)
-    .update(llave)
-    .then(() => console.log("Modificacion de llave exitosa"))
-    .catch(error => console.error("Error modificando llave: ", error));
+      .update(llave)
+      .then(() => console.log("Modificacion de llave exitosa"))
+      .catch(error => console.error("Error modificando llave: ", error));
   }
   public eliminarLlave(llave: Llave) {
     console.log('llave obtenida para eliminar', llave);
@@ -55,31 +93,33 @@ export class LlavesProvider {
       .then(() => console.log("Eliminacion de llave exitosa"))
       .catch(error => console.error("Error eliminando llave: ", error));
   }
-  public eliminarCuenta(usuario:string){
+  public eliminarCuenta(usuario: string) {
     this.firestore.collection("llaves")
-    .where("dueño", "==", usuario)
-    .get()
-    .then(
-      querySnapshot => {
-        console.log("Llaves encontradas");
-        querySnapshot.forEach(    
-          doc =>  this.eliminarLlave({...doc.data(),id:doc.id})
-        )}
-    )
+      .where("dueño", "==", usuario)
+      .get()
+      .then(
+        querySnapshot => {
+          console.log("Llaves encontradas");
+          querySnapshot.forEach(
+            doc => this.eliminarLlave({ ...doc.data(), id: doc.id })
+          )
+        }
+      )
 
   }
-  public eliminarLlaves(cerradura: Cerradura){
+  public eliminarLlaves(cerradura: Cerradura) {
     console.log("Eliminando llaves de cerradura", cerradura);
     this.firestore.collection("llaves")
-    .where("idCerradura", "==", cerradura.id)
-    .get()
-    .then(
-      querySnapshot => {
-        console.log("Llaves encontradas");
-        querySnapshot.forEach(    
-          doc =>  this.eliminarLlave({...doc.data(), id:doc.id})
-        )}
-    )
+      .where("idCerradura", "==", cerradura.id)
+      .get()
+      .then(
+        querySnapshot => {
+          console.log("Llaves encontradas");
+          querySnapshot.forEach(
+            doc => this.eliminarLlave({ ...doc.data(), id: doc.id })
+          )
+        }
+      )
   }
 
 
@@ -99,17 +139,17 @@ export class LlavesProvider {
     return this.listadoLlaves$;
   }
   public obtenerLlavePuntual(llaveId: string) {
-     return this.firestore.collection("llaves").doc(llaveId).get();
+    return this.firestore.collection("llaves").doc(llaveId).get();
   }
-  public obtenerLlaveDueñoCerradura(cerradura: Cerradura){
-    console.log("Obteniendo llave del dueño de la cerradura:"+
-    "dueño"+"=="+this.usuariosProv.getUsuario()+
-    "idCerradura"+"=="+cerradura.id
+  public obtenerLlaveDueñoCerradura(cerradura: Cerradura) {
+    console.log("Obteniendo llave del dueño de la cerradura:" +
+      "dueño" + "==" + this.usuariosProv.getUsuario() +
+      "idCerradura" + "==" + cerradura.id
     );
     return this.firestore.collection("llaves")
-    .where("idCerradura","==",cerradura.id)
-    .where("dueño","==",this.usuariosProv.getUsuario())
-    .get();
+      .where("idCerradura", "==", cerradura.id)
+      .where("dueño", "==", this.usuariosProv.getUsuario())
+      .get();
   }
   private obtenerLlaves(campo: string, operador: string, valor: string) {
     this.firestore.collection("llaves")
@@ -118,7 +158,7 @@ export class LlavesProvider {
         querySnapshot => {
           console.log("Snapshot recibido llaves");
           let listadoLlaves = [];
-          querySnapshot.forEach(            
+          querySnapshot.forEach(
             doc => listadoLlaves.push({
               ...doc.data(),
               id: doc.id
@@ -142,39 +182,40 @@ export class LlavesProvider {
         }
       );
   }
-  public enviarComandoAperturaCierre(llave: Llave){
+  public enviarComandoAperturaCierre(llave: Llave) {
     this.realtime
-    .ref(llave.codigoActivacion + '/appToArduino/comando')
-    .set(this.obtenerComandoAperturaCierre(llave))
-    .then(() =>{
-      console.log('Registro ok de comando de apertura/cierre realtime. Se registra evento.');
-      //Registro de evento
-      let evento=<EventosCerradura>{}
-      evento.cerraduraId=llave.idCerradura
-      evento.fechaHora= new Date();
-      evento.queHizo  = (llave.estado=='ABR')?'Cierre ':'Apertura ';
-      evento.queHizo += "por internet";
-      evento.quienFue = this.usuariosProv.nombreDeUsuario();
-      this.eventosProv.agregarEvento(evento);
-                    
-      console.log('Sincronizado realtime');
-      let alert = this.alertCtrl.create({
-        title: 'Comando enviado',
-        message: 'Comando enviado con exito',
-        buttons: ['Ok']
+      .ref(llave.codigoActivacion + '/appToArduino/comando')
+      .set(this.obtenerComandoAperturaCierre(llave))
+      .then(() => {
+        console.log('Registro ok de comando de apertura/cierre realtime. Se registra evento.');
+        //Registro de evento
+        let evento = <EventosCerradura>{}
+        evento.cerraduraId = llave.idCerradura
+        evento.fechaHora = new Date();
+        evento.queHizo = (llave.estado == 'ABR') ? 'Cierre ' : 'Apertura ';
+        evento.queHizo += "por internet";
+        evento.quienFue = this.usuariosProv.nombreDeUsuario();
+        this.eventosProv.agregarEvento(evento);
+
+        console.log('Sincronizado realtime');
+        let alert = this.alertCtrl.create({
+          title: 'Comando enviado',
+          message: 'Comando enviado con exito',
+          buttons: ['Ok']
+        });
+        alert.present();
+        llave.estado = (llave.estado == 'ABR') ? 'CER' : 'ABR';
+        llave.nroSecuencia++
+        this.modificarLlave(llave);
+      })
+      .catch(e => {
+        console.log('Error realtime:', JSON.stringify(e, Object.getOwnPropertyNames(e)))
+        let alert = this.alertCtrl.create({
+          title: 'Error',
+          message: 'No se ha podido enviar el comando!',
+          buttons: ['Ok']
+        });
+        alert.present();
       });
-      alert.present();
-      llave.estado=(llave.estado=='ABR')?'CER':'ABR';
-      this.modificarLlave(llave);
-    })
-    .catch(e => {
-      console.log('Error realtime:', JSON.stringify(e,Object.getOwnPropertyNames(e)))
-      let alert = this.alertCtrl.create({
-        title: 'Error',
-        message: 'No se ha podido enviar el comando!',
-        buttons: ['Ok']
-      });
-      alert.present();
-    });
   }
 }

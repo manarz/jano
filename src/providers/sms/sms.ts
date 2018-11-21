@@ -16,7 +16,8 @@ export class SmsProvider {
 
   public toogleStatusCerradura(llave: Llave){
     let comando=this.llavesProv.obtenerComandoAperturaCierre(llave);
-    this.smsProv.send(llave.telefonoCerradura, comando )
+    this.smsProv.send(llave.telefonoCerradura, comando.substr(0,4)+btoa(comando.substr(4))
+  )
     .then(()=>{
       //Registro de evento
       let evento=<EventosCerradura>{}
@@ -34,6 +35,7 @@ export class SmsProvider {
       });
       alert.present();
       llave.estado=(llave.estado=='ABR')?'CER':'ABR';
+      llave.nroSecuencia++
       this.llavesProv.modificarLlave(llave);
     })
     .catch(()=>{
