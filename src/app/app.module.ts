@@ -48,6 +48,7 @@ import { EventosProvider } from '../providers/eventos/eventos';
 import { CerraduraEventosPage } from '../pages/cerradura-eventos/cerradura-eventos';
 import { BluetoothProvider } from '../providers/bluetooth/bluetooth';
 import { MiPerfilPage } from '../pages/mi-perfil/mi-perfil';
+import { ResetDeClavePage } from '../pages/reset-de-clave/reset-de-clave';
 
 
 
@@ -59,6 +60,7 @@ import { MiPerfilPage } from '../pages/mi-perfil/mi-perfil';
     RegistrarsePage,
     LogoutPage,
     MiPerfilPage,
+    ResetDeClavePage,
 
     CerraduraListadoPage,
     LlaveListadoPage,
@@ -98,6 +100,7 @@ import { MiPerfilPage } from '../pages/mi-perfil/mi-perfil';
     RegistrarsePage,
     LogoutPage,
     MiPerfilPage,
+    ResetDeClavePage,
 
     CerraduraListadoPage,
     LlaveListadoPage,

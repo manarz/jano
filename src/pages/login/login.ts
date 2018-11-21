@@ -10,6 +10,7 @@ import { Platform } from 'ionic-angular';
 import { FirebaseDynamicLinks } from '@ionic-native/firebase-dynamic-links';
 import { LlaveListadoPage } from '../llave-listado/llave-listado';
 import { LlaveCompartidaRecepcionPage } from '../llave-compartida-recepcion/llave-compartida-recepcion';
+import { ResetDeClavePage } from '../reset-de-clave/reset-de-clave';
 
 //import { FirebaseApp } from 'angularfire2';
 @Component({
@@ -110,6 +111,9 @@ export class LoginPage {
   }
   registrar() {
     this.navCtrl.push(RegistrarsePage);
+  }
+  irAResetDeClave(){
+    this.navCtrl.push(ResetDeClavePage);
   }
   goToHomePage() {
     if(this.idLlave){
