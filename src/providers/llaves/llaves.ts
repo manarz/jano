@@ -22,6 +22,7 @@ export class LlavesProvider {
     this.firestore = janoProv.getJanoFirestoreDb();
     this.realtime = janoProv.getJanoRealtime();
     this.codigoActivacionJano = 'unlam2018';
+    this.sincronizarJanoReal();
   }
   public sincronizarJanoReal(){
     this.realtime.ref(this.codigoActivacionJano + '/arduinoToApp/comando')
@@ -43,12 +44,13 @@ export class LlavesProvider {
       .get()
       .then(
         querySnapshot => {
-          console.log("Llaves recibidas para modificar");
-          let listadoLlaves = [];
+          console.log("Se actualizaran llaves asociadas a "+this.codigoActivacionJano);
           querySnapshot.forEach(
             doc => {
               let llaveJano={...doc.data(),id:doc.id}
+              console.log(llaveJano);
               if(llaveJano.estado!=estado){
+                llaveJano.estado=estado;
                 this.modificarLlave(llaveJano)
               }
             })
