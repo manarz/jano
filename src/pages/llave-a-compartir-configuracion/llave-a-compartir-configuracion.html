@@ -3,7 +3,7 @@
         <button ion-button menuToggle>
           <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Configuracion de la llave {{ llave.nombreFamiliar }}</ion-title> 
+        <ion-title>Nueva llave {{ llave.nombreFamiliar }}</ion-title> 
     </ion-navbar>
 </ion-header>
   
@@ -13,8 +13,14 @@
             <ion-icon name="key" item-start></ion-icon>
             <ion-label stacked>Nombre asociado a la llave:</ion-label>
             <ion-input name="nombreFamiliar" type="text" value="{{ llave.nombreFamiliar }}"></ion-input>
-          </ion-item>
+        </ion-item>
 
+        <ion-item>
+                <ion-icon name="person" item-start></ion-icon>
+                <ion-label stacked>email del usuario (opcional):</ion-label>
+                <ion-input type="email" [(ngModel)]="llave.email" ></ion-input>
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
         <ion-list>
               <ion-item>
                   <ion-label stacked>Administra llave</ion-label>

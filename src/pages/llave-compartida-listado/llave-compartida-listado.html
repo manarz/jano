@@ -14,8 +14,8 @@
               <ion-avatar (click)="irAConfiguracionLlave(llave)" item-start>
                 <img src="{{llave.esAdministrador? 'assets/imgs/keys-icon.png':'assets/imgs/key-icon.png'}}">
               </ion-avatar>
-              <h2 (click)="irAConfiguracionLlave(llave)">{{ llave.nombreFamiliar }}</h2>     
-              <p  (click)="irAConfiguracionLlave(llave)">({{ llave.esAdministrador?'Administrador': 'Compartida' }})</p>
+              <h2 (click)="irAConfiguracionLlave(llave)">{{ llave.email? llave.email : 'No registrada' }}</h2>     
+              <p  (click)="irAConfiguracionLlave(llave)">{{ llave.nombreFamiliar}}({{ llave.esAdministrador?'Administrador': 'Compartida' }})</p>
               <button ion-button icon-only outline item-end padding (click)="irAConfiguracionLlave(llave)"><ion-icon name='settings'></ion-icon>Configurar</button>
         </ion-item>
   </ion-list>

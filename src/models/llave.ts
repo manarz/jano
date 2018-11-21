@@ -5,6 +5,7 @@ export interface Llave {
     nombreFamiliar : string,
     estado : string,
     dueño : string,
+    email: string,
     esAdministrador : boolean,
     aperturaAutomatica : boolean, 
     cierreAutomatico : boolean,

@@ -65,5 +65,7 @@ export class LlaveConfiguracionPage {
     this.llavesProv.eliminarLlave(this.llave);
     this.navCtrl.pop();
   }
-
+  public tieneDuenio(){
+    return !(this.llave.dueño==='');
+  }
 }

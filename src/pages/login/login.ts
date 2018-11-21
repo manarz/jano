@@ -28,7 +28,7 @@ export class LoginPage {
     public platform: Platform,
     public alertCtrl: AlertController
   ) {
-    this.version = "0.4.6";
+    this.version = "1.0.0";
     this.isAndroid = this.platform.is('android') && !this.platform.is('mobileweb');
     if (this.isAndroid) {
       this.firebaseDynamicLinks.onDynamicLink()
@@ -37,9 +37,10 @@ export class LoginPage {
           if (res.deepLink)
             this.idLlave = res.deepLink.substring(res.deepLink.indexOf("/login/")+7);
             console.log('Se recibio la siguiente llave:' + this.idLlave );
+
           },
           (error: any) => {
-            alert("No se pudo recuperar la llave compartida" + JSON.stringify(error));
+            console.log("No se pudo recuperar la llave compartida" + JSON.stringify(error));
           })
     } else if (navParams.get('item') && navParams.get('item') != ':item') {
       this.idLlave=navParams.get('item');
@@ -50,7 +51,7 @@ export class LoginPage {
   async login(user: User) {
     try {
       console.log("Intentando Login");
-      await this.usuariosProv.loginConEmail(user.email, user.password);
+      await this.usuariosProv.loginConEmail((user.email)?user.email.trim():user.email, user.password);
       if(this.usuariosProv.mailNoVerificado()){
         let alert = this.alertCtrl.create({
           title: 'Bienvenido a Jano!',
@@ -73,6 +74,10 @@ export class LoginPage {
       console.log("Login fallido");
       let mensajeDeError: string;
       switch(e.code) { 
+        case "auth/argument-error": { 
+          mensajeDeError = "Verifique los datos ingresados.";
+          break; 
+       } 
         case "auth/invalid-email": { 
            mensajeDeError = "Email invalido";
            break; 

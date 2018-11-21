@@ -21,6 +21,8 @@ export class LlaveCompartidaRecepcionPage {
       if (llavePedida.exists) {
         this.llave = { ...llavePedida.data(), id: llavePedida.id };
         console.log('Llave obtenida:', this.llave);
+        if(this.llave && this.llave.dueño || this.llave && this.llave.email && this.llave.email!=this.usuariosProv.nombreDeUsuario())
+          this.navCtrl.setRoot(LlaveListadoPage);
       }else{
         console.log('No se encontro la llave buscada.');
       }
@@ -29,6 +31,7 @@ export class LlaveCompartidaRecepcionPage {
   }
   public aceptarLlaveCompartida(){
     this.llave.dueño=this.usuariosProv.getUsuario();
+    this.llave.email=this.usuariosProv.nombreDeUsuario();
     this.llaveProv.modificarLlave(this.llave);
     this.navCtrl.setRoot(LlaveListadoPage);
   }

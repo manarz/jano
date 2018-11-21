@@ -111,28 +111,28 @@ export class LlaveListadoPage implements OnInit, OnDestroy {
     }
   }
   puedeUtilizar(medio: string, llave: Llave){
-    console.log("VERIFICANDO SI PUEDE ENVIAR COMANDOS");
+    //console.log("VERIFICANDO SI PUEDE ENVIAR COMANDOS");
     let dia=new Date();
     let tiempoHabilitado=true;
     let dVigenciaDesde=(llave.vigenciaDesde)? new Date(llave.vigenciaDesde+" "): new Date(dia.getFullYear(),dia.getMonth(),dia.getDate()-1);
     tiempoHabilitado=(llave.vigenciaDesde == null || dVigenciaDesde <= dia) && tiempoHabilitado 
-    console.log("vigenciaDesde: "+dVigenciaDesde+", tiempoHabilitado"+tiempoHabilitado);
+    //console.log("vigenciaDesde: "+dVigenciaDesde+", tiempoHabilitado"+tiempoHabilitado);
 
     let dVigenciaHasta=(llave.vigenciaHasta)? new Date(llave.vigenciaHasta+" "): new Date(dia.getFullYear(),dia.getMonth(),dia.getDate()+1);
     tiempoHabilitado=(llave.vigenciaHasta == null || dVigenciaHasta >= dia) && tiempoHabilitado 
-    console.log("vigenciaHasta: "+dVigenciaHasta+", tiempoHabilitado"+tiempoHabilitado);
+    //console.log("vigenciaHasta: "+dVigenciaHasta+", tiempoHabilitado"+tiempoHabilitado);
 
     let dFranjaHorariaDesde=new Date(dia.getFullYear(),dia.getMonth(),dia.getDate(), llave.franjaHorariaDesde?Number(llave.franjaHorariaDesde.substring(0,2)):0,llave.franjaHorariaDesde?Number(llave.franjaHorariaDesde.substring(3)):0,0);
     tiempoHabilitado=dFranjaHorariaDesde <= dia && tiempoHabilitado 
-    console.log("franjaHorariaDesde: "+dFranjaHorariaDesde+", tiempoHabilitado"+tiempoHabilitado);
+    //console.log("franjaHorariaDesde: "+dFranjaHorariaDesde+", tiempoHabilitado"+tiempoHabilitado);
 
     let dFranjaHorariaHasta=new Date(dia.getFullYear(),dia.getMonth(),dia.getDate(), llave.franjaHorariaHasta?Number(llave.franjaHorariaHasta.substring(0,2)):23,llave.franjaHorariaHasta?Number(llave.franjaHorariaHasta.substring(3)):59,59);
     tiempoHabilitado=dFranjaHorariaHasta >= dia && tiempoHabilitado 
-    console.log("franjaHorariaHasta: "+dFranjaHorariaHasta+", tiempoHabilitado"+tiempoHabilitado);
+    //console.log("franjaHorariaHasta: "+dFranjaHorariaHasta+", tiempoHabilitado"+tiempoHabilitado);
 
     let vigenciaDiasHoyPuede=llave.vigenciaDias[this.obtenerDiaDeLaSemana()]
     tiempoHabilitado=vigenciaDiasHoyPuede && tiempoHabilitado
-    console.log("vigenciaDiasHoyPuede:"+vigenciaDiasHoyPuede+", tiempoHabilitado"+tiempoHabilitado);
+    //console.log("vigenciaDiasHoyPuede:"+vigenciaDiasHoyPuede+", tiempoHabilitado"+tiempoHabilitado);
 
     switch(medio){
       case 'wifi': {return tiempoHabilitado}
@@ -144,7 +144,7 @@ export class LlaveListadoPage implements OnInit, OnDestroy {
     let dias=['domingo','lunes','martes','miercoles','jueves','viernes','sabado']
     let d=new Date();
     let weekday=dias[d.getDay()]
-    console.log("Hoy es: " + weekday);
+    //console.log("Hoy es: " + weekday);
     return weekday;
   }
   public goToLogin(){
@@ -162,6 +162,7 @@ export class LlaveListadoPage implements OnInit, OnDestroy {
     let nuevaLlave = <Llave>{...llave}
     nuevaLlave.id='';
     nuevaLlave.dueño='';
+    nuevaLlave.email=null;
     nuevaLlave.esAdministrador=false;
     nuevaLlave.nombreFamiliar='Copia de '+nuevaLlave.nombreFamiliar;
     console.log('Intentando ir a llave a compartir', nuevaLlave);

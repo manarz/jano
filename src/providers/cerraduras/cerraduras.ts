@@ -97,6 +97,11 @@ export class CerradurasProvider {
         appToArduino.saldo = 0;
         appToArduino.numerosDeConfianza = "X";
         appToArduino.reset = "X";
+        appToArduino.notificaAperturaManual=false;
+        appToArduino.notificaBateriaBaja=false;
+        appToArduino.notificaPuertaForzada=false;
+        appToArduino.nombreCerradura=cerr.descripcion.substring(0,12);
+        
         this.realtime.ref(cerr.codigoActivacion + '/appToArduino')
           .set(appToArduino)
           .then(console.log("Registro de cerradura realtime"))
@@ -116,6 +121,7 @@ export class CerradurasProvider {
         nuevaLlave.codigoActivacion = cerr.codigoActivacion;
         nuevaLlave.nombreFamiliar = cerr.descripcion;
         nuevaLlave.dueño = cerr.dueño;
+        nuevaLlave.email = this.usuariosProv.nombreDeUsuario();
         nuevaLlave.estado = cerr.estado;
         nuevaLlave.aperturaOffline = true;
         nuevaLlave.aperturaRemota = true;
@@ -127,7 +133,7 @@ export class CerradurasProvider {
         nuevaLlave.vigenciaHasta = null;
         nuevaLlave.telefonoCerradura = cerr.telefonoPropio;
         nuevaLlave.aperturaAutomatica = false,
-          nuevaLlave.cierreAutomatico = false,
+        nuevaLlave.cierreAutomatico = false,
 
           nuevaLlave.vigenciaDias = {
             domingo: true,

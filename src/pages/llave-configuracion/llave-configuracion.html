@@ -13,7 +13,12 @@
             <ion-icon name="key" item-start></ion-icon>
             <ion-label stacked>Nombre asociado a la llave:</ion-label>
             <ion-input name="nombreFamiliar" type="text" value="{{ llave.nombreFamiliar }}"></ion-input>
-          </ion-item>
+        </ion-item>
+        <ion-item>
+                <ion-icon name="person" item-start></ion-icon>
+                <ion-label stacked>email del usuario:</ion-label>
+                <ion-input [disabled]="tieneDuenio()" [(ngModel)]="llave.email" type="email" ></ion-input>
+        </ion-item>
 
         <ion-list>
                 <ion-item *ngIf="esDuenioDeLlave()">
