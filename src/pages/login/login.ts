@@ -29,7 +29,7 @@ export class LoginPage {
     public platform: Platform,
     public alertCtrl: AlertController
   ) {
-    this.version = "1.0.1";
+    this.version = "1.0.2";
     this.isAndroid = this.platform.is('android') && !this.platform.is('mobileweb');
     if (this.isAndroid) {
       this.firebaseDynamicLinks.onDynamicLink()

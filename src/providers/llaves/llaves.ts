@@ -16,29 +16,43 @@ export class LlavesProvider {
   private listadoLlaves$: Observable<any[]> = this.listadoLlavesBehaviorSubject.asObservable();
   private pedidoVigente: string;
   private codigoActivacionJano: string;
+  private referenceToJano;
   private firestore;
   private realtime;
   constructor(public janoProv: JanoProvider, public usuariosProv: UsuariosProvider, public alertCtrl: AlertController, public eventosProv: EventosProvider) {
     this.firestore = janoProv.getJanoFirestoreDb();
     this.realtime = janoProv.getJanoRealtime();
-    this.codigoActivacionJano = 'unlam2018';
-    this.sincronizarJanoReal();
+    this.codigoActivacionJano = 'unlam2018'
+    this.referenceToJano=null;
+
+    this.realtime.ref('codigoActivacionJano')
+    .on('value', snapshot => {
+      console.log('Nuevo codigo de activacion jano');
+      this.codigoActivacionJano=snapshot.val();
+      if(this.referenceToJano){
+        this.referenceToJano.off();
+        this.referenceToJano=null;
+      }
+      this.sincronizarJanoReal();
+    })
+    ;
   }
   public sincronizarJanoReal(){
-    this.realtime.ref(this.codigoActivacionJano + '/arduinoToApp/comando')
-    .on('value', snapshot => {
-      if (snapshot.val() && snapshot.val().substr(0, 3) == 'COK') {
+    this.referenceToJano=this.realtime.ref(this.codigoActivacionJano + '/arduinoToApp/comando')
+    this.referenceToJano.on('value', snapshot => {
+      let campos=snapshot.val().split(';')
+      if (campos[0] == 'COK') {
         console.log('CERRADO');
-        this.actualizarEstadoLlavesJano('CER')
+        this.actualizarEstadoLlavesJano('CER', Number(campos[1]))
 
-      } else if (snapshot.val() && snapshot.val().substr(0, 3) == 'AOK') {
+      } else if (campos[0] == 'AOK') {
         console.log('ABIERTO')
-        this.actualizarEstadoLlavesJano('ABR')
+        this.actualizarEstadoLlavesJano('ABR', Number(campos[1]))
       } else console.log('comando jano actualizado a: ' + snapshot.val())
     })
-
+    
   }
-  public actualizarEstadoLlavesJano(estado: string) {
+  public actualizarEstadoLlavesJano(estado: string, secuencia: number) {
     this.firestore.collection("llaves")
       .where('codigoActivacion', '==', this.codigoActivacionJano)
       .get()
@@ -48,16 +62,24 @@ export class LlavesProvider {
           querySnapshot.forEach(
             doc => {
               let llaveJano={...doc.data(),id:doc.id}
-              console.log(llaveJano);
+              let huboCambio=false;
+              console.log("Llave asociada jano real", llaveJano);
               if(llaveJano.estado!=estado){
                 llaveJano.estado=estado;
+                huboCambio=true;
+              }
+              if(llaveJano.nroSecuencia < secuencia){
+                llaveJano.nroSecuencia=secuencia;
+                huboCambio=true;
+              }
+              if(huboCambio){
                 this.modificarLlave(llaveJano)
               }
             })
           
         })
       .catch(function (error) {
-        console.log("Error getting documents: ", error);
+        console.log("Error sincronizando estados de llaves jano reales: ", error);
       });
   }
 
@@ -70,7 +92,7 @@ export class LlavesProvider {
     let d = new Date();
     comando += d.getFullYear()
     comando += this.pad(d.getMonth() + 1)
-    comando += this.pad(d.getDay())
+    comando += this.pad(d.getDate())
     comando += this.pad(d.getHours())
     comando += this.pad(d.getMinutes())
     comando += this.pad(d.getSeconds())
