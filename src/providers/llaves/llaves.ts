@@ -90,9 +90,9 @@ export class LlavesProvider {
     let comando = llave.estado == 'ABR' ? 'CER' : 'ABR';
     comando += ';' + llave.nroSecuencia + ';'
     let d = new Date();
-    comando += d.getFullYear()
-    comando += this.pad(d.getMonth() + 1)
-    comando += this.pad(d.getDate())
+    //comando += d.getFullYear()
+    //comando += this.pad(d.getMonth() + 1)
+    //comando += this.pad(d.getDate())
     comando += this.pad(d.getHours())
     comando += this.pad(d.getMinutes())
     comando += this.pad(d.getSeconds())
